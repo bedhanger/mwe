@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Replace EOL with a NULL character.
+
+exec tr '\n' '\000'
