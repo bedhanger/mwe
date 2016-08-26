@@ -1,0 +1,68 @@
+set editing-mode vi
+
+set bell-style none
+
+set completion-ignore-case on
+set completion-map-case on
+
+set mark-symlinked-directories on
+set print-completions-horizontally on
+
+# Show type of completion.
+
+set visible-stats on
+
+# Single TAB to display all completions.
+
+set show-all-if-ambiguous on
+
+# Latin-1.
+
+set convert-meta off
+
+set input-meta on
+
+set meta-flag on
+
+set output-meta on
+
+# Search for the needle in the haystack, ignoring tags, Svn, and
+# Git files.
+
+Control-F: 'FIELDS_THE_IN="." haystack-the-in-needle ""i'
+
+Control-K: ' ipset add https_bad_guys '
+
+# Renice thyself, both CPU- and IO-wise.  It's left as an
+# exercise to the reader why exec is not to be used here.
+
+Control-N: " parallel --jobs=0 --ungroup ::: renice\\ 34\\ ${$} ionice\\ -c\\ 3\\ -p\\ ${$}\\ \\&\\&\\ ionice\\ -p\\ ${$}\C-m"
+
+# Show me where i am and what jobs i've got and what's been
+# happening recently.
+
+Control-X: " cls && pwd && l && j && git l -9\C-m"
+
+Control-U: ' echo && fortune -a && echo\C-m'
+
+Control-P: " parallel --jobs=0 --ungroup ::: "
+
+Control-L: "a"
+
+Control-W: "k\C-m"
+
+Control-O: " cat /proc/sys/kernel/random/entropy_avail\C-m"
+
+Control-T: "diff --ignore-file-name-case --ignore-tab-expansion --ignore-blank-lines --ignore-all-space --ignore-case --ignore-space-change --recursive --strip-trailing-cr --exclude=.svn --exclude=.git --unified "
+
+Control-E: " export DISPLAY=:1\C-m"
+
+# Re-read this file.
+
+Control-B: " bind -f ~/.inputrc\C-m"
+
+# Reloads browser tabs.
+
+Control-R: " rlffts\C-m"
+
+Control-G: "https://github.com/bedhanger/"
