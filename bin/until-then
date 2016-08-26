@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Calculate date/time differences.
+
+DATE='date +${ISO_8601_DATE_TIME:-'%Y-%m-%dT%H:%M:%S'} --date='
+
+THEN="${DATE}\"${1}\""
+ NOW="${DATE}\"${2:-now}\""
+
+# echo "NOW is ${NOW}"
+# echo "THEN is ${THEN}"
+
+THEN=$(eval ${THEN})
+ NOW=$(eval ${NOW})
+
+# echo "NOW is ${NOW}"
+# echo "THEN is ${THEN}"
+
+exec datediff ${NOW} ${THEN} \
+   --format='%Y yrs, %m mths, %d days, %H hrs, %M mins, %S secs'
