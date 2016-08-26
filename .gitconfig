@@ -1,0 +1,38 @@
+[user]
+	name = bedhanger
+	email = bedhanger@gmx.de
+        pager = cat
+[push]
+	default = simple
+[color]
+        ui = auto
+[diff]
+        renames = copies
+[log]
+	date = iso
+[rerere]
+	enabled = true
+[alias]
+        vista = "!git fetch --all && git branch --verbose \
+         --verbose"
+        st = status --short --branch
+        unstage = reset HEAD --
+        unedit = checkout --
+        ci = commit
+        co = checkout
+        co3 = checkout --conflict=diff3 --
+        b = branch
+        l = log --graph --all --decorate=short --oneline \
+           --format=\"%C(blue)%h%C(reset) %C(green)%ad%C(reset) %C(yellow)%an%C(reset) %C(cyan)%ar%C(reset) %C(red)%s%C(reset) %C(bold magenta)%d%C(reset)\"
+        wi = diff --check
+        rr = clean -d -x --force --quiet
+        bav = branch -a --verbose --verbose
+        d = describe
+        # Not part of the canon.  Needs script.
+        tprs = thread-push-remotes
+        sb = show-branch
+        pus = push
+[merge]
+	conflictStyle = diff3
+[hub]
+	protocol = https
