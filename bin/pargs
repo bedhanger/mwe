@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
+# Parallel xargs...
+
 exec parallel -X --ungroup --quote --no-run-if-empty "${@}"
