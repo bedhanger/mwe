@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# Removes the most recent temporary directory created by nd, if
+# executed in the same environment as the corresponding nd.
+
+VERBOSE=--verbose
+
+# Figure out how to speed things up...
+
+PARALLEL=$(which parallel 2> /dev/null)
+
+[ -z ${PARALLEL} ] && PARALLEL=$(which gparallel 2> /dev/null)
+
+if [ ${PARALLEL} ]
+then
+
+   PARALLEL="${PARALLEL} \
+      -X --ungroup --null --quote --no-run-if-empty"
+
+else
+
+   PARALLEL="xargs --max-procs=2 --null --no-run-if-empty"
+
+fi
+
+if [ -z ${ND} ]
+then
+
+cat << EOM
+No temporary dir bound to env var ND...
+Re-run with ND pointing to an existing dir.
+EOM
+
+else
+
+   ND=$(realpath ${ND})
+
+   # Shred every file, rename it several times, and finally
+   # remove it.  Remove the empty dir skeleton afterwards.
+
+   cd
+
+   find ${ND} -type f -print0 | \
+      ${PARALLEL} \
+         shred --force --remove ${VERBOSE} --exact --zero
+
+   rm --recursive --force ${VERBOSE} ${ND}
+
+   unset ND
+
+fi
