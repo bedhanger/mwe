@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+# Displays the CIDR information relating to the IP addresses
+# specified.
+
+# Besides the obvious, it depends on ipcalc to do the
+# deaggregation.
+
+# Why is this not the default???
+
+set -o pipefail
+
+function print_and_continue_if_is_cidr()
+{
+
+   grep --quiet --line-regexp --perl-regexp \
+      '(\d{1,3}\.){1,3}\d{1,3}/\d{1,2}' <<< ${1} && \
+   {
+
+      echo ${1}
+
+      continue
+
+   }
+
+}
+
+for IP in "${@}"
+do
+
+   # We try in succession:
+
+   # (1) whether the IP address is already in CIDR notation
+   # (2) whether the associated net range is
+   # (3) to compute the CIDR notation
+   # (4) to produce a warning.
+
+   # Lazy evaluation dictates that the first one found adequate
+   # wins.
+
+   print_and_continue_if_is_cidr ${IP}
+
+   NET_RANGE=$(whois ${IP} | grep --perl-regex --ignore-case \
+      '^(NetRange|inetnum|IPv4 Address)\s*:' | \
+      head --lines=1 | cut --fields=2 --delimiter=:) || \
+   {
+
+      echo "Warning: Cannot determine net range for ${IP}"
+
+      continue
+
+   }
+
+   print_and_continue_if_is_cidr ${NET_RANGE}
+
+   CIDRS=$(ipcalc ${NET_RANGE} | sed --quiet --expression='2,$p')
+
+   for CIDR in ${CIDRS}
+   do
+
+      print_and_continue_if_is_cidr ${CIDR}
+
+   done
+
+   [ -z "${CIDRS}" ] && \
+      echo "Warning: Cannot determine CIDR notation for ${IP}"
+
+done
