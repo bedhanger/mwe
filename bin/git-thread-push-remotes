@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# Pushes commits on tracking branches to their upstream
+# counterparts
+#    A B C ---> remote1
+#    D E F G H ---> remote2
+#    ...
+#    origin ---> origin
+#    ...
+#    etc.
+# You need to have your remotes and tracking branches set up
+# properly beforehand for this too work.
+
+# All command line options will be passed to the push command.
+
+exec git remote | \
+   xargs --no-run-if-empty --max-lines=1 git push "${@}"
