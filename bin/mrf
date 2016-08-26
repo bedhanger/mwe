@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Displays the most recent find, using a directory entry's last
+# modification time represented in ISO-8601 format.
+
+PV=$(which pv)
+
+PV=${PV:-cat}
+
+find "${@:-.}" -printf "%TY-%Tm-%TdT%TH:%TM:%TS %y %p\n" | \
+   ${PV} | sort --numeric-sort
