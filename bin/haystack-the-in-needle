@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+
+# Search for the needle in the haystack, ignoring uninteresting
+# or critical items altogether and dealing gracefully with files
+# whose names start with a hyphen.
+
+[ ${#} -lt 1 ] && \
+{
+
+   cat << EOM >&2
+
+Ain't no virtual needle in whatsoever haystack not.
+
+EOM
+
+   exit 1
+
+}
+
+EOL="'\0'"
+NICE="nice --adjustment=34"
+XARGS="xargs --max-procs=8 --null --no-run-if-empty"
+HIDE_ERRORS="2> /dev/null"
+PROTECTED_NAME="%p"
+
+if [ "${FIELDS_THE_IN}" ] && [ "${FIELDS_THE_IN}" != "." ]
+then
+
+   # Don't optimise away the command line argument under which
+   # find finds an item...
+
+   BARE_NAME=${PROTECTED_NAME}
+
+else
+
+   # The user has not specified any haystack locations (other
+   # than the trivial one, possibly), so we use the one we're
+   # currently looking at.
+
+   [ "${FIELDS_THE_IN}" ] || FIELDS_THE_IN="."
+
+   # This then allows us to throw away the leading path
+   # component (i.e., "./"), as it is identical for each file
+   # item found and no more specific when actually accessing the
+   # file.
+
+   BARE_NAME="%P"
+
+fi
+
+HAYSTACK="${NICE} find -L ${FIELDS_THE_IN} \
+   \( \
+      -iname .svn -type d -o \
+      -iname .git -type d -o \
+      -iname tags -type f -o \
+      -iname proc -type d -o \
+      -false \
+   \) -prune -o \
+   -type f \
+   \( \
+      \( \
+         -iname -\* \
+      \) -printf ${PROTECTED_NAME}${EOL} -o \
+      -printf ${BARE_NAME}${EOL} \
+   \) ${HIDE_ERRORS}"
+
+THE="|"
+
+IN="${NICE} ${XARGS} grep \
+   --perl-regexp --color=auto --with-filename --ignore-case \
+   --line-number --byte-offset --unix-byte-offsets \
+   ${HIDE_ERRORS}"
+
+NEEDLE='"${@}"'
+
+eval ${HAYSTACK} ${THE} ${IN} ${NEEDLE}
+
+# vim:filetype=sh
