@@ -9,7 +9,7 @@
 #    ...
 #    etc.
 # You need to have your remotes and tracking branches set up
-# properly beforehand for this too work.
+# properly beforehand for this to work.
 
 # All command line options will be passed to the push command.
 
