@@ -2,12 +2,17 @@
 
 # Pushes commits on tracking branches to their upstream
 # counterparts
+
 #    A B C ---> remote1
 #    D E F G H ---> remote2
 #    ...
 #    origin ---> origin
 #    ...
 #    etc.
+
+# Note that hub(1), https://github.com/github/hub/, can do that
+# and other things as well (much more elegantly probably).
+
 # You need to have your remotes and tracking branches set up
 # properly beforehand for this to work.
 
