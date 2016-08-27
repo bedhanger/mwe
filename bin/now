@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Shows date & time in ISO format.
+# Shows date & time in ISO format, prefixed by the weekday.
 
 ISO_8601_DATE_TIME="${ISO_8601_DATE_TIME:-%Y-%m-%dT%H:%M:%S}"
 
