@@ -1,0 +1,10 @@
+" Not everything should be expressed in English.
+" Umlauts.
+set digraph
+imap ae a<BS>:
+imap Ae A<BS>:
+imap oe o<BS>:
+imap Oe O<BS>:
+imap ue u<BS>:
+imap Ue U<BS>:
+imap sz s<BS>s
