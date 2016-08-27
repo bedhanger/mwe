@@ -1,0 +1,111 @@
+#!/usr/bin/env perl
+
+# Sifts thru the process list.
+
+use warnings;
+use strict;
+
+use English;
+
+$OUTPUT_AUTOFLUSH = 1; # yes, please...
+
+# The process list, whose appearance you should probably adapt
+# to suit your needs.
+
+my $ps_format_options = join(',',
+   qw(
+      user
+      pid
+      ppid
+      cpuid
+      tid
+      cgroup
+      nlwp=THRDS
+      cls=SCHED
+      vsz
+      rss
+      ni
+      pri
+      tty=TTY
+      lstart
+      time
+      pcpu
+      pmem
+      stat
+      command
+      machine
+   )
+);
+
+# Don't touch this, play with the format options above.
+
+my $ps = qq/\\
+   ps \\
+   -e \\
+   -L \\
+   --format $ps_format_options \\
+/;
+
+# The reason we use the external grep is that it does the
+# colouring for us rather nicely.
+
+my $grep = qq/grep --perl-regexp --colour=auto --ignore-case/;
+
+# Create two processes: to produce and scan the process list,
+# respectively.  Note that the former two will be part of the
+# latter.  Depending on the nature of whatever you are looking
+# for, you might see them in the final output.  While
+#
+#    $ pus myprocess
+#
+# will always produce output (it does not matter if myprocess
+# exists or not),
+#
+#    $ pus \\bmyprocess\\b
+#
+# will only produce output if myprocess exists.  Try "pus pus"
+# vs. "pus \\bpus\\b" to see the reason.
+
+# The two processes will be later joined by a pipe.
+
+open PS, "$ps |" or
+   die "Could not obtain process list: ${OS_ERROR}";
+
+open GREP, "| $grep '@ARGV'" or
+   die "Could not activate sieve: ${OS_ERROR}";
+
+warn <<EOM unless @ARGV;
+
+WARNING: Nothing to search for.  It's more efficient to run
+
+   $ps
+
+directly, but have it your way...
+
+EOM
+
+my $Header = undef;
+
+my $Ps = undef;
+
+# Note that in accordance with standard ps(1), the header is
+# always printed, irregardless of whether a matching process was
+# found.  We'll make sure that ps(1) was called correctly,
+# though.
+
+print $Header if defined($Header = <PS>);
+
+# Now read one line at a time from ps and feed it to grep.
+
+PIPE_JOIN : while (defined($Ps = <PS>))
+{
+
+   print GREP $Ps;
+
+}
+
+# Cleanup.
+
+close GREP;
+
+close PS;
