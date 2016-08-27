@@ -9,3 +9,7 @@ a good way to start, :-)
 
 If the target directory is no longer empty, simply clone into
 another directory and copy over the stuff you like.
+
+If your PATH settings don't contain ~/bin yet, remember to
+either arrange for it manually, or simply open another
+login shell.
