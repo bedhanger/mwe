@@ -82,6 +82,7 @@ do
    esac
 done
 
+# Now get cert and extract fingerprint.
 exec \
    ${OPENSSL} \
       s_client \
