@@ -12,7 +12,6 @@ PORT=995
 FORMAT="-md5"
 
 function HELP {
-
    cat << EOM
 
    ${ME} [OPTION...]
@@ -31,7 +30,6 @@ shown in brackets]:
    --format=... print fingerprint in another format [${FORMAT}]
 
 EOM
-
 }
 
 # Parse the command line.
