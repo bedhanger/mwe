@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# It does what the name suggests...
+
 ME=$(basename ${0})
 
 # The author's preferred way of retrieving messages.
