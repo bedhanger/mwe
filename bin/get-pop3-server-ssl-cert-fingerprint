@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 # It does what the name suggests...
+# Simply run with --help and/or study the help routine below to
+# find out more.
 
 ME=$(basename ${0})
 
