@@ -1,12 +1,6 @@
 #!/usr/bin/env bash
 
-# Retrieve (among other things) a server's SSL cert fingerprint
-
-# Primarily useful for querying POP3 machines: the fingerprint
-# is used in ~/.fetchmailrc to set up SSL retrievals.
-
-# However, as the vars below can be overwritten (both here and
-# on the command line), other combinations are possible.
+ME=$(basename ${0})
 
 # The author's preferred way of retrieving messages.
 SERVER="pop.gmx.net"
@@ -16,6 +10,81 @@ PORT=995
 
 # The default is a SHA1 hash.  Fetchmail wants MD5.
 FORMAT="-md5"
+
+function HELP {
+
+   cat << EOM
+
+   ${ME} [OPTION...]
+
+Retrieve (among other things) a server's SSL cert fingerprint
+
+Primarily useful for querying POP3 machines: the fingerprint is
+used in ~/.fetchmailrc to set up SSL retrievals.
+
+However, the defaults can be overwritten to make other
+combinations possible.  Therefore, OPTION can be [defaults
+shown in brackets]:
+
+   --server=... contact a server [${SERVER}]
+   --port=...   make connection to specified port [${PORT}]
+   --format=... print fingerprint in another format [${FORMAT}]
+
+EOM
+
+}
+
+# Parse the command line.
+for OPTION in "${@}"
+do
+
+   OPTION_ARG=$(expr "X${OPTION}" : "X[^=]*=\(..*\)")
+
+   case "${OPTION}" in
+
+      --server=*)
+
+         SERVER=${OPTION_ARG}
+
+         ;;
+
+      --port=*)
+
+         PORT=${OPTION_ARG}
+
+         ;;
+
+      --format=*)
+
+         FORMAT=${OPTION_ARG}
+
+         ;;
+
+      --help)
+
+         HELP
+
+         exit 0
+
+         ;;
+
+      --)
+
+         true
+
+         ;;
+
+      *)
+
+         echo "Unknown option '${OPTION}', try '${ME} --help'"
+
+         exit 1
+
+         ;;
+
+   esac
+
+done
 
 exec \
    openssl \
