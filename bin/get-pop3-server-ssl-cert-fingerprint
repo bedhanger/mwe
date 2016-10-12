@@ -11,6 +11,8 @@ PORT=995
 # The default is a SHA1 hash.  Fetchmail wants MD5.
 FORMAT="-md5"
 
+OPENSSL=openssl
+
 function HELP {
    cat << EOM
 
@@ -69,12 +71,12 @@ do
 done
 
 exec \
-   openssl \
+   ${OPENSSL} \
       s_client \
       -connect ${SERVER}:${PORT} \
       -servername ${SERVER} \
       -showcerts | \
-   openssl \
+   ${OPENSSL} \
       x509 \
       -text \
       -noout \
