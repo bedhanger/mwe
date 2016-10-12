@@ -28,7 +28,6 @@ EOM
    exit 2
 fi
 
-
 function HELP {
    cat << EOM
 
