@@ -37,53 +37,37 @@ EOM
 # Parse the command line.
 for OPTION in "${@}"
 do
-
    OPTION_ARG=$(expr "X${OPTION}" : "X[^=]*=\(..*\)")
 
    case "${OPTION}" in
 
       --server=*)
-
          SERVER=${OPTION_ARG}
-
          ;;
 
       --port=*)
-
          PORT=${OPTION_ARG}
-
          ;;
 
       --format=*)
-
          FORMAT=${OPTION_ARG}
-
          ;;
 
       --help)
-
          HELP
-
          exit 0
-
          ;;
 
       --)
-
          true
-
          ;;
 
       *)
-
          echo "Unknown option '${OPTION}', try '${ME} --help'"
-
          exit 1
-
          ;;
 
    esac
-
 done
 
 exec \
