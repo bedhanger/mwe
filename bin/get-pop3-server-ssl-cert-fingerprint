@@ -13,6 +13,17 @@ FORMAT="-md5"
 
 # The workhorse.
 OPENSSL=openssl
+OPENSSL=$(which ${OPENSSL} 2> /dev/null)
+if [ -z "${OPENSSL}" ]
+then
+
+   cat << EOM >&2
+${ME}: fatal: cannot find openssl command in path
+EOM
+
+   exit 2
+fi
+
 
 function HELP {
    cat << EOM
