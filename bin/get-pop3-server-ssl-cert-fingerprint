@@ -8,8 +8,13 @@
 # However, as the vars below can be overwritten (both here and
 # on the command line), other combinations are possible.
 
+# The author's preferred way of retrieving messages.
 SERVER="pop.gmx.net"
+
+# POP3 over SSL.
 PORT=995
+
+# The default is a SHA1 hash.  Fetchmail wants MD5.
 FORMAT="-md5"
 
 exec \
