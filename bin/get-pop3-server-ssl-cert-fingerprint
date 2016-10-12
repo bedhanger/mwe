@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+exec \
+   openssl \
+      s_client \
+      -connect pop.gmx.net:995 \
+      -servername pop.gmx.net \
+      -showcerts | \
+   openssl \
+      x509 \
+      -text \
+      -noout \
+      -md5 \
+      -fingerprint \
+
