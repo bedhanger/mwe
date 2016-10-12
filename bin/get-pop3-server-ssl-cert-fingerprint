@@ -33,7 +33,7 @@ function HELP {
 
    ${ME} [OPTION...]
 
-Retrieve (among other things) a server's SSL cert fingerprint
+Retrieve & display a server's SSL cert (fingerprint)
 
 Primarily useful for querying POP3 machines: the fingerprint is
 used in ~/.fetchmailrc to set up SSL retrievals.
@@ -43,8 +43,20 @@ combinations possible.  Therefore, OPTION can be [defaults
 shown in brackets]:
 
    --server=... contact a server [${SERVER}]
-   --port=...   make connection to specified port [${PORT}]
+   --port=...   make a connection to a specified port [${PORT}]
    --format=... print fingerprint in another format [${FORMAT}]
+
+EXAMPLE: to see the SHA1 fingerprint of the author's web server
+cert, type:
+
+   get-pop3-server-ssl-cert-fingerprint \\
+      --server=bedhanger.strangled.net \\
+      --port=443 \\
+      --format=-sha1 \\
+      < /dev/null
+
+[Depending on the originating IP address, the server's firewall
+ might block the request]
 
 EOM
 }
