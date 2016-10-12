@@ -86,7 +86,8 @@ exec \
       s_client \
       -connect ${SERVER}:${PORT} \
       -servername ${SERVER} \
-      -showcerts | \
+      -showcerts \
+      | \
    ${OPENSSL} \
       x509 \
       -text \
