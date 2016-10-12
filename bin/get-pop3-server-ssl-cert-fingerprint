@@ -1,15 +1,26 @@
 #!/usr/bin/env bash
 
+# Retrieve (among other things) a server's SSL cert fingerprint
+
+# Primarily useful for querying POP3 machines: the fingerprint
+# is used in ~/.fetchmailrc to set up SSL retrievals.
+
+# However, as the vars below can be overwritten (both here and
+# on the command line), other combinations are possible.
+
+SERVER="pop.gmx.net"
+PORT=995
+FORMAT="-md5"
+
 exec \
    openssl \
       s_client \
-      -connect pop.gmx.net:995 \
-      -servername pop.gmx.net \
+      -connect ${SERVER}:${PORT} \
+      -servername ${SERVER} \
       -showcerts | \
    openssl \
       x509 \
       -text \
       -noout \
-      -md5 \
+      ${FORMAT} \
       -fingerprint \
-
