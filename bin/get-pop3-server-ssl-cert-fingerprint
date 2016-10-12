@@ -13,7 +13,7 @@ SERVER="pop.gmx.net"
 PORT=995
 
 # The default is a SHA1 hash.  Fetchmail wants MD5.
-FORMAT="-md5"
+FORMAT="md5"
 
 # The workhorse.
 OPENSSL=openssl
@@ -52,7 +52,7 @@ cert, type:
    get-pop3-server-ssl-cert-fingerprint \\
       --server=bedhanger.strangled.net \\
       --port=443 \\
-      --format=-sha1 \\
+      --format=sha1 \\
       < /dev/null
 
 [Depending on the originating IP address, the server's firewall
@@ -91,6 +91,18 @@ do
 
    esac
 done
+
+if [ "${FORMAT}" ]
+then
+
+   # The format spec to openssl is not a value, but actually a
+   # switch, i.e., "-md5" or "-sha1".  The user could have given
+   # a bare expression or one prefixed by a dash, so let's
+   # normalise it properly.
+
+   FORMAT=$(perl -p -e 's/^-*/-/;' <<< ${FORMAT})
+
+fi
 
 # Now get cert and extract fingerprint.
 exec \
