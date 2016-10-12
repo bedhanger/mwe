@@ -11,6 +11,7 @@ PORT=995
 # The default is a SHA1 hash.  Fetchmail wants MD5.
 FORMAT="-md5"
 
+# The workhorse.
 OPENSSL=openssl
 
 function HELP {
