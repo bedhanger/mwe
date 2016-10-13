@@ -32,6 +32,7 @@
         tprs = thread-push-remotes
         sb = show-branch
         pus = push
+        chry = cherry --verbose
 [merge]
 	conflictStyle = diff3
 [hub]
