@@ -12,7 +12,7 @@ SERVER="pop.gmx.net"
 # POP3 over SSL.
 PORT=995
 
-# The default is a SHA1 hash.  Fetchmail wants MD5.
+# OpenSSL's default is a SHA1 hash.  Fetchmail wants MD5.
 FORMAT="md5"
 
 # The workhorse.
