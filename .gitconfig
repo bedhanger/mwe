@@ -33,6 +33,7 @@
         sb = show-branch
         pus = push
         chry = cherry --verbose
+        l2r = log --no-merges --left-right master...origin/master
 [merge]
 	conflictStyle = diff3
 [hub]
