@@ -116,7 +116,7 @@ export FCEDIT='/bin/vi -c "set paste|read ~/commands.txt"'
 
 export FILE_TYPES_TO_GREP="{ada,c,h,make,bld,gpj,sh,{a,e,r,s,u}df,p{l,m}}"
 
-export HISTIGNORE="&:.:..:w:ps:df:5s:rr:make:l[tsh]:[bf]g:exit:logout:frex:pwd:vifm:st[?]:sd:sr:si:sir:j:e"
+export HISTIGNORE="&:.:..:-:w:ps:df:5s:rr:make:l[tsh]:[bf]g:exit:logout:frex:pwd:vifm:st[?]:sd:sr:si:sir:j:e"
 
 # stty cols 80
 
@@ -218,3 +218,5 @@ export no_proxy=localhost,127.0.0.0/8,::1
 
 alias git=hub
 alias gti=hub
+
+alias -- -='cd -'
