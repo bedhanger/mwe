@@ -65,4 +65,6 @@ Control-B: " bind -f ~/.inputrc\C-m"
 
 Control-R: " rlffts\C-m"
 
-Control-G: "https://github.com/bedhanger/"
+# Git-ify current directory.
+
+Control-G: ' git init && git add . && git commit --allow-empty -m"Initial commit on master"FI'
