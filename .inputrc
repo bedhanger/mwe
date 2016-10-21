@@ -41,7 +41,7 @@ Control-N: " parallel --jobs=0 --ungroup ::: renice\\ 34\\ ${$} ionice\\ -c\\ 3\
 # Show me where i am and what jobs i've got and what's been
 # happening recently.
 
-Control-X: " cls && pwd && l && j && git l -9\C-m"
+Control-X: " cls && pwd && l && j && 'git l -9' 'git sb'\C-m"
 
 Control-U: ' echo && fortune -a && echo\C-m'
 
