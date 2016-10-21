@@ -29,7 +29,7 @@ set output-meta on
 # Search for the needle in the haystack, ignoring tags, Svn, and
 # Git files.
 
-Control-F: 'FIELDS_THE_IN="." haystack-the-in-needle ""i'
+Control-F: 'FIELDS_THE_IN="." haystack-the-in-needle ""\ei'
 
 Control-K: ' ipset add https_bad_guys '
 
@@ -41,15 +41,15 @@ Control-N: " parallel --jobs=0 --ungroup ::: renice\\ 34\\ ${$} ionice\\ -c\\ 3\
 # Show me where i am and what jobs i've got and what's been
 # happening recently.
 
-Control-X: " cls && pwd && l && j && 'git l -9' 'git sb'\C-m"
+Control-X: " cls && pwd && l && j && \C-p'git l -9' 'git sb'\C-m"
 
 Control-U: ' echo && fortune -a && echo\C-m'
 
 Control-P: " parallel --jobs=0 --ungroup ::: "
 
-Control-L: "a"
+Control-L: "\e\C-la"
 
-Control-W: "k\C-m"
+Control-W: "\ek\C-m"
 
 Control-O: " cat /proc/sys/kernel/random/entropy_avail\C-m"
 
@@ -67,4 +67,4 @@ Control-R: " rlffts\C-m"
 
 # Git-ify current directory.
 
-Control-G: ' git init && git add . && git commit --allow-empty -m"Initial commit on master"FI'
+Control-G: ' git init && git add . && git commit --allow-empty -m"Initial commit on master"\eFI'
