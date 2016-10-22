@@ -67,4 +67,4 @@ Control-R: " rlffts\C-m"
 
 # Git-ify current directory.
 
-Control-G: ' git init && git add . && git commit --allow-empty -m"Initial commit on master"\eFI'
+Control-G: ' test -d .git || ( test -w . && git init && git add . && git commit --allow-empty -m"Track $(pwd)" )\C-m'
