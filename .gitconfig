@@ -1,3 +1,6 @@
+[core]
+        # Recommended by the Linux kernel development guidelines
+        abbrev = 12
 [user]
         name = bedhanger
         email = bedhanger@gmx.de
