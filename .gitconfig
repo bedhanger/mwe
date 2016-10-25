@@ -1,17 +1,17 @@
 [user]
-	name = bedhanger
-	email = bedhanger@gmx.de
+        name = bedhanger
+        email = bedhanger@gmx.de
         pager = cat
 [push]
-	default = simple
+        default = simple
 [color]
         ui = auto
 [diff]
         renames = copies
 [log]
-	date = iso
+        date = iso
 [rerere]
-	enabled = true
+        enabled = true
 [alias]
         vista = "!git fetch --all && git branch --verbose \
          --verbose"
@@ -36,6 +36,6 @@
         l2r = log --left-right master...origin/master
         bd = branch --delete
 [merge]
-	conflictStyle = diff3
+        conflictStyle = diff3
 [hub]
-	protocol = https
+        protocol = https
