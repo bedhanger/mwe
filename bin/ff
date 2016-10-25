@@ -2,15 +2,4 @@
 
 # Finds files.  Augment as desired.
 
-if $(basename ${0} | grep '0$' > /dev/null 2>&1)
-then
-
-   OUTPUT=0
-
-else
-
-   unset OUTPUT
-
-fi
-
-exec find "${@:-.}" -type f -print${OUTPUT}
+exec find "${@:-.}" -type f -print
