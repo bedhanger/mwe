@@ -10,14 +10,14 @@ is a good way to start, :-)
 If the target directory is no longer empty, proceed as follows
 [note that files/directories of the same name already present
 *will* be overwritten]:
-
+<code>
    $ cd /path/to/target/dir
    $ git init
    $ git remote add mwe https://github.com/bedhanger/mwe.git
    $ git fetch mwe
    $ git branch mwe-master --track remotes/mwe/master
    $ git checkout mwe-master
-
+</code>
 [If you can spare the master branch in /path/to/target/dir, the
 commands can be simplified, use origin for the remote, etc.]
 
