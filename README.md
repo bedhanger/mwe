@@ -13,15 +13,20 @@ If the target directory is no longer empty, proceed as follows
 
 <code>
    $ cd /path/to/target/dir
-
+</code>
+<code>
    $ git init
-
+</code>
+<code>
    $ git remote add mwe https://github.com/bedhanger/mwe.git
-
+</code>
+<code>
    $ git fetch mwe
-
+</code>
+<code>
    $ git branch mwe-master --track remotes/mwe/master
-
+</code>
+<code>
    $ git checkout mwe-master
 </code>
 
