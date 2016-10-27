@@ -7,8 +7,19 @@ some of them intelligently to be more efficient.
 Cloning this repository into an otherwise empty home directory
 is a good way to start, :-)
 
-If the target directory is no longer empty, simply clone into
-another directory and copy over the stuff you like.
+If the target directory is no longer empty, proceed as follows
+[note that files/directories of the same name already present
+*will* be overwritten]:
+
+   $ cd /path/to/target/dir
+   $ git init
+   $ git remote add mwe https://github.com/bedhanger/mwe.git
+   $ git fetch mwe
+   $ git branch mwe-master --track remotes/mwe/master
+   $ git checkout mwe-master
+
+[If you can spare the master branch in /path/to/target/dir, the
+commands can be simplified, use origin for the remote, etc.]
 
 If your PATH settings don't contain ~/bin yet, remember to
 either arrange for it manually, or simply open another
