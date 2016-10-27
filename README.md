@@ -4,8 +4,8 @@ requires to be fluent on any Unix-like system.
 It does not contain tools as such, it provides clue to combine
 some of them intelligently to be more efficient.
 
-Cloning this repository into an otherwise empty home directory
-is a good way to start, :-)
+Cloning this repository into an otherwise empty
+<code>home</code> directory is a good way to start, :-)
 
 If the target directory is no longer empty, proceed as follows
 [note that files/directories of the same name already present
@@ -27,6 +27,6 @@ If the target directory is no longer empty, proceed as follows
 <code>/path/to/target/dir</code>, the commands can be
 simplified, use <code>origin</code> for the remote, etc.]
 
-If your PATH settings don't contain ~/bin yet, remember to
-either arrange for it manually, or simply open another
-login shell.
+If your <code>PATH</code> settings don't contain
+<code>~/bin</code> yet, remember to either arrange for it
+manually, or simply open another login shell.
