@@ -29,7 +29,9 @@ If the target directory is no longer empty, proceed as follows
 
 If you can spare the <code>master</code> branch in
 <code>/path/to/target/dir</code>, the commands can be
-simplified, use <code>origin</code> for the remote, etc.
+simplified.  If yours is not yet a repository connected upstream
+via an <code>origin</code> remote, you can use that name for the
+remote.  This allows further simplification.
 
 Remarks
 -------
