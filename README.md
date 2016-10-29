@@ -11,17 +11,12 @@ If the target directory is no longer empty, proceed as follows
 [note that files/directories of the same name already present
 *will* be overwritten]:
 
-<code>$ cd /path/to/target/dir</code>
-
-<code>$ git init</code>
-
-<code>$ git remote add mwe https://github.com/bedhanger/mwe.git</code>
-
-<code>$ git fetch mwe</code>
-
-<code>$ git branch mwe-master --track remotes/mwe/master</code>
-
-<code>$ git checkout mwe-master</code>
+   cd /path/to/target/dir
+   git init
+   git remote add mwe https://github.com/bedhanger/mwe.git
+   git fetch mwe
+   git branch mwe-master --track remotes/mwe/master
+   git checkout mwe-master
 
 [If you can spare the <code>master</code> branch in
 <code>/path/to/target/dir</code>, the commands can be
