@@ -17,8 +17,8 @@ Cloning this repository into an otherwise empty
 <code>home</code> directory is a good way to start, :-)
 
 If the target directory is no longer empty, proceed as follows
-[note that files/directories of the same name already present
-*will* be overwritten]:
+(note that files/directories of the same name already present
+*will* be overwritten):
 
     cd /path/to/target/dir
     git init
@@ -27,9 +27,9 @@ If the target directory is no longer empty, proceed as follows
     git branch mwe-master --track remotes/mwe/master
     git checkout mwe-master
 
-[If you can spare the <code>master</code> branch in
+If you can spare the <code>master</code> branch in
 <code>/path/to/target/dir</code>, the commands can be
-simplified, use <code>origin</code> for the remote, etc.]
+simplified, use <code>origin</code> for the remote, etc.
 
 Remarks
 -------
