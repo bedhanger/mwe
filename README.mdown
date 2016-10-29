@@ -8,7 +8,7 @@ What it is not
 --------------
 
 It does not contain tools as such, it provides clue to combine
-some of them intelligently to be more efficient.
+some of them intelligently so as to be more efficient.
 
 Getting it
 ----------
