@@ -17,7 +17,7 @@ EOM
 
 }
 
-HAYSTACKS=8
+HAYSTACKS=${HAYSTACKS:=8}
 EOL="'\0'"
 NICE="nice --adjustment=34"
 XARGS="xargs --max-procs=${HAYSTACKS} --null --no-run-if-empty"
