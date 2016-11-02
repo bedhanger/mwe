@@ -1,0 +1,122 @@
+#!/usr/bin/env bash
+
+# Sample script to demonstrate that with intelligent disc
+# controllers (i.e., those that are, for example, capable of
+# re-ordering IO requests to maximise the utilisation of the
+# mechanical read-write head), two interleaved file copies win,
+# on more occasions than would be ``obvious,'' over sequential
+# ones, in terms of the elapsed wall clock time it takes to
+# finish the action.
+
+# Two interleaved jobs is probably not the upper limit, but as
+# we go up the ladder, the overhead will eat away the speed
+# improvements.
+
+ME=$(basename ${0})
+
+# The nucleus command to execute.
+# Be fair and don't use --reflink!
+
+COMMAND=cp
+
+# How much to copy.
+
+SIZE=${SIZE:-128M}
+
+# We do not need high-quality random numbers, hence the default
+# is not /dev/random.
+
+RNDSRC=${RNDSRC:-/dev/urandom}
+
+# Modes of execution.
+
+SEQUENTIAL=";"
+CONCURRENT="&"
+# AND_THEN="&&"
+# OR_ELSE="||"
+
+# How often.
+
+ATTEMPTS=${ATTEMPTS:-10}
+
+for ATTEMPT in $(eval echo {1..${ATTEMPTS}})
+do
+
+   echo -n "(${ME}.${ATTEMPT}) Creating file names..."
+
+   A=$(mktemp --tmpdir --dry-run --suffix=${ME})
+   B=$(mktemp --tmpdir --dry-run --suffix=${ME})
+   C=$(mktemp --tmpdir --dry-run --suffix=${ME})
+   D=$(mktemp --tmpdir --dry-run --suffix=${ME})
+
+   echo "${A}, ${B}, ${C}, ${D}...Ok"
+
+   A1=${A}.out
+   B1=${B}.out
+   C1=${C}.out
+   D1=${D}.out
+
+   A=${A}.in
+   B=${B}.in
+   C=${C}.in
+   D=${D}.in
+
+   echo -n "(${ME}.${ATTEMPT}) Creating and populating files..."
+   echo -n "${SIZE}..."
+
+   dd if=${RNDSRC} of=${A} bs=${SIZE} count=1 iflag=fullblock 2> /dev/null &
+   dd if=${RNDSRC} of=${B} bs=${SIZE} count=1 iflag=fullblock 2> /dev/null &
+   dd if=${RNDSRC} of=${C} bs=${SIZE} count=1 iflag=fullblock 2> /dev/null &
+   dd if=${RNDSRC} of=${D} bs=${SIZE} count=1 iflag=fullblock 2> /dev/null &
+
+   # Meaningwhile, create the compound commands.
+
+   CMDS_IN_A_ROW='\
+      '"${COMMAND}"' '"${A}"' '"${A1}"' \
+      '"${SEQUENTIAL}"' \
+      '"${COMMAND}"' '"${B}"' '"${B1}"' \
+   '
+
+   CMDS_IN_BGRND='\
+      '"${COMMAND}"' '"${C}"' '"${C1}"' \
+      '"${CONCURRENT}"' \
+      '"${COMMAND}"' '"${D}"' '"${D1}"' \
+   '
+
+   CMDS='"${CMDS_IN_A_ROW}" "${CMDS_IN_BGRND}"'
+
+   # Juggle.
+
+   CMDS=$(shuf --echo $(echo "${CMDS}"))
+   CMDS=$(echo "${CMDS}")
+
+   # Wait for dd background jobs to finish and flush fs buffers.
+
+   wait && sync
+
+   echo "Ok"
+
+   echo "(${ME}.${ATTEMPT}) Copying..."
+
+   for CMD in ${CMDS}
+   do
+
+      # Time the copies and print result.
+
+      head --lines=9 < <( \
+         eval /usr/bin/time --verbose sh -c "${CMD}" 2>&1 )
+
+      sync
+
+   done
+
+   echo -n "(${ME}.${ATTEMPT}) Cleaning up..."
+
+   rm -f ${A}  ${B}  ${C}  ${D} \
+         ${A1} ${B1} ${C1} ${D1}
+
+   echo "Ok"
+
+   echo
+
+done
