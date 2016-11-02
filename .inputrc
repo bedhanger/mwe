@@ -29,7 +29,7 @@ set output-meta on
 # Search for the needle in the haystack, ignoring tags, Svn, and
 # Git files.
 
-Control-F: 'FIELDS_THE_IN="." haystack-the-in-needle ""\ei'
+Control-F: 'FIELDS_THE_IN="." haystack-the-in-needle '
 
 Control-K: ' ipset add https_bad_guys '
 
