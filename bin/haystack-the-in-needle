@@ -17,9 +17,10 @@ EOM
 
 }
 
+HAYSTACKS=8
 EOL="'\0'"
 NICE="nice --adjustment=34"
-XARGS="xargs --max-procs=8 --null --no-run-if-empty"
+XARGS="xargs --max-procs=${HAYSTACKS} --null --no-run-if-empty"
 HIDE_ERRORS="2> /dev/null"
 PROTECTED_NAME="%p"
 
