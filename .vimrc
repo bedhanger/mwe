@@ -43,7 +43,6 @@ autocmd BufNewFile,BufRead *.mail,.vacation.msg,d,d.eads set filetype=mail
 autocmd BufNewFile,BufRead bash-fc-* set filetype=sh
 autocmd BufNewFile,BufRead changes.recent set filetype=diff
 autocmd BufNewFile,BufRead *.qbquery,*.qbquery setfiletype sql
-autocmd BufNewFile,BufRead svn-commit* set noendofline binary
 autocmd BufNewFile,BufRead /var/log/messages*,/tmp/*.messages silent %!~/perl/filter-messages
 autocmd BufNewFile,BufRead /var/log/messages* $
 autocmd BufNewFile,BufRead /var/log/messages* ?Seen

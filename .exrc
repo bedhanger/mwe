@@ -91,22 +91,6 @@ map <F12> :!time (latex % && latex %)<CR>
 " CTRL-N loads the next file, CTRL-P rewinds the arg list
 map  :next<CR>
 map  :rewind<CR>
-" Use some Subversion commands from within vi.
-" map e :!exec cvs edit %<CR>
-map u :silent !exec svn revert %<CR>
-map d :silent !exec svn diff % \| ~/perl/pager.pl<CR>
-map c :silent !exec svn commit --keep-changelists %<CR>
-map s :silent !exec svn status %<CR>
-map a :silent !exec svn annotate % > ~/a.annotations<CR>
-map l :silent !exec svn log --verbose --use-merge-history % \| less<CR>
-map L :!exec svn lock %<CR>
-map U :!exec svn unlock %<CR>
-map p :silent !exec svn update -r HEAD %<CR>
-map i :silent !exec svn info % \| ~/perl/pager.pl<CR>
-" View the file ~/b.diff
-map b :split ~/b.diff<CR>
-" View the file ~/a.annotations
-map k :split ~/a.annotations<CR>
 " Make the current file writable.
 map w :!chmod +w %<CR>
 " Make the current file executable.
