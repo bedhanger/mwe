@@ -23,18 +23,6 @@ alias more=less
 
 alias j=jobs
 
-alias st?="svn status"
-
-alias st="st? --quiet"
-
-alias stni="st? --no-ignore"
-
-alias stsu="st? --show-updates"
-
-alias sdt="svn diff --no-diff-deleted | dos2unix && st"
-
-alias std=sdt
-
 alias ..="cd .. && pwd && lt"
 
 # Primary prompt.
@@ -164,10 +152,6 @@ export PARINIT='rTbgqR B=.,?_A_a Q=_s>|'
 
 alias k=l
 
-alias se="svn export"
-
-alias sdc="sd --change"
-
 alias es="tmux"
 
 alias tma="tmux attach"
@@ -175,8 +159,6 @@ alias tma="tmux attach"
 alias tme="tma ; exit"
 
 # light-term
-
-alias sl1="svn log --limit 1"
 
 # This should be the default!!!
 
