@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Call fetchmail, but map its NOMAIL return code to success
+
+# fetchmail returns 0 when all marked messages could be
+# retrieved, and 1 when no mail was found (other values indicate
+# trouble).  While this has its uses, it is rather hindersome in
+# cronjobs or when run from systemd timers, or---in
+# general---when the ``no news'' condition should not be treated
+# as an error.  The FAQ proposes the method we've implemented
+# below, and it seems to be working fine for cronjobs (they are
+# shell-agnostic).  For systemd timers, since they aren't
+# shell-agnostic, a wrapper is more appropriate.
+
+NOMAIL=1
+
+# The error codes are mapped thuswise:
+# 0 ---> 0
+# 1 ---> 0
+# n ---> 1
+
+exec fetchmail "${@}" || test ${?} -eq ${NOMAIL}
