@@ -28,7 +28,7 @@ EOM
    exit 2
 fi
 
-# Terminate connection to server
+# Terminate connection to server.
 NO_SPEAK_SSL='< /dev/null'
 
 function HELP {
