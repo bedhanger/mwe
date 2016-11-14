@@ -28,6 +28,9 @@ EOM
    exit 2
 fi
 
+# Terminate connection to server
+NO_SPEAK_SSL='< /dev/null'
+
 function HELP {
    cat << EOM
 
@@ -45,6 +48,7 @@ shown in brackets]:
    --server=... contact a server [${SERVER}]
    --port=...   make a connection to a specified port [${PORT}]
    --format=... print fingerprint in another format [${FORMAT}]
+   --speak-ssl  keep connection to server open [--no-speak-ssl]
 
 EXAMPLE: to see the SHA1 fingerprint of the author's web server
 cert, type:
@@ -52,8 +56,7 @@ cert, type:
    get-pop3-server-ssl-cert-fingerprint \\
       --server=bedhanger.strangled.net \\
       --port=443 \\
-      --format=sha1 \\
-      < /dev/null
+      --format=sha1
 
 [Depending on the originating IP address, the server's firewall
  might block the request]
@@ -76,6 +79,12 @@ do
          ;;
       --format=*)
          FORMAT=${OPTION_ARG}
+         ;;
+      --speak-ssl)
+         unset NO_SPEAK_SSL
+         ;;
+      --no-speak-ssl)
+         true
          ;;
       --help)
          HELP
@@ -105,16 +114,16 @@ then
 fi
 
 # Now get cert and extract fingerprint.
-exec \
-   ${OPENSSL} \
-      s_client \
-      -connect ${SERVER}:${PORT} \
-      -servername ${SERVER} \
-      -showcerts \
-   | \
-   ${OPENSSL} \
+eval "( ${OPENSSL} \
+     s_client \
+     -connect ${SERVER}:${PORT} \
+     -servername ${SERVER} \
+     -showcerts \
+  | \
+  ${OPENSSL} \
       x509 \
-      -text \
-      -noout \
-      ${FORMAT} \
-      -fingerprint \
+     -text \
+     -noout \
+     ${FORMAT} \
+     -fingerprint \
+) ${NO_SPEAK_SSL}"
