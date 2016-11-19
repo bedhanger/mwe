@@ -16,5 +16,5 @@ THEN=$(eval ${THEN})
 # echo "NOW is ${NOW}"
 # echo "THEN is ${THEN}"
 
-exec datediff ${NOW} ${THEN} \
+datediff ${NOW} ${THEN} \
    --format='%Y yrs, %m mths, %d days, %H hrs, %M mins, %S secs'

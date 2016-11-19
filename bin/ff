@@ -2,4 +2,4 @@
 
 # Finds files.  Augment as desired.
 
-exec find "${@:-.}" -type f -print
+find "${@:-.}" -type f -print

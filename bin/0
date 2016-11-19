@@ -2,4 +2,4 @@
 
 # Replace EOL with a NULL character.
 
-exec tr '\n' '\000'
+tr '\n' '\000'

@@ -18,5 +18,5 @@
 
 # All command line options will be passed to the push command.
 
-exec git remote | \
+git remote | \
    xargs --no-run-if-empty --max-lines=1 git push "${@}"

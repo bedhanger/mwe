@@ -6,4 +6,4 @@
 # that can be parsed more readily by other tools which expect
 # one item per line.
 
-exec tr '\000' '\n'
+tr '\000' '\n'
