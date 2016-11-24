@@ -41,7 +41,7 @@ if ! THAT=$(${THAT})
 then
 
    cat << EOM >&2
-Cannot normalise your upstream branch's name "
+Cannot normalise your upstream branch's name"
 EOM
    exit -4
 
