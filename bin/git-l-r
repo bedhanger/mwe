@@ -29,6 +29,22 @@ fi
 for This in ${Branches}
 do
 
+   This_Is_A_Local_Branch="git show-ref \
+      --quiet --verify -- "refs/heads/${This}""
+   # --quiet makes it superfluous to have the command
+   # substitution and the assignment (and we don't really need
+   # the value of This_Is_A_Local_Branch), but in the interest
+   # of uniformity with what follows, we stick to it.
+   if ! This_Is_A_Local_Branch=$(${This_Is_A_Local_Branch})
+   then
+
+      cat << EOM
+${Me}> ${This} is not a local branch
+EOM
+      continue
+
+   fi
+
    Remote="git config --get branch.${This}.remote"
    if ! Remote=$(${Remote})
    then
