@@ -36,7 +36,6 @@
         sb = show-branch
         pus = push
         chry = cherry --verbose
-        # l2r = log --left-right --oneline master...origin/master
         # Not part of the canon.  Needs script.
         l2r = l-r
         bd = branch --delete
