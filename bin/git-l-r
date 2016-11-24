@@ -69,7 +69,7 @@ eom
    then
 
       cat << eom >&2
-Cannot determine relationship between ${this_n_that}
+Cannot determine relationship for ${this_n_that}
 eom
       continue
 
