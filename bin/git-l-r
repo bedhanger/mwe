@@ -14,9 +14,9 @@ then
    if ! branches=$(${branches})
    then
 
-      cat << EOM >&2
+      cat << eom >&2
 Cannot determine the name of your local branch
-EOM
+eom
       # This is fatal.
       exit -1
 
@@ -30,9 +30,9 @@ do
    if ! remote=$(${remote})
    then
 
-      cat << EOM >&2
+      cat << eom >&2
 Cannot determine ${this}'s remote repository
-EOM
+eom
       continue
 
    fi
@@ -41,9 +41,9 @@ EOM
    if ! that=$(${that})
    then
 
-      cat << EOM >&2
+      cat << eom >&2
 Cannot determine the name of ${this}'s upstream branch
-EOM
+eom
       continue
 
    fi
@@ -52,9 +52,9 @@ EOM
    if ! that=$(${that})
    then
 
-      cat << EOM >&2
+      cat << eom >&2
 Cannot normalise upstream branch's name
-EOM
+eom
       continue
 
    fi
@@ -67,9 +67,9 @@ EOM
    if ! ${cmd}
    then
 
-      cat << EOM >&2
+      cat << eom >&2
 Cannot determine relationship between ${this_n_that}
-EOM
+eom
       continue
 
    fi
