@@ -6,83 +6,83 @@
 
 # Accepts branches as parameters, defaults to current one.
 
-branches="${@}"
+Branches="${@}"
 
-if [ -z "${branches}" ]
+if [ -z "${Branches}" ]
 then
 
-   branches="git symbolic-ref --short HEAD"
-   if ! branches=$(${branches})
+   Branches="git symbolic-ref --short HEAD"
+   if ! Branches=$(${Branches})
    then
 
-      cat << eom >&2
+      cat << Eom >&2
 Cannot determine the name of your local branch
-eom
+Eom
       # This is fatal.
       exit -1
 
    fi
 fi
 
-for this in ${branches}
+for This in ${Branches}
 do
 
-   remote="git config --get branch.${this}.remote"
-   if ! remote=$(${remote})
+   Remote="git config --get branch.${This}.remote"
+   if ! Remote=$(${Remote})
    then
 
-      cat << eom >&2
-Cannot determine remote for ${this} branch
-eom
+      cat << Eom >&2
+Cannot determine remote for ${This} branch
+Eom
       continue
 
    fi
 
-   url="git config --get remote.${remote}.url"
-   if ! url=$(${url})
+   Url="git config --get remote.${Remote}.url"
+   if ! Url=$(${Url})
    then
 
-      cat << eom >&2
-Cannot determine URL for ${remote}
-eom
+      cat << Eom >&2
+Cannot determine URL for ${Remote}
+Eom
       # Used for cosmetics only.  Carry on.
-      url="<could not be determined>"
+      Url="<could not be determined>"
 
    fi
 
-   that="git config --get branch.${this}.merge"
-   if ! that=$(${that})
+   That="git config --get branch.${This}.merge"
+   if ! That=$(${That})
    then
 
-      cat << eom >&2
-Cannot determine the name of upstream branch for ${this}
-eom
+      cat << Eom >&2
+Cannot determine the name of upstream branch for ${This}
+Eom
       continue
 
    fi
 
-   that="eval perl -pe 's|refs/heads/||;' <<< ${that}"
-   if ! that=$(${that})
+   That="eval perl -pe 's|refs/heads/||;' <<< ${That}"
+   if ! That=$(${That})
    then
 
-      cat << eom >&2
+      cat << Eom >&2
 Cannot normalise name of upstream branch
-eom
+Eom
       continue
 
    fi
 
    # A sloppy name for what's known as the symmetric difference.
-   this_n_that="${this}...${remote}/${that}"
-   echo "${this_n_that} (from ${url})"
+   This_N_That="${This}...${Remote}/${That}"
+   echo "${This_N_That} (from ${Url})"
 
-   cmd="git log --left-right --oneline ${this_n_that}"
-   if ! ${cmd}
+   Cmd="git log --left-right --oneline ${This_N_That}"
+   if ! ${Cmd}
    then
 
-      cat << eom >&2
-Cannot determine relationship for ${this_n_that}
-eom
+      cat << Eom >&2
+Cannot determine relationship for ${This_N_That}
+Eom
       continue
 
    fi
