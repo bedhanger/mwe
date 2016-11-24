@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 # A Git porcelain command to determine the left-right
-# relationship between a branch and its upstream.
+# relationship in terms of which commits are where between a
+# branch and its upstream.
 
 # Accepts branches as parameters, defaults to current one.
 
