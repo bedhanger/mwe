@@ -59,6 +59,7 @@ EOM
 
    fi
 
+   # A sloppy name for what's known as the symmetric difference.
    THIS_N_THAT="${THIS}...${REMOTE}/${THAT}"
    echo ${THIS_N_THAT}
 
