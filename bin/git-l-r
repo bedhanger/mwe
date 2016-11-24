@@ -3,16 +3,26 @@
 # A Git porcelain command to determine the left-right
 # relationship between a branch and its upstream.
 
-THIS="git symbolic-ref --short HEAD"
-if ! THIS=$(${THIS})
+BRANCHES="${@}"
+
+if [ -z "${BRANCHES}" ]
 then
 
-   cat << EOM >&2
+   BRANCHES="git symbolic-ref --short HEAD"
+   if ! BRANCHES=$(${BRANCHES})
+   then
+
+      cat << EOM >&2
 Cannot determine the name of your local branch"
 EOM
-   exit -1
+      exit -1
+
+   fi
 
 fi
+
+for THIS in ${BRANCHES}
+do
 
 REMOTE="git config --get branch.${THIS}.remote"
 if ! REMOTE=$(${REMOTE})
@@ -21,7 +31,7 @@ then
    cat << EOM >&2
 Cannot find ${THIS}'s remote repository"
 EOM
-   exit -2
+   continue
 
 fi
 
@@ -32,7 +42,7 @@ then
    cat << EOM >&2
 Cannot determine the name of ${THIS}'s upstream branch"
 EOM
-   exit -3
+   continue
 
 fi
 
@@ -43,7 +53,7 @@ then
    cat << EOM >&2
 Cannot normalise your upstream branch's name"
 EOM
-   exit -4
+   continue
 
 fi
 
@@ -56,6 +66,8 @@ then
    cat << EOM >&2
 Cannot determine relationship between ${THIS_N_THAT}
 EOM
-   exit -5
+   continue
 
 fi
+
+done
