@@ -3,6 +3,8 @@
 # A Git porcelain command to determine the left-right
 # relationship between a branch and its upstream.
 
+# Accepts branches as parameters, defaults to current one.
+
 BRANCHES="${@}"
 
 if [ -z "${BRANCHES}" ]
@@ -24,50 +26,50 @@ fi
 for THIS in ${BRANCHES}
 do
 
-REMOTE="git config --get branch.${THIS}.remote"
-if ! REMOTE=$(${REMOTE})
-then
+   REMOTE="git config --get branch.${THIS}.remote"
+   if ! REMOTE=$(${REMOTE})
+   then
 
-   cat << EOM >&2
-Cannot find ${THIS}'s remote repository"
+      cat << EOM >&2
+   Cannot find ${THIS}'s remote repository"
 EOM
-   continue
+      continue
 
-fi
+   fi
 
-THAT="git config --get branch.${THIS}.merge"
-if ! THAT=$(${THAT})
-then
+   THAT="git config --get branch.${THIS}.merge"
+   if ! THAT=$(${THAT})
+   then
 
-   cat << EOM >&2
-Cannot determine the name of ${THIS}'s upstream branch"
+      cat << EOM >&2
+   Cannot determine the name of ${THIS}'s upstream branch"
 EOM
-   continue
+      continue
 
-fi
+   fi
 
-THAT="eval perl -pe 's|refs/heads/||;' <<< ${THAT}"
-if ! THAT=$(${THAT})
-then
+   THAT="eval perl -pe 's|refs/heads/||;' <<< ${THAT}"
+   if ! THAT=$(${THAT})
+   then
 
-   cat << EOM >&2
-Cannot normalise your upstream branch's name"
+      cat << EOM >&2
+   Cannot normalise your upstream branch's name"
 EOM
-   continue
+      continue
 
-fi
+   fi
 
-THIS_N_THAT="${THIS}...${REMOTE}/${THAT}"
+   THIS_N_THAT="${THIS}...${REMOTE}/${THAT}"
 
-CMD="git log --left-right --oneline ${THIS_N_THAT}"
-if ! ${CMD}
-then
+   CMD="git log --left-right --oneline ${THIS_N_THAT}"
+   if ! ${CMD}
+   then
 
-   cat << EOM >&2
-Cannot determine relationship between ${THIS_N_THAT}
+      cat << EOM >&2
+   Cannot determine relationship between ${THIS_N_THAT}
 EOM
-   continue
+      continue
 
-fi
+   fi
 
 done
