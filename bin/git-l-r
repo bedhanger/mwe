@@ -38,7 +38,7 @@ do
    if ! This_Is_A_Local_Branch=$(${This_Is_A_Local_Branch})
    then
 
-      cat << EOM
+      cat << EOM >&2
 ${Me}> '${This}' is not a local branch
 EOM
       continue
