@@ -4,8 +4,8 @@
 # relationship in terms of which commits are where between a
 # local branch and its upstream.
 
-# Accepts (local) branches as parameters, defaults to current
-# one.
+# Accepts (local) branches as parameters, defaults to the
+# current one.
 
 Me=$(basename ${0})
 
