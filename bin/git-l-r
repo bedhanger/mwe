@@ -39,7 +39,7 @@ do
    then
 
       cat << EOM
-${Me}> ${This} is not a local branch
+${Me}> '${This}' is not a local branch
 EOM
       continue
 
