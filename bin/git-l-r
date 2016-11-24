@@ -50,7 +50,7 @@ EOM
    then
 
       cat << EOM >&2
-${Me}> Cannot determine remote for ${This} branch
+${Me}> Cannot determine remote for '${This}' branch
 EOM
       continue
 
@@ -61,7 +61,7 @@ EOM
    then
 
       cat << EOM >&2
-${Me}> Cannot determine URL for ${Remote}
+${Me}> Cannot determine URL for '${Remote}'
 EOM
       # Used for cosmetics only.  Carry on.
       URL="<could not be determined>"
@@ -73,7 +73,7 @@ EOM
    then
 
       cat << EOM >&2
-${Me}> Cannot determine the name of upstream branch for ${This}
+${Me}> Cannot determine name of upstream branch for '${This}'
 EOM
       continue
 
@@ -99,7 +99,7 @@ EOM
    then
 
       cat << EOM >&2
-${Me}> Cannot determine relationship for ${This_N_That}
+${Me}> Cannot determine relationship for '${This_N_That}'
 EOM
       continue
 
