@@ -15,7 +15,7 @@ then
    then
 
       cat << EOM >&2
-Cannot determine the name of your local branch"
+Cannot determine the name of your local branch
 EOM
       # This is fatal.
       exit -1
@@ -31,7 +31,7 @@ do
    then
 
       cat << EOM >&2
-   Cannot determine ${THIS}'s remote repository"
+Cannot determine ${THIS}'s remote repository
 EOM
       continue
 
@@ -42,7 +42,7 @@ EOM
    then
 
       cat << EOM >&2
-   Cannot determine the name of ${THIS}'s upstream branch"
+Cannot determine the name of ${THIS}'s upstream branch
 EOM
       continue
 
@@ -53,7 +53,7 @@ EOM
    then
 
       cat << EOM >&2
-   Cannot normalise upstream branch's name"
+Cannot normalise upstream branch's name
 EOM
       continue
 
@@ -67,7 +67,7 @@ EOM
    then
 
       cat << EOM >&2
-   Cannot determine relationship between ${THIS_N_THAT}
+Cannot determine relationship between ${THIS_N_THAT}
 EOM
       continue
 
