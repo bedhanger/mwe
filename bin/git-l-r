@@ -19,7 +19,7 @@ if ! REMOTE=$(${REMOTE})
 then
 
    cat << EOM >&2
-Cannot find remote corresponding to this repository"
+Cannot find ${THIS}'s remote repository"
 EOM
    exit -2
 
@@ -30,7 +30,7 @@ if ! THAT=$(${THAT})
 then
 
    cat << EOM >&2
-Cannot determine the name of your upstream branch"
+Cannot determine the name of ${THIS}'s upstream branch"
 EOM
    exit -3
 
