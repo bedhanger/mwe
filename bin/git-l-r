@@ -60,6 +60,7 @@ EOM
    fi
 
    THIS_N_THAT="${THIS}...${REMOTE}/${THAT}"
+   echo ${THIS_N_THAT}
 
    CMD="git log --left-right --oneline ${THIS_N_THAT}"
    if ! ${CMD}
