@@ -38,6 +38,18 @@ eom
 
    fi
 
+   url="git config --get remote.${remote}.url"
+   if ! url=$(${url})
+   then
+
+      cat << eom >&2
+Cannot determine ${remote}'s URL
+eom
+      url="<could not be determined>"
+      # Used for cosmetics only.  Carry on.
+
+   fi
+
    that="git config --get branch.${this}.merge"
    if ! that=$(${that})
    then
@@ -62,7 +74,7 @@ eom
 
    # A sloppy name for what's known as the symmetric difference.
    this_n_that="${this}...${remote}/${that}"
-   echo ${this_n_that}
+   echo "${this_n_that} (from ${url})"
 
    cmd="git log --left-right --oneline ${this_n_that}"
    if ! ${cmd}
