@@ -6,8 +6,9 @@
 
 # Accepts branches as parameters, defaults to current one.
 
-Branches="${@}"
+Me=$(basename ${0})
 
+Branches="${@}"
 if [ -z "${Branches}" ]
 then
 
@@ -16,7 +17,7 @@ then
    then
 
       cat << Eom >&2
-Cannot determine the name of your local branch
+${Me}> Cannot determine the name of your local branch
 Eom
       # This is fatal.
       exit -1
@@ -32,7 +33,7 @@ do
    then
 
       cat << Eom >&2
-Cannot determine remote for ${This} branch
+${Me}> Cannot determine remote for ${This} branch
 Eom
       continue
 
@@ -43,7 +44,7 @@ Eom
    then
 
       cat << Eom >&2
-Cannot determine URL for ${Remote}
+${Me}> Cannot determine URL for ${Remote}
 Eom
       # Used for cosmetics only.  Carry on.
       Url="<could not be determined>"
@@ -55,7 +56,7 @@ Eom
    then
 
       cat << Eom >&2
-Cannot determine the name of upstream branch for ${This}
+${Me}> Cannot determine the name of upstream branch for ${This}
 Eom
       continue
 
@@ -66,7 +67,7 @@ Eom
    then
 
       cat << Eom >&2
-Cannot normalise name of upstream branch
+${Me}> Cannot normalise name of upstream branch
 Eom
       continue
 
@@ -81,7 +82,7 @@ Eom
    then
 
       cat << Eom >&2
-Cannot determine relationship for ${This_N_That}
+${Me}> Cannot determine relationship for ${This_N_That}
 Eom
       continue
 
