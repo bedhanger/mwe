@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# A Git porcelain command to determine the left-right
+# relationship between a branch and its upstream.
+
 THIS=$(git symbolic-ref --short HEAD)
 REMOTE=$(git config --get branch.${THIS}.remote)
 THAT=$(git config --get branch.${THIS}.merge)
