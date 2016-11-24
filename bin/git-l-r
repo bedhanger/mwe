@@ -16,9 +16,9 @@ then
    if ! Branches=$(${Branches})
    then
 
-      cat << Eom >&2
+      cat << EOM >&2
 ${Me}> Cannot determine the name of your local branch
-Eom
+EOM
       # This is fatal.
       exit -1
 
@@ -32,22 +32,22 @@ do
    if ! Remote=$(${Remote})
    then
 
-      cat << Eom >&2
+      cat << EOM >&2
 ${Me}> Cannot determine remote for ${This} branch
-Eom
+EOM
       continue
 
    fi
 
-   Url="git config --get remote.${Remote}.url"
-   if ! Url=$(${Url})
+   URL="git config --get remote.${Remote}.url"
+   if ! URL=$(${URL})
    then
 
-      cat << Eom >&2
+      cat << EOM >&2
 ${Me}> Cannot determine URL for ${Remote}
-Eom
+EOM
       # Used for cosmetics only.  Carry on.
-      Url="<could not be determined>"
+      URL="<could not be determined>"
 
    fi
 
@@ -55,9 +55,9 @@ Eom
    if ! That=$(${That})
    then
 
-      cat << Eom >&2
+      cat << EOM >&2
 ${Me}> Cannot determine the name of upstream branch for ${This}
-Eom
+EOM
       continue
 
    fi
@@ -66,24 +66,24 @@ Eom
    if ! That=$(${That})
    then
 
-      cat << Eom >&2
+      cat << EOM >&2
 ${Me}> Cannot normalise name of upstream branch
-Eom
+EOM
       continue
 
    fi
 
    # A sloppy name for what's known as the symmetric difference.
    This_N_That="${This}...${Remote}/${That}"
-   echo "${This_N_That} (from ${Url})"
+   echo "${This_N_That} (from ${URL})"
 
    Cmd="git log --left-right --oneline ${This_N_That}"
    if ! ${Cmd}
    then
 
-      cat << Eom >&2
+      cat << EOM >&2
 ${Me}> Cannot determine relationship for ${This_N_That}
-Eom
+EOM
       continue
 
    fi
