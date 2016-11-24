@@ -31,7 +31,7 @@ do
    then
 
       cat << EOM >&2
-   Cannot find ${THIS}'s remote repository"
+   Cannot determine ${THIS}'s remote repository"
 EOM
       continue
 
