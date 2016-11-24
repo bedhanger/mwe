@@ -17,10 +17,10 @@ then
       cat << EOM >&2
 Cannot determine the name of your local branch"
 EOM
+      # This is fatal.
       exit -1
 
    fi
-
 fi
 
 for THIS in ${BRANCHES}
@@ -53,7 +53,7 @@ EOM
    then
 
       cat << EOM >&2
-   Cannot normalise your upstream branch's name"
+   Cannot normalise upstream branch's name"
 EOM
       continue
 
