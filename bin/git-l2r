@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+THIS=$(git symbolic-ref --short HEAD)
+REMOTE=$(git config --get branch.${THIS}.remote)
+THAT=$(git config --get branch.${THIS}.merge)
+THAT=$(perl -pe 's|refs/heads/||;' <<< ${THAT})
+THIS_N_THAT="${THIS}...${REMOTE}/${THAT}"
+
+CMD="git log --left-right --oneline ${THIS_N_THAT}"
+
+if ! ${CMD}
+then
+
+   cat << EOM >&2
+Could not determine relationship between ${THIS_N_THAT}
+EOM
+   exit -1
+
+fi
