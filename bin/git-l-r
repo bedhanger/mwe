@@ -5,13 +5,13 @@
 
 # Accepts branches as parameters, defaults to current one.
 
-BRANCHES="${@}"
+branches="${@}"
 
-if [ -z "${BRANCHES}" ]
+if [ -z "${branches}" ]
 then
 
-   BRANCHES="git symbolic-ref --short HEAD"
-   if ! BRANCHES=$(${BRANCHES})
+   branches="git symbolic-ref --short HEAD"
+   if ! branches=$(${branches})
    then
 
       cat << EOM >&2
@@ -23,33 +23,33 @@ EOM
    fi
 fi
 
-for THIS in ${BRANCHES}
+for this in ${branches}
 do
 
-   REMOTE="git config --get branch.${THIS}.remote"
-   if ! REMOTE=$(${REMOTE})
+   remote="git config --get branch.${this}.remote"
+   if ! remote=$(${remote})
    then
 
       cat << EOM >&2
-Cannot determine ${THIS}'s remote repository
+Cannot determine ${this}'s remote repository
 EOM
       continue
 
    fi
 
-   THAT="git config --get branch.${THIS}.merge"
-   if ! THAT=$(${THAT})
+   that="git config --get branch.${this}.merge"
+   if ! that=$(${that})
    then
 
       cat << EOM >&2
-Cannot determine the name of ${THIS}'s upstream branch
+Cannot determine the name of ${this}'s upstream branch
 EOM
       continue
 
    fi
 
-   THAT="eval perl -pe 's|refs/heads/||;' <<< ${THAT}"
-   if ! THAT=$(${THAT})
+   that="eval perl -pe 's|refs/heads/||;' <<< ${that}"
+   if ! that=$(${that})
    then
 
       cat << EOM >&2
@@ -60,15 +60,15 @@ EOM
    fi
 
    # A sloppy name for what's known as the symmetric difference.
-   THIS_N_THAT="${THIS}...${REMOTE}/${THAT}"
-   echo ${THIS_N_THAT}
+   this_n_that="${this}...${remote}/${that}"
+   echo ${this_n_that}
 
-   CMD="git log --left-right --oneline ${THIS_N_THAT}"
-   if ! ${CMD}
+   cmd="git log --left-right --oneline ${this_n_that}"
+   if ! ${cmd}
    then
 
       cat << EOM >&2
-Cannot determine relationship between ${THIS_N_THAT}
+Cannot determine relationship between ${this_n_that}
 EOM
       continue
 
