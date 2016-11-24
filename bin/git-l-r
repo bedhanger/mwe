@@ -2,9 +2,10 @@
 
 # A Git porcelain command to determine the left-right
 # relationship in terms of which commits are where between a
-# branch and its upstream.
+# local branch and its upstream.
 
-# Accepts branches as parameters, defaults to current one.
+# Accepts (local) branches as parameters, defaults to current
+# one.
 
 Me=$(basename ${0})
 
