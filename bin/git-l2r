@@ -3,20 +3,59 @@
 # A Git porcelain command to determine the left-right
 # relationship between a branch and its upstream.
 
-THIS=$(git symbolic-ref --short HEAD)
-REMOTE=$(git config --get branch.${THIS}.remote)
-THAT=$(git config --get branch.${THIS}.merge)
-THAT=$(perl -pe 's|refs/heads/||;' <<< ${THAT})
+THIS="git symbolic-ref --short HEAD"
+if ! THIS=$(${THIS})
+then
+
+   cat << EOM >&2
+Cannot determine the name of your local branch"
+EOM
+   exit -1
+
+fi
+
+REMOTE="git config --get branch.${THIS}.remote"
+if ! REMOTE=$(${REMOTE})
+then
+
+   cat << EOM >&2
+Cannot find remote corresponding to this repository"
+EOM
+   exit -2
+
+fi
+
+THAT="git config --get branch.${THIS}.merge"
+if ! THAT=$(${THAT})
+then
+
+   cat << EOM >&2
+Cannot determine the name of your upstream branch"
+EOM
+   exit -3
+
+fi
+
+THAT="eval perl -pe 's|refs/heads/||;' <<< ${THAT}"
+if ! THAT=$(${THAT})
+then
+
+   cat << EOM >&2
+Cannot normalise your upstream branch's name "
+EOM
+   exit -4
+
+fi
+
 THIS_N_THAT="${THIS}...${REMOTE}/${THAT}"
 
 CMD="git log --left-right --oneline ${THIS_N_THAT}"
-
 if ! ${CMD}
 then
 
    cat << EOM >&2
-Could not determine relationship between ${THIS_N_THAT}
+Cannot determine relationship between ${THIS_N_THAT}
 EOM
-   exit -1
+   exit -5
 
 fi
