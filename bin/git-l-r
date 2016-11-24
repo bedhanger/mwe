@@ -45,8 +45,8 @@ eom
       cat << eom >&2
 Cannot determine ${remote}'s URL
 eom
-      url="<could not be determined>"
       # Used for cosmetics only.  Carry on.
+      url="<could not be determined>"
 
    fi
 
