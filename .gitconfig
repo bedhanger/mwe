@@ -37,7 +37,7 @@
         pus = push
         chry = cherry --verbose
         # Not part of the canon.  Needs script.
-        l2r = l-r
+        lr = left-right
         bd = branch --delete
 [merge]
         conflictStyle = diff3
