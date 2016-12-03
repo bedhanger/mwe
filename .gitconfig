@@ -35,7 +35,6 @@
         tprs = thread-push-remotes
         sb = show-branch
         pus = push
-        chry = cherry --verbose
         # Not part of the canon.  Needs script.
         lr = left-right
         bd = branch --delete
