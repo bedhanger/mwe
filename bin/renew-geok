@@ -1,0 +1,161 @@
+#!/usr/bin/env bash
+
+ME=$(basename ${0})
+
+# Renews an ipset which allows unsolicited incoming traffic.
+# It's GEOIP-based and the term ``geok'' is used to refer to
+# the good (i.e., OK) entries
+
+# The required data is obtained from
+
+ZONES="http://www.ipdeny.com/ipblocks/data/aggregated"
+
+if [ ${#} -eq 0 ]
+then
+
+   cat << EOM >&2
+${ME}> Please pass a list of top-level domains as arguments.
+${ME}> See ${ZONES}
+EOM
+   exit -1
+
+else
+
+   GEOKS="\
+      ${@} \
+   "
+fi
+
+# We employ a double buffer mechanism (A and B) so as to switch
+# between the new and the old lists with minimal delay.
+
+# Our working directory.
+
+TMP_DIR=$(mktemp --directory --suffix=.${ME})
+
+# echo "${ME}> Will work in ${TMP_DIR}"
+
+GEOK_IPSET_BASE_NAME="geok"
+GEOK_IPSET_NAME_SEP="-"
+
+GEOK_IPTABLES_RULE_NR=5
+
+STATUS_QUO="iptables --list --verbose --line-numbers"
+
+${STATUS_QUO}
+
+(
+
+cd ${TMP_DIR}
+
+# Create/figure out the name of the new and old sets.
+
+A=A && A="${GEOK_IPSET_BASE_NAME}${GEOK_IPSET_NAME_SEP}${A}"
+B=B && B="${GEOK_IPSET_BASE_NAME}${GEOK_IPSET_NAME_SEP}${B}"
+
+CREATE="ipset -quiet create"
+TYPE="hash:net"
+
+if $(${CREATE} ${A} ${TYPE})
+then
+
+   NEW_GEOK_IPSET=${A}
+   OLD_GEOK_IPSET=${B}
+
+elif $(${CREATE} ${B} ${TYPE})
+then
+
+   NEW_GEOK_IPSET=${B}
+   OLD_GEOK_IPSET=${A}
+
+else
+
+   cat << EOM >&2
+${ME}> Both the A and B versions of ${GEOK_IPSET_BASE_NAME}
+${ME}> exist...(or else cannot be created).
+${ME}> Fix this manually!
+EOM
+
+   exit -1
+
+fi
+
+# Populate the list.  Guard against duplicates and attempt to
+# undo the effect of sorting...
+
+sort --uniq < <(tr [:space:] \\n <<< ${GEOKS}) | shuf | \
+while read GEOK
+do
+
+   echo "${ME}> Will allow IPs from ${GEOK}..."
+
+   wget --quiet --output-document=${GEOK}.zone \
+      ${ZONES}/${GEOK}-aggregated.zone
+
+   IPS=0
+
+   for GEOK_IP in $(cat ${GEOK}.zone)
+   do
+
+      ipset add ${NEW_GEOK_IPSET} ${GEOK_IP}
+
+      let IPS++
+
+      if [ -t 1 ]
+      then
+
+         # On a terminal, print the counter's value.
+
+         printf "%u\r" ${IPS}
+
+      else
+
+         # Files, pipes, etc. see a reduced progress indication.
+
+         [ $((${IPS} % 1000)) -eq 0 ] && printf "."
+
+      fi
+
+   done
+
+   # The final counter value.
+
+   printf "#%u\n" ${IPS}
+
+done
+
+# Swap the lists in iptables.  This requires that the old list
+# be at a certain position in the table, namely
+# ${GEOK_IPTABLES_RULE_NR}.
+
+echo "${ME}> ${OLD_GEOK_IPSET} ---> ${NEW_GEOK_IPSET}"
+
+# The call to strace demonstrates that the double-buffer
+# mechanism is blindingly fast: the replacement takes about a
+# millisecond, about as much as it costs us to insert a single
+# IP into an ipset.
+
+# We also time-stamp this operation.
+
+strace -cw iptables --replace INPUT ${GEOK_IPTABLES_RULE_NR} \
+   --match set ! --match-set ${NEW_GEOK_IPSET} src \
+   --jump RJCTRST \
+   --match comment \
+   --comment "$(date +"%a %Y-%m-%dT%H:%M:%S")"
+
+# Destroy old list.
+
+ipset destroy ${OLD_GEOK_IPSET}
+
+# Save new sets and tables.
+
+ipset    save > /var/lib/ipset/rules-save
+iptables-save > /var/lib/iptables/rules-save
+
+)
+
+${STATUS_QUO}
+
+# Cleanup.
+
+rm -rf ${TMP_DIR}
