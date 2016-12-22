@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Run the argument to this script with all proxy settings
+# temporarily circumvented.
+
+( unset all_proxy ftp_proxy http_proxy https_proxy \
+  ALL_PROXY FTP_PROXY HTTP_PROXY HTTPS_PROXY && \
+  "${@}" )
