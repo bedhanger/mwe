@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Show firewall rules et al.
+
+iptables --list --verbose --line-numbers
