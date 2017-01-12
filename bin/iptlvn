@@ -2,4 +2,6 @@
 
 # Show firewall rules et al.
 
-iptables --list --verbose --line-numbers
+TERM=vt100 \
+   watch --no-title --differences \
+      iptables --list --verbose --line-numbers
