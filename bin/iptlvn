@@ -2,6 +2,17 @@
 
 # Show firewall rules et al.
 
-TERM=vt100 \
-   watch --no-title --differences \
-      iptables --list --verbose --line-numbers
+IPTLVN="iptables --list --verbose --line-numbers"
+
+if [ -t 1 ]
+then
+   # On a terminal, show live updates until CTRL-C is pressed.
+   WATCH="watch --no-title --differences"
+   TERM="vt100"
+else
+   # Produce a single snapshot only.  The easiest way to achieve
+   # this is to run 'iptlvn | cat'
+   :
+fi
+
+TERM=${TERM} ${WATCH} ${IPTLVN}
