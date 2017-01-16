@@ -103,15 +103,30 @@ EOM
    esac
 done
 
+# No leading blanks in action, looks funny w/ --verbose.
+action=$(perl -pe 's/^\s+//g;' <<< ${action})
+
 while true
 do
-   ${verbose} && echo "${me}> Running..." >&2
+
+   ${verbose} && cat << EOM
+${me}> Running/resuming '${action}' for '${duration}'...
+EOM
+
    timeout ${duration} ${action}
    if [ ${?} -ne ${timed_out} ]
    then
-      ${verbose} && echo "${me}> Finished!" >&2
+
+      ${verbose} && cat << EOM
+${me}> '${action}' finished.
+EOM
       break
+
    fi
-   ${verbose} && echo "${me}> Idling..." >&2
+
+   ${verbose} && cat << EOM
+${me}> Suspending '${action}' for '${retry_delay}'...
+EOM
    sleep ${retry_delay}
+
 done
