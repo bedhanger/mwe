@@ -34,15 +34,24 @@ Good examples:
 BAD example:
    piecemeal sleep for-a-very-long-time
 
+Boderline:
+   piecemeal make
+
 The first two examples are positive cases in point, they will
 eventually finish the download, making numerous stoppages and
 resumptions in between so as to either not overrun a
 time-related download quota or to gain form the initial large
 troughput of a freshly opened connection.
 
-The last example, unless the default duration is set higher than
+The BAD example, unless the default duration is set higher than
 the intended sleep time, will never finish, as a simple sleep
 has no notion of resuming.
+
+The borderline case is demonstrated by the make invocation:
+depending on how cleverly the Makefile was written, make may be
+able to determine where it left off last time.  However, a
+Makefile which does not get the dependencies right makes make
+act like sleep with respect to step-by-step completion.
 
 The following can be used to fine-tune the behaviour [default
 values are shown in brackets]:
