@@ -24,7 +24,7 @@ function help()
 Run action in increments to completion.
 
 The action must have some sort of means to detect when it is
-finished, for example, a download should *resume* at the
+finished; for example, a download should *resume* at the
 position where it was forced to stop earlier on.
 
 Good: piecemeal youtube-dl some-big-file
