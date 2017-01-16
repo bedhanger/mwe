@@ -113,11 +113,12 @@ ${me}> Running/resuming '${action}' for '${duration}'...
 EOM
 
    timeout ${duration} ${action}
-   if [ ${?} -ne ${timed_out} ]
+   ret_code=${?}
+   if [ ${ret_code} -ne ${timed_out} ]
    then
 
       ${verbose} && cat << EOM
-${me}> '${action}' finished.
+${me}> '${action}' terminated with return code ${ret_code}.
 EOM
       break
 
