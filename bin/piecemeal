@@ -2,11 +2,14 @@
 
 # Perform an action little-by-little
 
+# See help function or run with --help switch.
+
 me=$(basename ${0})
 
 timed_out=124 # The code for a timeout.
 duration=20s
 retry_delay=8s
+verbose=false
 
 function rhs()
 {
@@ -40,12 +43,16 @@ the intended sleep time, will never finish, as a simple sleep
 has no notion of resuming.
 
 The following can be used to fine-tune the behaviour [default
-shown in brackets]:
+values are shown in brackets]:
 
    --duration=...    the length of time of a single leg of the
                      action [${duration}]
+
    --retry-delay=... idle-time between successive legs of the
                      action [${retry_delay}]
+
+   --verbose         show (on stderr) the status of the action
+                     (running, pausing, finished) [${verbose}]
 
 EOM
 }
@@ -71,6 +78,11 @@ do
       shift
       ;;
 
+      --verbose)
+      verbose=true
+      shift
+      ;;
+
       --help)
       help
       exit 0
@@ -93,7 +105,13 @@ done
 
 while true
 do
+   ${verbose} && echo "${me}> Running..." >&2
    timeout ${duration} ${action}
-   [ ${?} -ne ${timed_out} ] && break
+   if [ ${?} -ne ${timed_out} ]
+   then
+      ${verbose} && echo "${me}> Finished!" >&2
+      break
+   fi
+   ${verbose} && echo "${me}> Idling..." >&2
    sleep ${retry_delay}
 done
