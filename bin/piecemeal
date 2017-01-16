@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+
+# Perform an action little-by-little
+
+me=$(basename ${0})
+
+timed_out=124 # The code for a timeout.
+duration=20s
+retry_delay=8s
+
+function rhs()
+{
+   cut --fields=2 --delimiter='=' <<< ${@}
+}
+
+function help()
+{
+   cat << EOM
+
+   ${me} [option...] action
+
+Run action in increments to completion.
+
+The action must have some sort of means to detect when it is
+finished, for example, a download should *resume* at the
+position where it was forced to stop earlier on.
+
+Good: piecemeal youtube-dl some-big-file
+Good: piecemeal wget --continue when-data-rate-degrades-over-time
+BAD:  piecemeal sleep for-a-very-long-time
+
+The first two examples are positive cases in point, they will
+eventually finish the download, making numerous stoppages and
+resumptions in between so as to either not overrun a
+time-related download quota or to gain form the initial large
+troughput of a freshly opened connection.
+
+The last example, unless the default duration is set higher than
+the intended sleep time, will never finish, as a simple sleep
+has no notion of resuming.
+
+The following can be used to fine-tune the behaviour [default
+shown in brackets]:
+
+   --duration=...    the length of time of a single leg of the
+                     action [${duration}]
+   --retry-delay=... idle-time between successive legs of the
+                     action [${retry_delay}]
+
+EOM
+}
+
+if [ ${#} -eq 0 ]
+then
+   help
+   exit 0
+fi
+
+for option in "${@}"
+do
+
+   case "${option}" in
+
+      --duration=*)
+      duration=$(rhs ${option})
+      shift
+      ;;
+
+      --retry-delay=*)
+      retry_delay=$(rhs ${option})
+      shift
+      ;;
+
+      --help)
+      help
+      exit 0
+      ;;
+
+      --*)
+      cat << EOM >&2
+Unknown option '${option}'.  Try '${me} --help'
+EOM
+      exit -1
+      ;;
+
+      *)
+      action="${action} ${option}"
+      shift
+      ;;
+
+   esac
+done
+
+while true
+do
+   timeout ${duration} ${action}
+   [ ${?} -ne ${timed_out} ] && break
+   sleep ${retry_delay}
+done
