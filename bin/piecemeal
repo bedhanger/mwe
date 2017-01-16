@@ -5,7 +5,6 @@
 # See help function or run with --help switch.
 
 me=$(basename ${0})
-
 timed_out=124 # The code for a timeout.
 duration=20s
 retry_delay=8s
