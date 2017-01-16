@@ -27,9 +27,12 @@ The action must have some sort of means to detect when it is
 finished; for example, a download should *resume* at the
 position where it was forced to stop earlier on.
 
-Good: piecemeal youtube-dl some-big-file
-Good: piecemeal wget --continue when-data-rate-degrades-over-time
-BAD:  piecemeal sleep for-a-very-long-time
+Good examples:
+   piecemeal youtube-dl some-big-file
+   piecemeal wget --continue when-data-rate-degrades-over-time
+
+BAD example:
+   piecemeal sleep for-a-very-long-time
 
 The first two examples are positive cases in point, they will
 eventually finish the download, making numerous stoppages and
