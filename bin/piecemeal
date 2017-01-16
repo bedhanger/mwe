@@ -104,6 +104,8 @@ done
 
 # No leading blanks in action, looks funny w/ --verbose.
 action=$(perl -pe 's/^\s+//g;' <<< ${action})
+# Likewise, no action at all.
+action=$(perl -pe 's/^$/false/g;' <<< ${action})
 
 while true
 do
