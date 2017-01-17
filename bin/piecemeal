@@ -9,6 +9,7 @@ timed_out=124 # The code for a timeout.
 duration=20s
 retry_delay=8s
 verbose=false
+leg_count=0
 
 function rhs()
 {
@@ -122,8 +123,10 @@ action=$(perl -pe 's/^$/false/g;' <<< ${action})
 while true
 do
 
+   ${verbose} && let leg_count++
+
    ${verbose} && cat << EOM
-${me}> Running/resuming '${action}' for '${duration}'...
+${me}#${leg_count}> Running/resuming '${action}' for '${duration}'...
 EOM
 
    timeout ${duration} ${action}
@@ -132,14 +135,14 @@ EOM
    then
 
       ${verbose} && cat << EOM
-${me}> '${action}' terminated with return code ${ret_code}.
+${me}#${leg_count}> '${action}' terminated with return code ${ret_code}.
 EOM
       break
 
    fi
 
    ${verbose} && cat << EOM
-${me}> Suspending '${action}' for '${retry_delay}'...
+${me}#${leg_count}> Suspending '${action}' for '${retry_delay}'...
 EOM
    sleep ${retry_delay}
 
