@@ -10,6 +10,9 @@ duration=20s
 retry_delay=8s
 verbose=false
 leg_count=0
+now=0
+zhen=0 # then's keyword...
+after=0
 
 function rhs()
 {
@@ -120,6 +123,8 @@ action=$(perl -pe 's/^\s+//g;' <<< ${action})
 # Likewise, no action at all.
 action=$(perl -pe 's/^$/false/g;' <<< ${action})
 
+${verbose} && now=$(iso-date)
+
 while true
 do
 
@@ -134,9 +139,14 @@ EOM
    if [ ${ret_code} -ne ${timed_out} ]
    then
 
-      ${verbose} && cat << EOM
-${me}#${leg_count}> '${action}' terminated with return code ${ret_code}.
+      if ${verbose}
+      then
+         zhen=$(iso-date)
+         after=$(datediff ${now} ${zhen})
+         cat << EOM
+${me}#${leg_count}> '${action}' terminated with return code ${ret_code} after ${after}.
 EOM
+      fi
       break
 
    fi
