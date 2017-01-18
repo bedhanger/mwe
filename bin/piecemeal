@@ -11,7 +11,7 @@ retry_delay=8s
 verbose=false
 leg_count=0
 now=0
-zhen=0 # then's keyword...
+zhen=0 # then's a keyword...
 after=0
 
 function rhs()
