@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Null xargs...
+
+xargs --null --no-run-if-empty "${@}"
