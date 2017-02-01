@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-# Run mtr with sensible options
-
-mtr --order="SDLNAV"  --interval=3 "${@}"
