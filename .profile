@@ -202,3 +202,5 @@ alias git=hub
 alias gti=hub
 
 alias -- -='cd -'
+
+MTR_OPTIONS="--order="SDLNAV"  --interval=3"
