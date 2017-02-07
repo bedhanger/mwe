@@ -203,4 +203,4 @@ alias gti=hub
 
 alias -- -='cd -'
 
-export MTR_OPTIONS="--order="SDLNAV"  --interval=3"
+export MTR_OPTIONS="--order="SDLNAV"  --interval=13"
