@@ -146,9 +146,9 @@ alias ns="nd. && gnome-open ."
 
 export PARINIT='rTbgqR B=.,?_A_a Q=_s>|'
 
-# export LANG='en_GB.UTF-8'
+export LANG='en_GB.UTF-8'
 
-# export LC_ALL='en_GB.UTF-8'
+export LC_ALL='en_GB.UTF-8'
 
 alias k=l
 
