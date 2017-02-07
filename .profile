@@ -47,8 +47,6 @@ export IGNOREEOF=1000
 
 export PATH=~/bin:${PATH}
 
-export PATH=/opt/android-sdk-update-manager/platform-tools:${PATH}
-
 # Now we can define this one.
 
 export EDITOR=vi
