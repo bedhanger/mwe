@@ -27,8 +27,6 @@ alias ..="cd .. && pwd && lt"
 
 # Primary prompt.
 
-# export PS1='([02;32m\h[00m [05;34m\![00m) [01;31m$[00m '
-
 export PS1='\h \! $ '
 
 # Secondary prompt.
