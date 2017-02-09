@@ -112,7 +112,9 @@ export EOL="($|\r|\r\n|\n|\n\r)"
 
 export eol=${EOL}
 
-source ~/IPv4.address
+# Rough approximation of an IPv4 address.
+
+export IPV4_ADDR='(?:\d{1,3}\.){3}\d{1,3}'
 
 export GREP_COLORS="ms=43;30:mc=43;30:sl=:cx=:fn=35:ln=32:bn=34:se=36"
 
