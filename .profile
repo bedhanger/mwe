@@ -181,16 +181,7 @@ export HISTCONTROL="ignorespace:ignoredups:erasedups"
 
 export GPG_TTY=$(tty)
 
-export ALL_PROXY=socks://localhost:3128/
-export FTP_PROXY=http://localhost:3128/
-export HTTPS_PROXY=http://localhost:3128/
-export HTTP_PROXY=http://localhost:3128/
-export NO_PROXY=localhost,127.0.0.0/8,::1
-export all_proxy=socks://localhost:3128/
-export ftp_proxy=http://localhost:3128/
-export http_proxy=http://localhost:3128/
-export https_proxy=http://localhost:3128/
-export no_proxy=localhost,127.0.0.0/8,::1
+source proxy-settings
 
 alias git=hub
 alias gti=hub
