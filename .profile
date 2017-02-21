@@ -181,7 +181,7 @@ export HISTCONTROL="ignorespace:ignoredups:erasedups"
 
 export GPG_TTY=$(tty)
 
-source proxy-settings
+source ${HOME}/proxy-settings
 
 alias git=hub
 alias gti=hub
