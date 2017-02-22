@@ -1,10 +1,8 @@
-export ALL_PROXY=socks5://localhost:3128/
 export FTP_PROXY=http://localhost:3128/
 export HTTPS_PROXY=http://localhost:3128/
 export HTTP_PROXY=http://localhost:3128/
 export NO_PROXY=localhost,127.0.0.0/8,::1
 
-export all_proxy=${ALL_PROXY}
 export ftp_proxy=${FTP_PROXY}
 export http_proxy=${HTTP_PROXY}
 export https_proxy=${HTTPS_PROXY}
