@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Uses the WordNet lexical database to display the senses of the
+# words specified on the command line.
+
+for WORD in "${@}"
+do
+
+   wn "${WORD}" -over
+
+done
