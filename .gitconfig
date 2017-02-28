@@ -25,6 +25,7 @@
         co = checkout
         co3 = checkout --conflict=diff3 --
         b = branch
+        l1 = log --oneline
         l = log --graph --all --decorate=short --oneline \
            --format=\"%C(blue)%h%C(reset) %C(green)%ad%C(reset) %C(yellow)%an%C(reset) %C(cyan)%ar%C(reset) %C(red)%s%C(reset) %C(bold magenta)%d%C(reset)\"
         wi = diff --check
