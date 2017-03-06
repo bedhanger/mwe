@@ -65,6 +65,6 @@ Control-B: " bind -f ~/.inputrc\C-m"
 
 Control-R: " rlffts\C-m"
 
-# Git-ify current directory.
+# Gitify current directory.
 
 Control-G: ' gitify\C-m'
