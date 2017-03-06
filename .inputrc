@@ -67,4 +67,4 @@ Control-R: " rlffts\C-m"
 
 # Git-ify current directory.
 
-Control-G: ' test -d .git || ( test -w . && git init && git add . && git commit --allow-empty -m"Track $(realpath .)" )\C-m'
+Control-G: ' gittify\C-m'
