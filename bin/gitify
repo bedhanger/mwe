@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+# Attempt to make a dir a Git repository
+
+ME=$(basename ${0})
+
+A_DIR=${1:-.}
+
+if ! cd 2> /dev/null ${A_DIR}
+then
+
+   echo "${ME}> Cannot access \"${A_DIR}\""
+   exit -1
+
+fi
+
+if [ -d .git ]
+then
+
+   echo "${ME}> \"${A_DIR}\" is already a Git repository, ;-)"
+   exit 0
+
+fi
+
+if [ -w . ]
+then
+
+   git init && \
+   git add . && \
+   git commit --allow-empty -m"Track $(realpath .)"
+
+else
+
+   echo "${ME}> No write permission in \"${A_DIR}\""
+   exit -2
+
+fi

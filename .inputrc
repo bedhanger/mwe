@@ -67,4 +67,4 @@ Control-R: " rlffts\C-m"
 
 # Git-ify current directory.
 
-Control-G: ' gittify\C-m'
+Control-G: ' gitify\C-m'
