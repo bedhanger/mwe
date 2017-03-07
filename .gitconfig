@@ -39,6 +39,7 @@
         # Not part of the canon.  Needs script.
         lr = left-right
         bd = branch --delete
+        ff = ls-files
 [merge]
         conflictStyle = diff3
 [hub]
