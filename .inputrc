@@ -51,7 +51,10 @@ Control-L: "\e\C-la"
 
 Control-W: "\ek\C-m"
 
-Control-O: " cat /proc/sys/kernel/random/entropy_avail\C-m"
+# In a Git repository, it can be faster to get the list of files to
+# search thru by using the ls-files command (for which we've
+# made ff an alias) than to invoke good ol' find.
+Control-O: "git ff -z | xargs --max-procs=3 --null --no-run-if-empty grep --perl-regexp --color=auto --with-filename --ignore-case --line-number --byte-offset --unix-byte-offsets "
 
 Control-T: "diff --ignore-file-name-case --ignore-tab-expansion --ignore-blank-lines --ignore-all-space --ignore-case --ignore-space-change --recursive --strip-trailing-cr --exclude=.svn --exclude=.git --unified "
 
