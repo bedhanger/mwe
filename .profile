@@ -128,7 +128,7 @@ export MULTIPLICATES="(\b\w+\b)(\s+\b\1\b)+"
 alias nd="source $(which nd)"
 alias nd.="ND_ROOT=. nd"
 
-alias ng="nd && git init"
+alias ng="nd && gitify"
 
 alias rd="source $(which rd)"
 alias rd.="ND=. rd"
