@@ -18,6 +18,7 @@ if [ -d .git ]
 then
 
    echo "${ME}> \"${A_DIR}\" is already a Git repository, ;-)"
+   echo "${ME}> run \`\`git init'' to re-initialise it..."
    exit 0
 
 fi
