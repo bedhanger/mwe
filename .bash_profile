@@ -1,4 +1,4 @@
-[ -f ~/.bashrc ] && source ~/.bashrc
+[ -f ${HOME}/.bashrc ] && source ${HOME}/.bashrc
 
 SSH_ENV="${HOME}/.ssh/environment"
 
@@ -12,7 +12,7 @@ function start_ssh_agent {
 
    source "${SSH_ENV}" > /dev/null
 
-   ssh-add ~/.ssh/{bra_id_ecdsa,ket_id_rsa,rsjlaa_id_ecdsa}
+   ssh-add ${HOME}/.ssh/{bra_id_ecdsa,ket_id_rsa,rsjlaa_id_ecdsa}
 
 }
 
@@ -76,11 +76,11 @@ function wcd()
 
 }
 
-# [ -f ~/git-completion.bash ] && source ~/git-completion.bash
-# if [ -f ~/git-prompt.sh ]
+# [ -f ${HOME}/git-completion.bash ] && source ${HOME}/git-completion.bash
+# if [ -f ${HOME}/git-prompt.sh ]
 # then
 #
-#    source ~/git-prompt.sh
+#    source ${HOME}/git-prompt.sh
 #    export GIT_PS1_SHOWDIRTYSTATE=1
 #    export PS1='$(__git_ps1 "(%s)") \$ '
 #
