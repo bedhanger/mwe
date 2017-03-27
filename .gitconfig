@@ -40,7 +40,10 @@
         lr = left-right
         bd = branch --delete
         ff = ls-files
+        patches = format-patch
 [merge]
         conflictStyle = diff3
 [hub]
         protocol = https
+[format]
+        signoff = true
