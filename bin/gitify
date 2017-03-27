@@ -28,7 +28,7 @@ then
 
    git init && \
    git add . && \
-   git commit --allow-empty -m"Track $(realpath .)"
+   git commit --signoff --allow-empty -m"Track $(realpath .)"
 
 else
 
