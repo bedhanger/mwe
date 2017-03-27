@@ -21,7 +21,7 @@
         st = status --short --branch
         unstage = reset HEAD --
         unedit = checkout --
-        ci = commit
+        ci = commit --signoff
         co = checkout
         co3 = checkout --conflict=diff3 --
         b = branch
