@@ -47,3 +47,5 @@
         protocol = https
 [format]
         signoff = true
+[pretty]
+        ref = %h (\"%s\", %ad)
