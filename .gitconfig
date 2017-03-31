@@ -41,11 +41,15 @@
         bd = branch --delete
         ff = ls-files
         patches = format-patch
+        # Remote Procedure Call?  No, this relates to
+        # referencing (a) previous commit(s).  The Git patch
+        # submission guidelines suggest leaving off the %n (aka
+        # \n), though.  But referencing more than one makes the
+        # result look ugly.
+        rpc = show --no-patch --date=short --pretty='format:%h (\"%s\", %ad)%n'
 [merge]
         conflictStyle = diff3
 [hub]
         protocol = https
 [format]
         signoff = true
-[pretty]
-        ref = %h (\"%s\", %ad)
