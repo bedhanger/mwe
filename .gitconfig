@@ -49,6 +49,7 @@
         rpc = show --no-patch --date=short --pretty='format:%h (\"%s\", %ad)%n'
 [merge]
         conflictStyle = diff3
+        log = true
 [hub]
         protocol = https
 [format]
