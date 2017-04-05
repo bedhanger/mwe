@@ -50,6 +50,7 @@
 [merge]
         conflictStyle = diff3
         log = true
+        ff = false
 [hub]
         protocol = https
 [format]
