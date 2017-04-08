@@ -24,7 +24,7 @@ do
       ${BUPTH} save  --name=${BS}               ${FS}
 
    else
-      echo "\"${FS}\" is not accessible, skipping."
+      echo "\"${FS}\" is not accessible, skipping..."
    fi
 
 done
