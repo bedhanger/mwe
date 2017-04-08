@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Perform backupth
+
+BUPTH="eval BUP_DIR=/mnt/data/tmp/bupz/ bup "
+
+${BUPTH} index --update --one-file-system /etc/ /var/lib/ /mnt/data/Gits
+
+${BUPTH} save --name=etc     /etc/
+${BUPTH} save --name=var-lib /var/lib/
+${BUPTH} save --name=Gits    /mnt/data/Gits
