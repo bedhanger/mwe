@@ -51,6 +51,8 @@
         conflictStyle = diff3
         log = true
         ff = false
+[pull]
+        ff = true
 [hub]
         protocol = https
 [format]
