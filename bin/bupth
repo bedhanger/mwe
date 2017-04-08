@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# Perform backupth
+
+BUPTH="eval BUP_DIR=/mnt/data/tmp/bupz/ bup "
+
+MAP_DELIMITER=:
+FS2BS_MAP="
+   /etc/${MAP_DELIMITER}etc
+   /var/lib/${MAP_DELIMITER}var-lib
+   /mnt/data/Gits/${MAP_DELIMITER}Gits
+"
+
+for FS2BS in ${FS2BS_MAP}
+do
+
+   FS=$(cut --fields=1 --delimiter=${MAP_DELIMITER} <<< ${FS2BS})
+   BS=$(cut --fields=2 --delimiter=${MAP_DELIMITER} <<< ${FS2BS})
+
+   if [ -d ${FS} ]
+   then
+
+      ${BUPTH} index --update --one-file-system ${FS}
+      ${BUPTH} save  --name=${BS}               ${FS}
+
+   else
+      echo "\"${FS}\" is not accessible, skipping..."
+   fi
+
+done
