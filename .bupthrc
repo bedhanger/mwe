@@ -1,0 +1,10 @@
+# vim:filetype=sh
+
+BUPTH="eval BUP_DIR=/mnt/data/tmp/bupz/ bup "
+
+MAP_DELIMITER=:
+FS2BS_MAP="
+   /etc/${MAP_DELIMITER}etc
+   /var/lib/${MAP_DELIMITER}var-lib
+   /mnt/data/Gits/${MAP_DELIMITER}Gits
+"
