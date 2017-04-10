@@ -39,3 +39,7 @@ Remarks
 If your <code>PATH</code> settings don't contain
 <code>~/bin</code> yet, remember to either arrange for it
 manually, or simply open another login shell.
+
+It is recommended to link as many items from the location of the
+repository clone into your <code>home</code> directory.  This is
+especially true of all the rc-files.
