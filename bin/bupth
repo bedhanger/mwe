@@ -2,9 +2,11 @@
 
 # Perform backupth
 
+ME=$(basename ${0})
+
 if [ ${UID} != 0 ]
 then
-   echo "Must be root..." >&2
+   echo "${ME}> must be root..." >&2
    exit -1
 fi
 
@@ -19,12 +21,12 @@ do
    if [ -d ${FS} ]
    then
 
-      echo "Backing up \"${FS}\"..."
+      echo "${ME}> backing up \"${FS}\"..."
       ${BUPTH} index --update --one-file-system ${FS}
       ${BUPTH} save  --name=${BS}               ${FS}
 
    else
-      echo "\"${FS}\" is not accessible, skipping..."
+      echo "${ME}> \"${FS}\" is not accessible, skipping..."
    fi
 
 done
