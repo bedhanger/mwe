@@ -19,6 +19,7 @@ do
    if [ -d ${FS} ]
    then
 
+      echo "Backing up \"${FS}\"..."
       ${BUPTH} index --update --one-file-system ${FS}
       ${BUPTH} save  --name=${BS}               ${FS}
 
