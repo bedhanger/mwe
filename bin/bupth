@@ -2,31 +2,31 @@
 
 # Perform backupth
 
-ME=$(basename ${0})
+me=$(basename ${0})
 
 if [ ${UID} != 0 ]
 then
-   echo "${ME}> must be root..." >&2
+   echo "${me}> must be root..." >&2
    exit -1
 fi
 
 source ${HOME}/.bupthrc
 
-for FS2BS in ${FS2BS_MAP}
+for fs2bs in ${fs2bs_map}
 do
 
-   FS=$(cut --fields=1 --delimiter=${MAP_DELIMITER} <<< ${FS2BS})
-   BS=$(cut --fields=2 --delimiter=${MAP_DELIMITER} <<< ${FS2BS})
+   fs=$(cut --fields=1 --delimiter=${map_delimiter} <<< ${fs2bs})
+   bs=$(cut --fields=2 --delimiter=${map_delimiter} <<< ${fs2bs})
 
-   if [ -d ${FS} ]
+   if [ -d ${fs} ]
    then
 
-      echo "${ME}> backing up \"${FS}\"..."
-      ${BUPTH} index --update --one-file-system ${FS}
-      ${BUPTH} save  --name=${BS}               ${FS}
+      echo "${me}> backing up \"${fs}\"..."
+      ${bupth} index --update --one-file-system ${fs}
+      ${bupth} save  --name=${bs}               ${fs}
 
    else
-      echo "${ME}> \"${FS}\" is not accessible, skipping..."
+      echo "${me}> \"${fs}\" is not accessible, skipping..."
    fi
 
 done

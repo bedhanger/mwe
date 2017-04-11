@@ -1,10 +1,10 @@
 # vim:filetype=sh
 
-BUPTH="eval BUP_DIR=/mnt/data/tmp/bupz/ bup "
+bupth="eval BUP_DIR=/mnt/data/tmp/bupz/ bup "
 
-MAP_DELIMITER=:
-FS2BS_MAP="
-   /etc/${MAP_DELIMITER}etc
-   /var/lib/${MAP_DELIMITER}var-lib
-   /mnt/data/Gits/${MAP_DELIMITER}Gits
+map_delimiter=:
+fs2bs_map="
+   /etc/${map_delimiter}etc
+   /var/lib/${map_delimiter}var-lib
+   /mnt/data/Gits/${map_delimiter}Gits
 "
