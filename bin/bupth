@@ -10,7 +10,50 @@ then
    exit -1
 fi
 
-source ${HOME}/.bupthrc
+bupthrc=${HOME}/.bupthrc
+dry_run=false
+
+function rhs()
+{
+   cut --fields=2 --delimiter='=' <<< ${@}
+}
+
+function usage()
+{
+   msg=${1}
+   cat << EOM >&2
+${1}
+
+Usage is: ${me} [option]
+   where option is
+      --bupthrc to specify an alternate control file [${bupthrc}]
+      --dry-run to do everything except writing to storage
+EOM
+}
+
+for option in "${@}"
+do
+   case "${option}" in
+      --bupthrc=*)
+         bupthrc=$(rhs ${option})
+         ;;
+      --dry-run)
+         dry_run=true
+         ;;
+      *)
+         usage "${me}> unknown option"
+         exit -2
+         ;;
+   esac
+done
+
+if [ -e ${bupthrc} ]
+then
+   source ${bupthrc}
+else
+   usage "${me}> cannot find control file ${bupthrc}"
+   exit -3
+fi
 
 for fs2bs in ${fs2bs_map}
 do
@@ -22,8 +65,8 @@ do
    then
 
       echo "${me}> backing up \"${fs}\"..."
-      ${bupth} index --update --one-file-system ${fs}
-      ${bupth} save  --name=${bs}               ${fs}
+      ${dry_run} || ${bupth} index --update --one-file-system ${fs}
+      ${dry_run} || ${bupth} save  --name=${bs}               ${fs}
 
    else
       echo "${me}> \"${fs}\" is not accessible, skipping..."
