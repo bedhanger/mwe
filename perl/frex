@@ -1,0 +1,140 @@
+#!/usr/bin/env perl
+
+# Prints the frequencies of those CPUs running faster than the
+# minimum frequency, followed by the temperature readings of the
+# CPUs and the motherboard.  Depends on the presence of a /proc
+# filesystem, and the availability of the lm sensors tools.
+
+use strict;
+use warnings;
+use English;
+
+my $CPU_Info = qq{/proc/cpuinfo};
+my $Sensors  = qq{sensors |};
+
+# It helps to look at the content and output of $CPU_Info and
+# $Sensors, respectively.
+
+open CPU_INFO, "<", $CPU_Info or
+   die "No CPU info found: ${OS_ERROR}";
+
+my @CPU_DATA;
+my $LHS_Trailer = qr/\s+:\s/oix;
+my $Min_Freq;
+
+if (open CPU_MIN_FREQ, "<",
+   # Assuming that CPU0 is always present, ;-)
+   "/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq")
+{
+
+   $Min_Freq = <CPU_MIN_FREQ>;
+   chomp($Min_Freq);
+   close CPU_MIN_FREQ;
+
+}
+else
+{
+
+   warn <<EOM;
+Could not determine minimum CPU freq: assuming 0 MHz.
+EOM
+   $Min_Freq = 0;
+
+}
+
+# Normalise to MHz.
+$Min_Freq = $Min_Freq / 1000;
+
+my $How_Many_CPUs = undef;
+
+PROCESSOR : while (defined(my $Line = <CPU_INFO>))
+{
+
+   next PROCESSOR unless ($Line =~ m/^processor$LHS_Trailer/oix);
+   push @CPU_DATA, $Line;
+   $How_Many_CPUs++;
+
+   MODEL_NAME : while (defined($Line = <CPU_INFO>))
+   {
+
+      next MODEL_NAME unless ($Line =~ m/^model\sname$LHS_Trailer/oix);
+      push @CPU_DATA, $Line;
+
+      CPU_MHZ : while (defined($Line = <CPU_INFO>))
+      {
+
+         next CPU_MHZ unless ($Line =~ m/^cpu\smhz$LHS_Trailer(\d+)/oix);
+         if ($1 !~ m/$Min_Freq/)
+         {
+
+            push @CPU_DATA, $Line;
+
+         }
+         else
+         {
+
+            # Not interested in CPUs running at lowest possible
+            # frequency.  Throw away their data.
+            pop @CPU_DATA;
+            pop @CPU_DATA;
+
+         }
+
+         next PROCESSOR;
+
+      }
+
+   }
+
+}
+
+close CPU_INFO;
+
+my $Faster_CPUs = scalar(@CPU_DATA) / 3;
+
+print <<EOM;
+#CPUs running faster than $Min_Freq MHz: $Faster_CPUs out of $How_Many_CPUs
+EOM
+
+foreach my $Info_Item (@CPU_DATA)
+{
+
+   print $Info_Item;
+
+}
+
+# Temperatures...
+
+open SENSORS, $Sensors or
+   die "No temperature reading possible: ${OS_ERROR}";
+
+while (defined(my $Line = <SENSORS>))
+{
+
+   print $Line if ($Line =~ m/
+
+      ^
+
+      (?:
+
+         CPU
+
+         |
+
+         MB
+
+      )
+
+      \s
+
+      Temperature
+
+      :
+
+      \s+
+
+   /oix);
+
+}
+
+close SENSORS;
