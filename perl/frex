@@ -1,9 +1,10 @@
 #!/usr/bin/env perl
 
-# Prints the frequencies of those CPUs running faster than the
-# minimum frequency, followed by the temperature readings of the
-# CPUs and the motherboard.  Depends on the presence of a /proc
-# filesystem, and the availability of the lm sensors tools.
+# Prints the frequencies and related information of those CPUs
+# running faster than the minimum frequency, followed by the
+# temperature readings of the CPUs and the motherboard.  Depends
+# on the presence of a /proc filesystem, and the availability of
+# the lm sensors tools.
 
 use strict;
 use warnings;
@@ -45,13 +46,25 @@ EOM
 # Normalise to MHz.
 $Min_Freq = $Min_Freq / 1000;
 
-my $How_Many_CPUs = undef;
+my $How_Many_CPUs = 0;
 
 PROCESSOR : while (defined(my $Line = <CPU_INFO>))
 {
 
    next PROCESSOR unless ($Line =~ m/^processor$LHS_Trailer/oix);
    push @CPU_DATA, $Line;
+
+   my $scaling_governor = undef;
+   do {
+      open scaling_governor_fd, "<",
+         "/sys/devices/system/cpu/cpu$How_Many_CPUs/cpufreq/scaling_governor";
+      $scaling_governor = <scaling_governor_fd>;
+      close scaling_governor_fd;
+      $scaling_governor = "frex governor   : " . $scaling_governor;
+   } or warn <<EOM;
+Could not determine this CPU's scaling governor
+EOM
+
    $How_Many_CPUs++;
 
    MODEL_NAME : while (defined($Line = <CPU_INFO>))
@@ -68,6 +81,7 @@ PROCESSOR : while (defined(my $Line = <CPU_INFO>))
          {
 
             push @CPU_DATA, $Line;
+            push @CPU_DATA, $scaling_governor;
 
          }
          else
@@ -90,7 +104,7 @@ PROCESSOR : while (defined(my $Line = <CPU_INFO>))
 
 close CPU_INFO;
 
-my $Faster_CPUs = scalar(@CPU_DATA) / 3;
+my $Faster_CPUs = scalar(@CPU_DATA) / 4;
 
 print <<EOM;
 #CPUs running faster than $Min_Freq MHz: $Faster_CPUs out of $How_Many_CPUs
