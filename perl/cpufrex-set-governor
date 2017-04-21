@@ -36,6 +36,7 @@ open all_cpus_fd, $conduit2allcpus or die <<EOM;
 Cannot establish a conduit to all CPUs: ${OS_ERROR}
 EOM
 
+no warnings 'experimental::smartmatch';
 if ($the_new_govenor ~~ @available_govenors)
 {
    print "Setting '$the_new_govenor' as the new governor\n";
