@@ -23,8 +23,13 @@ foreach my $available_govenor (split ' ', <available_govenors_fd>)
 close available_govenors_fd;
 
 die <<EOM if (scalar @ARGV == 0);
-Please choose a governor from the list:
+Please choose a governor from the list of currently available
+ones:
+
 \t@available_govenors
+
+Note that governors compiled as kernel modules will only appear
+in the list once they have been loaded.
 EOM
 
 my $the_new_govenor = $ARGV[0];
@@ -45,7 +50,8 @@ Cannot set '$the_new_govenor' as the new governor
 EOM
 } else {
    warn <<EOM;
-$the_new_govenor is not available, skipping
+'$the_new_govenor' is not currently available, skipping
+Try loading the corresponding kernel module.
 EOM
 }
 close all_cpus_fd;
