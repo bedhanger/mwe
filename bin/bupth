@@ -65,8 +65,8 @@ do
    then
 
       echo "${me}> backing up \"${fs}\"..."
-      ${dry_run} || ${bupth} index --update --one-file-system ${fs}
-      ${dry_run} || ${bupth} save  --name=${bs}               ${fs}
+      ${dry_run} || ${bupth} index --update --one-file-system ${fs} 2>&1
+      ${dry_run} || ${bupth} save  --name=${bs}               ${fs} 2>&1
 
    else
       echo "${me}> \"${fs}\" is not accessible, skipping..."
