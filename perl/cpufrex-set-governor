@@ -10,29 +10,29 @@ die <<EOM unless ($UID == 0);
 Must be root
 EOM
 
-open available_govenors_fd, "<",
+open available_governors_fd, "<",
    "/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors" or die <<EOM;
 Failed to read list of available governors: ${OS_ERROR}
 EOM
 
-my @available_govenors;
-foreach my $available_govenor (split ' ', <available_govenors_fd>)
+my @available_governors;
+foreach my $available_governor (split ' ', <available_governors_fd>)
 {
-   push @available_govenors, $available_govenor;
+   push @available_governors, $available_governor;
 }
-close available_govenors_fd;
+close available_governors_fd;
 
 die <<EOM if (scalar @ARGV == 0);
 Please choose a governor from the list of currently available
 ones:
 
-\t@available_govenors
+\t@available_governors
 
 Note that governors compiled as kernel modules will only appear
 in the list once they have been loaded.
 EOM
 
-my $the_new_govenor = $ARGV[0];
+my $the_new_governor = $ARGV[0];
 my $conduit2allcpus = qq{| \
    tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor \\
    1> /dev/null # not interested in stdout, just the files};
@@ -42,15 +42,15 @@ Cannot establish a conduit to all CPUs: ${OS_ERROR}
 EOM
 
 no warnings 'experimental::smartmatch';
-if ($the_new_govenor ~~ @available_govenors)
+if ($the_new_governor ~~ @available_governors)
 {
-   print "Setting '$the_new_govenor' as the new governor\n";
-   print all_cpus_fd "$the_new_govenor\n" or die <<EOM
-Cannot set '$the_new_govenor' as the new governor
+   print "Setting '$the_new_governor' as the new governor\n";
+   print all_cpus_fd "$the_new_governor\n" or die <<EOM
+Cannot set '$the_new_governor' as the new governor
 EOM
 } else {
    warn <<EOM;
-'$the_new_govenor' is not currently available, skipping
+'$the_new_governor' is not currently available, skipping
 Try loading the corresponding kernel module.
 EOM
 }
