@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# Run emerge @world build
+
+EMERGE_WORLD_OPTS="\
+   --ask \
+   --ask-enter-invalid \
+   --deep \
+   --keep-going \
+   --newuse \
+   --update \
+   --verbose \
+   --verbose-conflicts \
+   --with-bdeps=y \
+"
+
+emerge ${EMERGE_WORLD_OPTS} @world
