@@ -3,8 +3,6 @@
 # Run emerge @world build
 
 EMERGE_WORLD_OPTS="\
-   --ask \
-   --ask-enter-invalid \
    --deep \
    --keep-going \
    --newuse \
