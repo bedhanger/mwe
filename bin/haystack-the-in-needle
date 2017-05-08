@@ -53,6 +53,7 @@ HAYSTACK="${NICE} find -L ${FIELDS_THE_IN} \
    \( \
       -iname .svn -type d -o \
       -iname .git -type d -o \
+      -iname .dm  -type d -o \
       -iname tags -type f -o \
       -iname proc -type d -o \
       -false \
