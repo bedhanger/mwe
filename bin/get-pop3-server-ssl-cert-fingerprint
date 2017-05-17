@@ -64,21 +64,23 @@ cert, type:
 EOM
 }
 
+function rhs()
+{
+   cut --fields=2 --delimiter='=' <<< ${@}
+}
+
 # Parse the command line.
 for OPTION in "${@}"
 do
-   OPTION_ARG=$(expr "X${OPTION}" : "X[^=]*=\(..*\)")
-
    case "${OPTION}" in
-
       --server=*)
-         SERVER=${OPTION_ARG}
+         SERVER=$(rhs ${OPTION})
          ;;
       --port=*)
-         PORT=${OPTION_ARG}
+         PORT=$(rhs ${OPTION})
          ;;
       --format=*)
-         FORMAT=${OPTION_ARG}
+         FORMAT=$(rhs ${OPTION})
          ;;
       --speak-ssl)
          unset NO_SPEAK_SSL
