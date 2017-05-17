@@ -10,7 +10,7 @@ ME=$(basename ${0})
 SERVER="pop.gmx.net"
 
 # POP3 over SSL.
-PORT=995
+PORT=pop3s # 995
 
 # OpenSSL's default is a SHA1 hash.  Fetchmail wants MD5.
 FORMAT="md5"
@@ -55,7 +55,7 @@ cert, type:
 
    get-pop3-server-ssl-cert-fingerprint \\
       --server=bedhanger.strangled.net \\
-      --port=443 \\
+      --port=https \\
       --format=sha1
 
 [Depending on the originating IP address, the server's firewall
@@ -64,21 +64,23 @@ cert, type:
 EOM
 }
 
+function rhs()
+{
+   cut --fields=2 --delimiter='=' <<< ${@}
+}
+
 # Parse the command line.
 for OPTION in "${@}"
 do
-   OPTION_ARG=$(expr "X${OPTION}" : "X[^=]*=\(..*\)")
-
    case "${OPTION}" in
-
       --server=*)
-         SERVER=${OPTION_ARG}
+         SERVER=$(rhs ${OPTION})
          ;;
       --port=*)
-         PORT=${OPTION_ARG}
+         PORT=$(rhs ${OPTION})
          ;;
       --format=*)
-         FORMAT=${OPTION_ARG}
+         FORMAT=$(rhs ${OPTION})
          ;;
       --speak-ssl)
          unset NO_SPEAK_SSL
@@ -97,20 +99,16 @@ do
          echo "Unknown option '${OPTION}', try '${ME} --help'"
          exit 1
          ;;
-
    esac
 done
 
 if [ "${FORMAT}" ]
 then
-
    # The format spec to openssl is not a value, but actually a
    # switch, i.e., "-md5" or "-sha1".  The user could have given
    # a bare expression or one prefixed by a dash, so let's
    # normalise it properly.
-
    FORMAT=$(perl -p -e 's/^-*/-/;' <<< ${FORMAT})
-
 fi
 
 # Now get cert and extract fingerprint.
