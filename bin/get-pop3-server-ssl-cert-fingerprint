@@ -99,20 +99,16 @@ do
          echo "Unknown option '${OPTION}', try '${ME} --help'"
          exit 1
          ;;
-
    esac
 done
 
 if [ "${FORMAT}" ]
 then
-
    # The format spec to openssl is not a value, but actually a
    # switch, i.e., "-md5" or "-sha1".  The user could have given
    # a bare expression or one prefixed by a dash, so let's
    # normalise it properly.
-
    FORMAT=$(perl -p -e 's/^-*/-/;' <<< ${FORMAT})
-
 fi
 
 # Now get cert and extract fingerprint.
