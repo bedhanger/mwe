@@ -10,7 +10,7 @@ ME=$(basename ${0})
 SERVER="pop.gmx.net"
 
 # POP3 over SSL.
-PORT=995
+PORT=pop3s # 995
 
 # OpenSSL's default is a SHA1 hash.  Fetchmail wants MD5.
 FORMAT="md5"
@@ -55,7 +55,7 @@ cert, type:
 
    get-pop3-server-ssl-cert-fingerprint \\
       --server=bedhanger.strangled.net \\
-      --port=443 \\
+      --port=https \\
       --format=sha1
 
 [Depending on the originating IP address, the server's firewall
