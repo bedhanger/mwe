@@ -4,7 +4,7 @@
 
 if [ -f .config ]
 then
-   echo "You seem to already have a kernel .config..." >&2
+   echo "You seem to already have a (kernel) .config..." >&2
    exit -1
 fi
 
