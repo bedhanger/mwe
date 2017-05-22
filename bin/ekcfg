@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# Make the .config file containing the kernel config appear in
+# the current directory
+
+if [ -f .config ]
+then
+   echo "You seem to already have a kernel .config..." >&2
+   exit -1
+fi
+
+git init
+git remote add origin file:///mnt/data/Gits/kernel-config.git
+git fetch origin
+git co -b master --track origin/master
+
+if ! [ -f .config ]
+then
+   echo "Could not retrieve kernel .config..." >&2
+   exit -2
+fi
+
+git co -b $(basename $(realpath .))
+git b
