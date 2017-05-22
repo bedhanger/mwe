@@ -23,3 +23,7 @@ fi
 # Use a branch for the new config
 git co -b $(basename $(realpath .))
 git b
+
+cat << EOM
+Now run "make menuconfig" or similar to progress
+EOM
