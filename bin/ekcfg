@@ -8,6 +8,7 @@ then
    exit -1
 fi
 
+# Obtain current kernel config
 git init
 git remote add origin file:///mnt/data/Gits/kernel-config.git
 git fetch origin
@@ -19,5 +20,6 @@ then
    exit -2
 fi
 
+# Use a branch for the new config
 git co -b $(basename $(realpath .))
 git b
