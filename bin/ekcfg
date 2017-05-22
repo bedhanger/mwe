@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# Make the .config file containing the kernel config appear in
-# the current directory
+# Prepare current directory for building a new kernel
 
 if [ -f .config ]
 then
