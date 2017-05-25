@@ -1,0 +1,2 @@
+# These should always be pulled out of Git itself
+*.patch
