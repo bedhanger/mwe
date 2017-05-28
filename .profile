@@ -8,6 +8,7 @@ alias ,="pwd | tr \\\n \\\000 | xargs --null ${l} --directory"
 alias ,,="(cd .. && pwd) | tr \\\n \\\000 | xargs --null ${l} --directory"
 
 alias lt='l --sort=time --reverse'
+alias lth='lt --human-readable'
 
 alias cls='clear'
 
