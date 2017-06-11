@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Upgrade sslfingerprint in .fetchmailrc
+
+dot_fetchmailrc=${1}
+sslfingerprint=
+server=${2}
+
+# Get the fingerprint
+sslfingerprint=$(get-pop3-server-ssl-cert-fingerprint \
+   --server=${server} 2> /dev/null | tail --lines=1)
+
+# Massage it into the form expected in .fetchmailrc
+sslfingerprint=$(cut --fields=2 --delimiter='=' <<< \
+   ${sslfingerprint})
+
+# Replace the old one with the new one
+perl -0777 -p -i -e \
+   "s/'.+?'/'${sslfingerprint}'/o if m/sslfingerprint/o;" \
+   ${dot_fetchmailrc}
