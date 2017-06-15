@@ -52,15 +52,25 @@ do
    esac
 done
 
-# Get the fingerprint
-sslfingerprint=$(get-pop3-server-ssl-cert-fingerprint \
-   --server=${server} 2> /dev/null | tail --lines=1)
+if [ -z ${server} ]
+then
+   usage "Please specify a server"
+   exit -2
+elif [ -z ${dot_fetchmailrc} ]
+then
+   usage "Please specify a .fetchmailrc"
+   exit -3
+else
+   # Get the fingerprint
+   sslfingerprint=$(get-pop3-server-ssl-cert-fingerprint \
+      --server=${server} 2> /dev/null | tail --lines=1)
 
-# Massage it into the form expected in .fetchmailrc
-sslfingerprint=$(cut --fields=2 --delimiter='=' <<< \
-   ${sslfingerprint})
+   # Massage it into the form expected in .fetchmailrc
+   sslfingerprint=$(cut --fields=2 --delimiter='=' <<< \
+      ${sslfingerprint})
 
-# Replace the old one with the new one
-perl -0777 -p -i -e \
-   "s/'.+?'/'${sslfingerprint}'/o if m/sslfingerprint/o;" \
-   ${dot_fetchmailrc}
+   # Replace the old one with the new one
+   perl -0777 -p -i -e \
+      "s/'.+?'/'${sslfingerprint}'/o if m/sslfingerprint/o;" \
+      ${dot_fetchmailrc}
+fi
