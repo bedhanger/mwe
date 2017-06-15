@@ -25,7 +25,10 @@ EOM
    fi
 
    cat << EOM
-Synopsis: ${me} --server=<server> --rc=<fetchmailrc>
+Synopsis: ${me} --server=<pop3-server> --rc=</path/to/.fetchmailrc> [option...]
+
+There are no defaults, hence --server and --rc are mandatory.
+Currently, the only option supported is --help
 EOM
 }
 
