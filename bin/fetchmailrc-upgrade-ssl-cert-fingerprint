@@ -2,9 +2,50 @@
 
 # Upgrade sslfingerprint in .fetchmailrc
 
-dot_fetchmailrc=${1}
+dot_fetchmailrc=
 sslfingerprint=
-server=${2}
+server=
+
+function rhs()
+{
+   cut --fields=2 --delimiter='=' <<< ${@}
+}
+
+function usage()
+{
+   if [ "${@}" ]
+   then
+      echo ; echo ${@} ; echo
+   fi
+
+   cat << EOM
+Implement me!
+EOM
+}
+
+for option in "${@}"
+do
+   case ${option} in
+      --rc=*)
+         dot_fetchmailrc=$(rhs ${option})
+      ;;
+      --server=*)
+         server=$(rhs ${option})
+      ;;
+      --help|-h)
+         usage
+         exit 0
+      ;;
+      *)
+         usage "Unknown option '${option}'"
+         exit -1
+      ;;
+   esac
+done
+
+echo ${server}
+echo ${dot_fetchmailrc}
+exit
 
 # Get the fingerprint
 sslfingerprint=$(get-pop3-server-ssl-cert-fingerprint \
