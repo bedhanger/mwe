@@ -52,10 +52,6 @@ do
    esac
 done
 
-echo ${server}
-echo ${dot_fetchmailrc}
-exit
-
 # Get the fingerprint
 sslfingerprint=$(get-pop3-server-ssl-cert-fingerprint \
    --server=${server} 2> /dev/null | tail --lines=1)
