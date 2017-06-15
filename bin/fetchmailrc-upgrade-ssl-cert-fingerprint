@@ -2,6 +2,8 @@
 
 # Upgrade sslfingerprint in .fetchmailrc
 
+me=$(basename ${0})
+
 dot_fetchmailrc=
 sslfingerprint=
 server=
@@ -15,11 +17,15 @@ function usage()
 {
    if [ "${@}" ]
    then
-      echo ; echo ${@} ; echo
+      cat << EOM
+
+${me}> ${@}
+
+EOM
    fi
 
    cat << EOM
-Implement me!
+Synopsis: ${me} --server=<server> --rc=<fetchmailrc>
 EOM
 }
 
