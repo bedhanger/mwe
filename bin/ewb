@@ -12,4 +12,4 @@ EMERGE_WORLD_OPTS="\
    --with-bdeps=y \
 "
 
-emerge ${EMERGE_WORLD_OPTS} @world
+emerge ${EMERGE_WORLD_OPTS} ${@} @world
