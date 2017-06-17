@@ -24,6 +24,10 @@ fi
 git co -b $(basename $(realpath .))
 git b
 
+# Retrieve special target for build.  This is slightly
+# Gentoo-specific.
+git apply --verbose make.colonel || exit -3
+
 cat << EOM
 Now run "make menuconfig" or similar to progress
 EOM
