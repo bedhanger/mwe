@@ -24,8 +24,8 @@ fi
 git co -b $(basename $(realpath .))
 git b
 
-# Retrieve special target for build.  This is slightly
-# Gentoo-specific.
+# Plant into the top-level Makefile a special target for the
+# build.  This is slightly Gentoo-specific.
 git apply --verbose make.colonel || exit -3
 
 cat << EOM
