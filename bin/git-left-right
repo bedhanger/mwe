@@ -9,6 +9,8 @@
 
 Me=$(basename ${0})
 
+gllr1_cmd="git log --left-right --oneline"
+
 Branches="${@}"
 if [ -z "${Branches}" ]
 then
@@ -23,6 +25,17 @@ EOM
       # This is fatal.
       exit -1
 
+   fi
+else
+   if ! ${gllr1_cmd} ${Branches}
+   then
+      cat << EOM >&2
+${Me}> Did not understand '${Branches}'
+EOM
+      # Also fatal.
+      exit -2
+   else
+      exit 0
    fi
 fi
 
@@ -94,8 +107,7 @@ EOM
    This_N_That="${This}...${Remote}/${That}"
    echo "${This_N_That} (from ${URL})"
 
-   Cmd="git log --left-right --oneline ${This_N_That}"
-   if ! ${Cmd}
+   if ! ${gllr1_cmd} ${This_N_That}
    then
 
       cat << EOM >&2
