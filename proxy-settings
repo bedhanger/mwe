@@ -1,7 +1,16 @@
-export FTP_PROXY=http://localhost:3128/
-export HTTPS_PROXY=http://localhost:3128/
-export HTTP_PROXY=http://localhost:3128/
-export NO_PROXY=localhost,127.0.0.0/8,::1
+# Configure the proxies
+
+# Simply source the file to make programs that understand these
+# variables aware of the settings.
+
+proxy_port=3128 # Default for Squid
+proxy_template="http://localhost:${proxy_port}/"
+no_proxy_template="localhost,127.0.0.0/8,::1"
+
+export FTP_PROXY=${proxy_template}
+export HTTPS_PROXY=${proxy_template}
+export HTTP_PROXY=${proxy_template}
+export NO_PROXY=${no_proxy_template}
 
 export ftp_proxy=${FTP_PROXY}
 export http_proxy=${HTTP_PROXY}
