@@ -23,17 +23,21 @@ iptables --policy FORWARD DROP
 
 # Special chains to log & drop/accept packets indiscriminately.
 iptables --new-chain LOGDROP
-iptables --append LOGDROP --match limit \
-   --limit ${log_limit} \
-      --limit-burst ${log_burst} --jump LOG \
+iptables --append LOGDROP \
+   --match limit \
+      --limit ${log_limit} \
+      --limit-burst ${log_burst} \
+   --jump LOG \
       --log-prefix "Dropping: " \
       ${COMMON_LOG_OPTIONS}
 iptables --append LOGDROP --jump DROP
 
 iptables --new-chain LOGACCEPT
-iptables --append LOGACCEPT --match limit \
-   --limit ${log_limit} \
-      --limit-burst ${log_burst} --jump LOG \
+iptables --append LOGACCEPT \
+   --match limit \
+      --limit ${log_limit} \
+      --limit-burst ${log_burst} \
+   --jump LOG \
       --log-prefix "Accepting: " \
       ${COMMON_LOG_OPTIONS}
 iptables --append LOGACCEPT --jump ACCEPT
@@ -49,8 +53,9 @@ iptables --append RJCTRST --protocol tcp --jump REJECT \
 iptables --append FORWARD --jump RJCTRST
 
 # What goes out must not be heading towards sites we eschew.
-iptables --append OUTPUT --match set \
-   --match-set forbidden_sites dst \
+iptables --append OUTPUT \
+   --match set \
+      --match-set forbidden_sites dst \
    --jump RJCTRST
 iptables --append OUTPUT --jump ACCEPT
 
