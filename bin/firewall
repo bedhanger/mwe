@@ -65,7 +65,7 @@ iptables --append OUTPUT --jump ACCEPT
 # Open up HTTPS for everyone.  Useful for mastering the ACME
 # challenge when requesting a certificate (renewal).
 # Only use this on an as-needed basis!
-iptables --new-chains CERT-PUNCTURE
+iptables --new-chain CERT-PUNCTURE
 iptables --append CERT-PUNCTURE \
    --match limit \
       --limit ${log_limit} \
@@ -78,7 +78,7 @@ iptables --append CERT-PUNCTURE --protocol tcp \
 iptables --append CERT-PUNCTURE --jump RJCTRST
 
 # Normal HTTPS.
-iptables --new-chains HTTPS
+iptables --new-chain HTTPS
 iptables --append HTTPS \
    --match set \
       --match-set https_bad_guys src \
