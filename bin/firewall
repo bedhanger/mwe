@@ -110,7 +110,7 @@ iptables --append LANS? \
       --limit-burst ${log_burst} \
    --match set \
       --match-set log-devices src \
-   --jump LOG
+   --jump LOG \
       --log-prefix "Logging: " \
       ${COMMON_LOG_OPTIONS}
 iptables --append LANS? \
@@ -121,3 +121,13 @@ iptables --append LANS? \
    --match set \
       --match-set unwanted_lans src \
    --jump RJCTRST
+
+# Tear a hole in the firewall.  You must be out of your mind to
+# actually use it!
+iptables --new-chain PUNCTURE
+# At least we log it in its entirety.
+iptables --append PUNCTURE \
+   --jump LOG \
+      --log-prefix "WTF: " \
+      ${COMMON_LOG_OPTIONS}
+iptables --append PUNCTURE --jump ACCEPT
