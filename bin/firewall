@@ -47,3 +47,9 @@ iptables --append RJCTRST --protocol tcp --jump REJECT \
 
 # The forwarding is very simple.
 iptables --append FORWARD --jump RJCTRST
+
+# What goes out must not be heading towards sites we eschew.
+iptables --append OUTPUT --match set \
+   --match-set forbidden_sites dst \
+   --jump RJCTRST
+iptables --append OUTPUT --jump ACCEPT
