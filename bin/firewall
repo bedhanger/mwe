@@ -76,3 +76,11 @@ iptables --append CERT-PUNCTURE \
 iptables --append CERT-PUNCTURE --protocol tcp \
    --destination-port https --jump ACCEPT
 iptables --append CERT-PUNCTURE --jump RJCTRST
+
+# Normal HTTPS.
+iptables --new-chains HTTPS
+iptables --append HTTPS \
+   --match set \
+      --match-set https_bad_guys src \
+   --jump RJCTRST
+iptables --append HTTPS --jump LOGACCEPT
