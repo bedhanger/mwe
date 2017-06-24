@@ -48,6 +48,8 @@
         # result look ugly.
         rpc = show --no-patch --date=short --pretty='format:%h (\"%s\", %ad)%n'
         dcw = diff --color-words
+        # What we usually want invoked when we spell it out.
+        vi = ci --amend
 [merge]
         conflictStyle = diff3
         log = true
