@@ -142,3 +142,22 @@ iptables --append RESIDUUM \
       --log-prefix "Thrufall: " \
       ${COMMON_LOG_OPTIONS}
 iptables --append RESIDUUM --jump RJCTRST
+
+# SSH is well guarded.
+iptables --new-chain SSH
+iptables --append SSH \
+   --match set \
+      --match-set headbanger src \
+   --jump LOGACCEPT
+iptables --append SSH \
+   --match set \
+      --match-set ssh_good_guys src \
+   --jump LOGACCEPT
+iptables --append SSH \
+   --match limit \
+      --limit ${log_limit} \
+      --limit-burst ${log_burst} \
+   --jump LOG \
+      --log-prefix "SSHoo: " \
+      ${COMMON_LOG_OPTIONS}
+iptables --append SSH --jump RJCTRST
