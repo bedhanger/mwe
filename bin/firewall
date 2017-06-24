@@ -24,16 +24,16 @@ iptables --policy FORWARD DROP
 # Special chains to log & drop/accept packets indiscriminately.
 iptables --new-chain LOGDROP
 iptables --append LOGDROP --match limit \
-   --limit ${LOG_LIMIT} \
-      --limit-burst ${LOG_BURST} --jump LOG \
+   --limit ${log_limit} \
+      --limit-burst ${log_burst} --jump LOG \
       --log-prefix "Dropping: " \
       ${COMMON_LOG_OPTIONS}
 iptables --append LOGDROP --jump DROP
 
 iptables --new-chain LOGACCEPT
 iptables --append LOGACCEPT --match limit \
-   --limit ${LOG_LIMIT} \
-      --limit-burst ${LOG_BURST} --jump LOG \
+   --limit ${log_limit} \
+      --limit-burst ${log_burst} --jump LOG \
       --log-prefix "Accepting: " \
       ${COMMON_LOG_OPTIONS}
 iptables --append LOGACCEPT --jump ACCEPT
@@ -62,8 +62,8 @@ iptables --append OUTPUT --jump ACCEPT
 iptables --new-chains CERT-PUNCTURE
 iptables --append CERT-PUNCTURE \
    --match limit \
-      --limit ${LOG_LIMIT} \
-      --limit-burst ${LOG_BURST} \
+      --limit ${log_limit} \
+      --limit-burst ${log_burst} \
    --jump LOG \
       --log-prefix "Cert? " \
       ${COMMON_LOG_OPTIONS}
