@@ -131,3 +131,14 @@ iptables --append PUNCTURE \
       --log-prefix "WTF: " \
       ${COMMON_LOG_OPTIONS}
 iptables --append PUNCTURE --jump ACCEPT
+
+# The wastebasket for everything not otherwise dealt with.
+iptables --new-chain RESIDUUM
+iptables --append RESIDUUM \
+   --match limit \
+      --limit ${log_limit} \
+      --limit-burst ${log_burst} \
+   --jump LOG \
+      --log-prefix "Thrufall: " \
+      ${COMMON_LOG_OPTIONS}
+iptables --append RESIDUUM --jump RJCTRST
