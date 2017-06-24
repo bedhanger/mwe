@@ -37,3 +37,13 @@ iptables --append LOGACCEPT --match limit \
       --log-prefix "Accepting: " \
       ${COMMON_LOG_OPTIONS}
 iptables --append LOGACCEPT --jump ACCEPT
+
+# Special chain to sever/reset a connection.
+iptables --new-chain RJCTRST
+iptables --append RJCTRST --protocol udp --jump REJECT \
+   --reject-with icmp-port-unreachable
+iptables --append RJCTRST --protocol tcp --jump REJECT \
+   --reject-with tcp-reset
+
+# The forwarding is very simple.
+iptables --append FORWARD --jump RJCTRST
