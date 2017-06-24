@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# A fairly stringent firewall relying heavily on IP sets
+
+# We'd like to know as much as we can.
+common_log_options="\
+   --log-level info \
+   --log-tcp-seq \
+   --log-tcp-options \
+   --log-ip-options \
+   --log-uid \
+"
+# Prevent logs from overflowing.
+log_limit=3/m
+log_burst=3
+
+# Flush everything and begin anew sanely.
+iptables --flush
+iptables --delete-chain
+iptables --policy INPUT DROP
+iptables --policy OUTPUT DROP
+iptables --policy FORWARD DROP
+
+# Special chains to log & drop/accept packets indiscriminately.
+iptables --new-chain LOGDROP
+iptables --append LOGDROP --match limit \
+   --limit ${LOG_LIMIT} \
+      --limit-burst ${LOG_BURST} --jump LOG \
+      --log-prefix "Dropping: " \
+      ${COMMON_LOG_OPTIONS}
+iptables --append LOGDROP --jump DROP
+
+iptables --new-chain LOGACCEPT
+iptables --append LOGACCEPT --match limit \
+   --limit ${LOG_LIMIT} \
+      --limit-burst ${LOG_BURST} --jump LOG \
+      --log-prefix "Accepting: " \
+      ${COMMON_LOG_OPTIONS}
+iptables --append LOGACCEPT --jump ACCEPT
