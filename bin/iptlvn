@@ -2,7 +2,7 @@
 
 # Show firewall rules et al.
 
-IPTLVN="iptables --list --verbose --line-numbers"
+IPTLVN="iptables --list ${@} --verbose --line-numbers"
 
 if [ -t 1 ]
 then
