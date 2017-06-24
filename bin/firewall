@@ -53,3 +53,20 @@ iptables --append OUTPUT --match set \
    --match-set forbidden_sites dst \
    --jump RJCTRST
 iptables --append OUTPUT --jump ACCEPT
+
+# Incoming traffic is more complicated.  We need more chains
+# first.
+
+# Open up HTTPS for everyone.  Useful for mastering the ACME
+# challenge when requesting a certificate (renewal).
+iptables --new-chains CERT-PUNCTURE
+iptables --append CERT-PUNCTURE \
+   --match limit \
+      --limit ${LOG_LIMIT} \
+      --limit-burst ${LOG_BURST} \
+   --jump LOG \
+      --log-prefix "Cert? " \
+      ${COMMON_LOG_OPTIONS}
+iptables --append CERT-PUNCTURE --protocol tcp \
+   --destination-port https --jump ACCEPT
+iptables --append CERT-PUNCTURE --jump RJCTRST
