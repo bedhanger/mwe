@@ -91,3 +91,33 @@ iptables --append INVALID? \
    --match conntrack \
       --ctstate INVALID \
    --jump DROP
+
+# Traffic from within is Ok?  Not quite...
+iptables --new-chain LANS?
+iptables --append LANS? \
+   --in-interface enp5s0 \
+   --source 0.0.0.0 \
+   --destination 255.255.255.255 \
+   --protocol udp \
+   --source-port bootpc \
+   --destination-port bootps \
+   --jump ACCEPT \
+   --match comment \
+      --comment "Is is DHCP?"
+iptables --append LANS? \
+   --match limit \
+      --limit ${log_limit} \
+      --limit-burst ${log_burst} \
+   --match set \
+      --match-set log-devices src \
+   --jump LOG
+      --log-prefix "Logging: " \
+      ${COMMON_LOG_OPTIONS}
+iptables --append LANS? \
+   --match set \
+      --match-set wanted_lans src \
+   --jump ACCEPT
+iptables --append LANS? \
+   --match set \
+      --match-set unwanted_lans src \
+   --jump RJCTRST
