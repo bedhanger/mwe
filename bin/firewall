@@ -64,6 +64,7 @@ iptables --append OUTPUT --jump ACCEPT
 
 # Open up HTTPS for everyone.  Useful for mastering the ACME
 # challenge when requesting a certificate (renewal).
+# Only use this on an as-needed basis!
 iptables --new-chains CERT-PUNCTURE
 iptables --append CERT-PUNCTURE \
    --match limit \
