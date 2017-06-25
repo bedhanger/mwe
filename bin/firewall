@@ -172,3 +172,6 @@ iptables --append INPUT \
    --match conntrack \
       --ctstate RELATED,ESTABLISHED \
    --jump ACCEPT
+
+# Loop-back is OK.
+iptables --append INPUT --in-interface lo --jump ACCEPT
