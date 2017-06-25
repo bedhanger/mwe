@@ -161,3 +161,14 @@ iptables --append SSH \
       --log-prefix "SSHoo: " \
       ${COMMON_LOG_OPTIONS}
 iptables --append SSH --jump RJCTRST
+
+# Now kludge the INPUT chain from the pieces above.  Note that
+# not every element created so far is used permanently; some of
+# them are only for transient usage.
+
+# Speed dictates that we should deal with what we already have
+# first.
+iptables --append INPUT \
+   --match conntrack \
+      --ctstate RELATED,ESTABLISHED \
+   --jump ACCEPT
