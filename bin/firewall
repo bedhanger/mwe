@@ -175,3 +175,6 @@ iptables --append INPUT \
 
 # Loop-back is OK.
 iptables --append INPUT --in-interface lo --jump ACCEPT
+
+# LAN.
+iptables --append INPUT --jump LAN?
