@@ -14,7 +14,7 @@
 
 if [ ${#} -eq 0 ]
 then
-cat << EOM >&2
+   cat << EOM >&2
 Figure out which geok IP set (geok-A or geok-B) is active and
 pass its name as an argument to this script.
 
