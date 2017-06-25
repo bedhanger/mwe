@@ -201,3 +201,10 @@ iptables --append INPUT \
    --protocol tcp \
    --destination-port ssh \
    --jump SSH
+
+# As with SSH, some port scans happen to target the UDP HTTPS
+# port.
+iptables --append INPUT \
+   --protocol udp \
+   --destination-port https \
+   --jump RJCTRST
