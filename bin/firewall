@@ -189,3 +189,9 @@ iptables --append INPUT \
    --match set \
       ! --match-set geok-A src \
    --jump RJCTRST
+
+# Some port scans happen to target the UDP SSH port.
+iptables --append INPUT \
+   --protocol udp \
+   --destination-port ssh \
+   --jump RJCTRST
