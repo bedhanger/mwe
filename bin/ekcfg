@@ -31,6 +31,7 @@ git apply --verbose make.colonel || exit -3
 cat << EOM
 Now run "make menuconfig" or similar to progress.
 Then commit the changes made to .config.
-Then run "make colonel" to start the build of the kernel and the
-(in- as well as the out-of-tree) kernel modules.
+Then run "make colonel --makefile=make.colonel" to start the
+build of the kernel and the (in- as well as the out-of-tree)
+kernel modules.
 EOM
