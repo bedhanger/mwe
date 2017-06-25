@@ -214,3 +214,6 @@ iptables --append INPUT \
    --protocol tcp \
    --destination-port https \
    --jump HTTPS
+
+# Abort everything else.
+iptables --append INPUT --jump RJCTRST
