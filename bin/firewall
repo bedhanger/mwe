@@ -24,6 +24,14 @@ EOM
    exit -1
 fi
 
+if [ ${UID} -ne 0 ]
+then
+   cat << EOM >&2
+A firewall admin must be an admin to begin with...
+EOM
+   exit -2
+fi
+
 # No sanity checks are performed.  Make sure the set is properly
 # named and contains what you want!
 geok=${1}
