@@ -2,6 +2,32 @@
 
 # Stringent IP tables firewall, relying heavily on IP sets
 
+# The IP sets mentioned as arguments to  the --match-set options
+# below MUST exist for everything to go smoothly.  However,
+# creating them is outwith the scope of this script; this has to
+# be done a-priori.
+
+# The only concession made is the choice between geok-A and
+# geok-B.  Depending on *when* this script is called, either of
+# the two *should be* extant (but not both!).  Normally, there
+# is a changeover on a monthly basis.
+
+if [ ${#} -eq 0 ]
+then
+cat << EOM >&2
+Figure out which geok IP set (geok-A or geok-B) is active and
+pass its name as an argument to this script.
+
+If none is, create one (but not the other) and supply that name
+to the script.
+EOM
+   exit -1
+fi
+
+# No sanity checks are performed.  Make sure the set is properly
+# named and contains what you want!
+geok=${1}
+
 # We'd like to know as much as we can.
 common_log_options="\
    --log-level info \
@@ -184,10 +210,9 @@ iptables --append INPUT --jump INVALID?
 
 # One of the most fundamental rules to banish unsolicited
 # incoming traffic.
-# TODO: sort geok-A/geok-B issue
 iptables --append INPUT \
    --match set \
-      ! --match-set geok-A src \
+      ! --match-set ${geok} src \
    --jump RJCTRST
 
 # Some port scans happen to target the UDP SSH port.
