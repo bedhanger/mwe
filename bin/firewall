@@ -195,3 +195,9 @@ iptables --append INPUT \
    --protocol udp \
    --destination-port ssh \
    --jump RJCTRST
+
+# Crown jewels.
+iptables --append INPUT \
+   --protocol tcp \
+   --destination-port ssh \
+   --jump SSH
