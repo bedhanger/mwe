@@ -24,10 +24,6 @@ fi
 git co -b $(basename $(realpath .))
 git b
 
-# Plant into the top-level Makefile a special target for the
-# build.  This is slightly Gentoo-specific.
-git apply --verbose make.colonel || exit -3
-
 cat << EOM
 Now run "make menuconfig" or similar to progress.
 Then commit the changes made to .config.
