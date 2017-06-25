@@ -55,7 +55,7 @@ iptables --append LOGDROP \
       --limit-burst ${log_burst} \
    --jump LOG \
       --log-prefix "Dropping: " \
-      ${COMMON_LOG_OPTIONS}
+      ${common_log_options}
 iptables --append LOGDROP --jump DROP
 
 iptables --new-chain LOGACCEPT
@@ -65,7 +65,7 @@ iptables --append LOGACCEPT \
       --limit-burst ${log_burst} \
    --jump LOG \
       --log-prefix "Accepting: " \
-      ${COMMON_LOG_OPTIONS}
+      ${common_log_options}
 iptables --append LOGACCEPT --jump ACCEPT
 
 # Special chain to sever/reset a connection.
@@ -98,7 +98,7 @@ iptables --append CERT-PUNCTURE \
       --limit-burst ${log_burst} \
    --jump LOG \
       --log-prefix "Cert? " \
-      ${COMMON_LOG_OPTIONS}
+      ${common_log_options}
 iptables --append CERT-PUNCTURE --protocol tcp \
    --destination-port https --jump ACCEPT
 iptables --append CERT-PUNCTURE --jump RJCTRST
@@ -138,7 +138,7 @@ iptables --append LANS? \
       --match-set log-devices src \
    --jump LOG \
       --log-prefix "Logging: " \
-      ${COMMON_LOG_OPTIONS}
+      ${common_log_options}
 iptables --append LANS? \
    --match set \
       --match-set wanted_lans src \
@@ -155,7 +155,7 @@ iptables --new-chain PUNCTURE
 iptables --append PUNCTURE \
    --jump LOG \
       --log-prefix "WTF: " \
-      ${COMMON_LOG_OPTIONS}
+      ${common_log_options}
 iptables --append PUNCTURE --jump ACCEPT
 
 # The wastebasket for everything not otherwise dealt with.
@@ -166,7 +166,7 @@ iptables --append RESIDUUM \
       --limit-burst ${log_burst} \
    --jump LOG \
       --log-prefix "Thrufall: " \
-      ${COMMON_LOG_OPTIONS}
+      ${common_log_options}
 iptables --append RESIDUUM --jump RJCTRST
 
 # SSH is well guarded.
@@ -185,7 +185,7 @@ iptables --append SSH \
       --limit-burst ${log_burst} \
    --jump LOG \
       --log-prefix "SSHoo: " \
-      ${COMMON_LOG_OPTIONS}
+      ${common_log_options}
 iptables --append SSH --jump RJCTRST
 
 # Now kludge the INPUT chain from the pieces above.  Note that
