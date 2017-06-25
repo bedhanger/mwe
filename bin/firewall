@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# A fairly stringent firewall relying heavily on IP sets
+# Stringent IP tables firewall, relying heavily on IP sets
 
 # We'd like to know as much as we can.
 common_log_options="\
