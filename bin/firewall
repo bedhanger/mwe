@@ -208,3 +208,9 @@ iptables --append INPUT \
    --protocol udp \
    --destination-port https \
    --jump RJCTRST
+
+# Genuine HTTPS traffic.  At least in theory.
+iptables --append INPUT \
+   --protocol tcp \
+   --destination-port https \
+   --jump HTTPS
