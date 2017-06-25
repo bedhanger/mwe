@@ -181,3 +181,10 @@ iptables --append INPUT --jump LAN?
 
 # Now's the time to scan for INVALID packets.
 iptables --append INPUT --jump INVALID?
+
+# One of the most fundamental rules to banish unsolicited
+# incoming traffic.
+iptables --append INPUT \
+   --match set \
+      ! --match-set geok-A src \
+   --jump RJCTRST
