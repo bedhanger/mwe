@@ -184,6 +184,7 @@ iptables --append INPUT --jump INVALID?
 
 # One of the most fundamental rules to banish unsolicited
 # incoming traffic.
+# TODO: sort geok-A/geok-B issue
 iptables --append INPUT \
    --match set \
       ! --match-set geok-A src \
