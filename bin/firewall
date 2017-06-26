@@ -124,10 +124,16 @@ iptables --append INVALID? \
       --ctstate INVALID \
    --jump DROP
 
+# The beauty of the ip command is that it is so antique that its
+# output format will probably never change again.
+first_nic_in_use=$(ip route ls | head --lines=1 | \
+   rg --only-matching 'dev\s+\w+' | \
+   cut --fields=2 --delimiter=" ")
+
 # Traffic from within is Ok?  Not quite...
 iptables --new-chain LANS?
 iptables --append LANS? \
-   --in-interface enp5s0 \
+   --in-interface ${first_nic_in_use} \
    --source 0.0.0.0 \
    --destination 255.255.255.255 \
    --protocol udp \
