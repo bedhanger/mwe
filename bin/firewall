@@ -213,7 +213,7 @@ iptables --append INPUT --in-interface lo --jump ACCEPT
 # LAN.
 iptables --append INPUT --jump LANS?
 
-# Now's the time to scan for INVALID packets.
+# Now's the time to scan for invalid packets.
 iptables --append INPUT --jump INVALID?
 
 # One of the most fundamental rules to banish unsolicited
