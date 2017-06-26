@@ -211,7 +211,7 @@ iptables --append INPUT \
 iptables --append INPUT --in-interface lo --jump ACCEPT
 
 # LAN.
-iptables --append INPUT --jump LAN?
+iptables --append INPUT --jump LANS?
 
 # Now's the time to scan for INVALID packets.
 iptables --append INPUT --jump INVALID?
