@@ -47,6 +47,11 @@ common_log_options="\
 # Prevent logs from overflowing.
 log_limit=3/m
 log_burst=3
+log_throttle="\
+   --match limit \
+      --limit ${log_limit} \
+      --limit-burst ${log_burst} \
+"
 
 # Flush everything and begin anew sanely.
 iptables --flush
@@ -58,9 +63,7 @@ iptables --policy FORWARD DROP
 # Special chains to log & drop/accept packets indiscriminately.
 iptables --new-chain LOGDROP
 iptables --append LOGDROP \
-   --match limit \
-      --limit ${log_limit} \
-      --limit-burst ${log_burst} \
+   ${log_throttle} \
    --jump LOG \
       --log-prefix "Dropping: " \
       ${common_log_options}
@@ -68,9 +71,7 @@ iptables --append LOGDROP --jump DROP
 
 iptables --new-chain LOGACCEPT
 iptables --append LOGACCEPT \
-   --match limit \
-      --limit ${log_limit} \
-      --limit-burst ${log_burst} \
+   ${log_throttle} \
    --jump LOG \
       --log-prefix "Accepting: " \
       ${common_log_options}
@@ -101,9 +102,7 @@ iptables --append OUTPUT --jump ACCEPT
 # Only use this on an as-needed basis!
 iptables --new-chain CERT-PUNCTURE
 iptables --append CERT-PUNCTURE \
-   --match limit \
-      --limit ${log_limit} \
-      --limit-burst ${log_burst} \
+   ${log_throttle} \
    --jump LOG \
       --log-prefix "Cert? " \
       ${common_log_options}
@@ -139,9 +138,7 @@ iptables --append LANS? \
    --match comment \
       --comment "Is is DHCP?"
 iptables --append LANS? \
-   --match limit \
-      --limit ${log_limit} \
-      --limit-burst ${log_burst} \
+   ${log_throttle} \
    --match set \
       --match-set log-devices src \
    --jump LOG \
@@ -169,9 +166,7 @@ iptables --append PUNCTURE --jump ACCEPT
 # The wastebasket for everything not otherwise dealt with.
 iptables --new-chain RESIDUUM
 iptables --append RESIDUUM \
-   --match limit \
-      --limit ${log_limit} \
-      --limit-burst ${log_burst} \
+   ${log_throttle} \
    --jump LOG \
       --log-prefix "Thrufall: " \
       ${common_log_options}
@@ -188,9 +183,7 @@ iptables --append SSH \
       --match-set ssh_good_guys src \
    --jump LOGACCEPT
 iptables --append SSH \
-   --match limit \
-      --limit ${log_limit} \
-      --limit-burst ${log_burst} \
+   ${log_throttle} \
    --jump LOG \
       --log-prefix "SSHoo: " \
       ${common_log_options}
