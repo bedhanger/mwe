@@ -102,7 +102,6 @@ iptables --append OUTPUT --jump ACCEPT
 # Only use this on an as-needed basis!
 iptables --new-chain CERT-PUNCTURE
 iptables --append CERT-PUNCTURE \
-   ${log_throttle} \
    --jump LOG \
       --log-prefix "Cert? " \
       ${common_log_options}
@@ -138,7 +137,6 @@ iptables --append LANS? \
    --match comment \
       --comment "Is is DHCP?"
 iptables --append LANS? \
-   ${log_throttle} \
    --match set \
       --match-set log-devices src \
    --jump LOG \
