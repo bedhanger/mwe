@@ -12,6 +12,11 @@
 # the two *should be* extant (but not both!).  Normally, there
 # is a changeover on a monthly basis.
 
+# The geok-{A,B} set is the centerpiece for warding off
+# unsolicited incoming traffic.  They should contain the IP
+# (ranges) from which you are willing to accept that kind of
+# thing.
+
 if [ ${#} -eq 0 ]
 then
    cat << EOM >&2
