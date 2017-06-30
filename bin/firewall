@@ -1,0 +1,249 @@
+#!/usr/bin/env bash
+
+# Stringent IP tables firewall, relying heavily on IP sets
+
+# The IP sets mentioned as arguments to  the --match-set options
+# below MUST exist for everything to go smoothly.  However,
+# creating them is outwith the scope of this script; this has to
+# be done a-priori.
+
+# The only concession made is the choice between geok-A and
+# geok-B.  Depending on *when* this script is called, either of
+# the two *should be* extant (but not both!).  Normally, there
+# is a changeover on a monthly basis.
+
+if [ ${#} -eq 0 ]
+then
+   cat << EOM >&2
+Figure out which geok IP set (geok-A or geok-B) is active and
+pass its name as an argument to this script.
+
+If none is, create one (but not the other) and supply that name
+to the script.
+EOM
+   exit -1
+fi
+
+if [ ${UID} -ne 0 ]
+then
+   cat << EOM >&2
+A firewall admin must be an admin to begin with...
+EOM
+   exit -2
+fi
+
+# No sanity checks are performed.  Make sure the set is properly
+# named and contains what you want!
+geok=${1}
+
+# We'd like to know as much as we can.
+common_log_options="\
+   --log-level info \
+   --log-tcp-seq \
+   --log-tcp-options \
+   --log-ip-options \
+   --log-uid \
+"
+# Prevent logs from overflowing.
+log_limit=3/m
+log_burst=3
+log_throttle="\
+   --match limit \
+      --limit ${log_limit} \
+      --limit-burst ${log_burst} \
+"
+
+# Flush everything and begin anew sanely.
+iptables --flush
+iptables --delete-chain
+iptables --policy INPUT DROP
+iptables --policy OUTPUT DROP
+iptables --policy FORWARD DROP
+
+# Special chains to log & drop/accept packets indiscriminately.
+iptables --new-chain LOGDROP
+iptables --append LOGDROP \
+   ${log_throttle} \
+   --jump LOG \
+      --log-prefix "Dropping: " \
+      ${common_log_options}
+iptables --append LOGDROP --jump DROP
+
+iptables --new-chain LOGACCEPT
+iptables --append LOGACCEPT \
+   ${log_throttle} \
+   --jump LOG \
+      --log-prefix "Accepting: " \
+      ${common_log_options}
+iptables --append LOGACCEPT --jump ACCEPT
+
+# Special chain to sever/reset a connection.
+iptables --new-chain RJCTRST
+iptables --append RJCTRST --protocol udp --jump REJECT \
+   --reject-with icmp-port-unreachable
+iptables --append RJCTRST --protocol tcp --jump REJECT \
+   --reject-with tcp-reset
+
+# The forwarding is very simple.
+iptables --append FORWARD --jump RJCTRST
+
+# What goes out must not be heading towards sites we eschew.
+iptables --append OUTPUT \
+   --match set \
+      --match-set forbidden_sites dst \
+   --jump RJCTRST
+iptables --append OUTPUT --jump ACCEPT
+
+# Incoming traffic is more complicated.  We need more chains
+# first.
+
+# Open up HTTPS for everyone.  Useful for mastering the ACME
+# challenge when requesting a certificate (renewal).
+# Only use this on an as-needed basis!
+iptables --new-chain CERT-PUNCTURE
+iptables --append CERT-PUNCTURE \
+   --jump LOG \
+      --log-prefix "Cert? " \
+      ${common_log_options}
+iptables --append CERT-PUNCTURE --protocol tcp \
+   --destination-port https --jump ACCEPT
+iptables --append CERT-PUNCTURE --jump RJCTRST
+
+# Normal HTTPS.
+iptables --new-chain HTTPS
+iptables --append HTTPS \
+   --match set \
+      --match-set https_bad_guys src \
+   --jump RJCTRST
+iptables --append HTTPS --jump LOGACCEPT
+
+# Invalid packets.  They are a scourge.
+iptables --new-chain INVALID?
+iptables --append INVALID? \
+   --match conntrack \
+      --ctstate INVALID \
+   --jump DROP
+
+# The beauty of the ip command is that it is so antique that its
+# output format will probably never change again.
+first_nic_in_use=$(ip route ls | head --lines=1 | \
+   rg --only-matching 'dev\s+\w+' | \
+   cut --fields=2 --delimiter=" ")
+
+# Traffic from within is Ok?  Not quite...
+iptables --new-chain LANS?
+iptables --append LANS? \
+   --in-interface ${first_nic_in_use} \
+   --source 0.0.0.0 \
+   --destination 255.255.255.255 \
+   --protocol udp \
+   --source-port bootpc \
+   --destination-port bootps \
+   --jump ACCEPT \
+   --match comment \
+      --comment "Is is DHCP?"
+iptables --append LANS? \
+   --match set \
+      --match-set log-devices src \
+   --jump LOG \
+      --log-prefix "Logging: " \
+      ${common_log_options}
+iptables --append LANS? \
+   --match set \
+      --match-set wanted_lans src \
+   --jump ACCEPT
+iptables --append LANS? \
+   --match set \
+      --match-set unwanted_lans src \
+   --jump RJCTRST
+
+# Tear a hole in the firewall.  You must be out of your mind to
+# actually use it!
+iptables --new-chain PUNCTURE
+# At least we log it in its entirety.
+iptables --append PUNCTURE \
+   --jump LOG \
+      --log-prefix "WTF: " \
+      ${common_log_options}
+iptables --append PUNCTURE --jump ACCEPT
+
+# The wastebasket for everything not otherwise dealt with.
+iptables --new-chain RESIDUUM
+iptables --append RESIDUUM \
+   ${log_throttle} \
+   --jump LOG \
+      --log-prefix "Thrufall: " \
+      ${common_log_options}
+iptables --append RESIDUUM --jump RJCTRST
+
+# SSH is well guarded.
+iptables --new-chain SSH
+iptables --append SSH \
+   --match set \
+      --match-set headbanger src \
+   --jump LOGACCEPT
+iptables --append SSH \
+   --match set \
+      --match-set ssh_good_guys src \
+   --jump LOGACCEPT
+iptables --append SSH \
+   ${log_throttle} \
+   --jump LOG \
+      --log-prefix "SSHoo: " \
+      ${common_log_options}
+iptables --append SSH --jump RJCTRST
+
+# Now kludge the INPUT chain from the pieces above.  Note that
+# not every element created so far is used permanently; some of
+# them are only for transient usage.
+
+# Speed dictates that we should deal with what we already have
+# first.
+iptables --append INPUT \
+   --match conntrack \
+      --ctstate RELATED,ESTABLISHED \
+   --jump ACCEPT
+
+# Loop-back is OK.
+iptables --append INPUT --in-interface lo --jump ACCEPT
+
+# LAN.
+iptables --append INPUT --jump LANS?
+
+# Now's the time to scan for invalid packets.
+iptables --append INPUT --jump INVALID?
+
+# One of the most fundamental rules to banish unsolicited
+# incoming traffic.
+iptables --append INPUT \
+   --match set \
+      ! --match-set ${geok} src \
+   --jump RJCTRST
+
+# Some port scans happen to target the UDP SSH port.
+iptables --append INPUT \
+   --protocol udp \
+   --destination-port ssh \
+   --jump RJCTRST
+
+# Crown jewels.
+iptables --append INPUT \
+   --protocol tcp \
+   --destination-port ssh \
+   --jump SSH
+
+# As with SSH, some port scans happen to target the UDP HTTPS
+# port.
+iptables --append INPUT \
+   --protocol udp \
+   --destination-port https \
+   --jump RJCTRST
+
+# Genuine HTTPS traffic.  At least in theory.
+iptables --append INPUT \
+   --protocol tcp \
+   --destination-port https \
+   --jump HTTPS
+
+# Abort everything else.
+iptables --append INPUT --jump RESIDUUM
