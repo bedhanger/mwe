@@ -246,4 +246,4 @@ iptables --append INPUT \
    --jump HTTPS
 
 # Abort everything else.
-iptables --append INPUT --jump RJCTRST
+iptables --append INPUT --jump RESIDUUM
