@@ -17,17 +17,8 @@
 # (ranges) from which you are willing to accept that kind of
 # thing.
 
-if [ ${#} -eq 0 ]
-then
-   cat << EOM >&2
-Figure out which geok IP set (geok-A or geok-B) is active and
-pass its name as an argument to this script.
-
-If none is, create one (but not the other) and supply that name
-to the script.
-EOM
-   exit -1
-fi
+me=$(basename ${0})
+unset geok
 
 if [ ${UID} -ne 0 ]
 then
@@ -36,10 +27,6 @@ A firewall admin must be an admin to begin with...
 EOM
    exit -2
 fi
-
-# No sanity checks are performed.  Make sure the set is properly
-# named and contains what you want!
-geok=${1}
 
 # We'd like to know as much as we can.
 common_log_options="\
@@ -75,6 +62,20 @@ function sanitise()
    done
 }
 
+function usage()
+{
+   if [ "${@}" ]
+   then
+      cat << EOM
+${me}> ${@}
+EOM
+   fi
+
+   cat << EOM
+Implement me!
+EOM
+}
+
 # Seal the gates.
 sanitise DROP
 
@@ -97,8 +98,20 @@ EOM
       # We're done.
       exit 0
       ;;
+      --geok=*)
+         geok=$(rhs ${option})
+      ;;
+      *)
+      usage "Ignoring unknown option '${option}'"
+      ;;
    esac
 done
+
+if [ -z "${geok}" ]
+then
+   usage "No geok setting found, assuming geok-A"
+   geok=geok-A
+fi
 
 # Special chains to log & drop/accept packets indiscriminately.
 iptables --new-chain LOGDROP
