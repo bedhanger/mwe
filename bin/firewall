@@ -58,6 +58,11 @@ log_throttle="\
       --limit-burst ${log_burst} \
 "
 
+function rhs()
+{
+   cut --fields=2 --delimiter="=" <<< ${@}
+}
+
 function sanitise()
 {
    # Flush everything.
@@ -72,6 +77,28 @@ function sanitise()
 
 # Seal the gates.
 sanitise DROP
+
+# Option processing.
+for option in "${@}"
+do
+   case ${option} in
+      --seal)
+         cat <<EOM >&2
+You are now cut off from *any* kind of network traffic!
+EOM
+      # We're done.
+      exit 0
+      ;;
+      --off)
+         cat <<EOM >&2
+This is dangerous!
+EOM
+      sanitise ACCEPT
+      # We're done.
+      exit 0
+      ;;
+   esac
+done
 
 # Special chains to log & drop/accept packets indiscriminately.
 iptables --new-chain LOGDROP
