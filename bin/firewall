@@ -58,12 +58,20 @@ log_throttle="\
       --limit-burst ${log_burst} \
 "
 
-# Flush everything and begin anew sanely.
-iptables --flush
-iptables --delete-chain
-iptables --policy INPUT DROP
-iptables --policy OUTPUT DROP
-iptables --policy FORWARD DROP
+function sanitise()
+{
+   # Flush everything.
+   iptables --flush
+   iptables --delete-chain
+
+   # Set chain policy.
+   for chain in INPUT OUTPUT FORWARD; do
+      iptables --policy ${chain} ${@}
+   done
+}
+
+# Seal the gates.
+sanitise DROP
 
 # Special chains to log & drop/accept packets indiscriminately.
 iptables --new-chain LOGDROP
