@@ -50,6 +50,9 @@
         dcw = diff --color-words
         # What we usually want invoked when we spell it out.
         vi = ci --amend
+        # Useful to produce diff slices even if no local changes
+        # are present.
+        tree0 = hash-object -t tree /dev/null
 [merge]
         conflictStyle = diff3
         log = true
