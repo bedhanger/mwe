@@ -139,22 +139,34 @@ iptables --append INVALID? \
 
 # The beauty of the ip command is that it is so antique that its
 # output format will probably never change again.
+unset first_nic_in_use
 first_nic_in_use=$(ip route ls | head --lines=1 | \
    rg --only-matching 'dev\s+\w+' | \
    cut --fields=2 --delimiter=" ")
 
 # Traffic from within is Ok?  Not quite...
 iptables --new-chain LANS?
-iptables --append LANS? \
-   --in-interface ${first_nic_in_use} \
-   --source 0.0.0.0 \
-   --destination 255.255.255.255 \
-   --protocol udp \
-   --source-port bootpc \
-   --destination-port bootps \
-   --jump ACCEPT \
-   --match comment \
-      --comment "Is is DHCP?"
+
+if [ "${first_nic_in_use}" ]
+then
+   iptables --append LANS? \
+      --in-interface ${first_nic_in_use} \
+      --source 0.0.0.0 \
+      --destination 255.255.255.255 \
+      --protocol udp \
+      --source-port bootpc \
+      --destination-port bootps \
+      --jump ACCEPT \
+      --match comment \
+         --comment "Is is DHCP?"
+else
+   cat <<EOM >&2
+Cannot determine your primary network interface.
+Is your network setup complete?
+DHCP-related rules will not be installed.
+EOM
+fi
+
 iptables --append LANS? \
    --match set \
       --match-set log-devices src \
