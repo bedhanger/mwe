@@ -43,7 +43,7 @@ Control-N: " parallel --jobs=0 --ungroup ::: renice\\ 34\\ ${$} ionice\\ -c\\ 3\
 
 Control-X: " cls && pwd && l && j && \C-p'git l -9' 'git sb'\C-m"
 
-Control-U: ' echo && fortune -a && echo\C-m'
+Control-U: ' cat 0< <( echo && fortune -a && echo )\C-m'
 
 Control-P: " parallel --jobs=0 --ungroup ::: "
 
