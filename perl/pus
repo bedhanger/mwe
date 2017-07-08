@@ -39,12 +39,7 @@ my $ps_format_options = join(',',
 
 # Don't touch this, play with the format options above.
 
-my $ps = qq/\\
-   ps \\
-   -e \\
-   -L \\
-   --format $ps_format_options \\
-/;
+my $ps = qq/ps -e -L --format $ps_format_options/;
 
 # The reason we use the external grep is that it does the
 # colouring for us rather nicely.
