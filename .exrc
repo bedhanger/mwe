@@ -107,8 +107,6 @@ map  063lbi>>
 map  061lbi" &"
 " Pressing RETURN will save the current buffer.
 map  :w
-" Map the Insert key to insert the contents of the clipboard.
-map [2~ :read ! g
 " CTRL-A transfers the whole buffer into the clipboard.  It also
 " removes the EOL from the last line.  This is done in order to
 " replicate the mouse selection technique of including or
