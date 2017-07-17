@@ -53,6 +53,9 @@
         # Useful to produce diff slices even if no local changes
         # are present.
         tree0 = hash-object -t tree /dev/null
+        # The short form of the option and its argument is -uno,
+        # hence the name of the alias.
+        st1 = st --untracked-files=no
 [merge]
         conflictStyle = diff3
         log = true
