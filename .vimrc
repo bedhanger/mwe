@@ -152,7 +152,7 @@ map <C-W>V :vnew<CR>
 " Discard buffer...
 map <C-W>c :bwipeout!<CR>
 " Insert buffer content into Git index
-map <Ins> :silent! :!git stage %<CR>
+map <Ins> :silent! !git stage %<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Key mappings in insert mode.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
