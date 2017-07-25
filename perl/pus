@@ -32,8 +32,8 @@ my $ps_format_options = join(',',
       pcpu
       pmem
       stat
-      command
       machine
+      command
    )
 );
 
