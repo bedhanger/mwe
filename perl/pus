@@ -19,7 +19,9 @@ my $ps_format_options = join(',',
       ppid
       cpuid
       tid
+      cgname
       cgroup
+      lwp=THRID
       nlwp=THRDS
       cls=SCHED
       vsz
@@ -33,6 +35,7 @@ my $ps_format_options = join(',',
       pmem
       stat
       machine
+      lxc
       command
    )
 );
