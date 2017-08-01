@@ -56,6 +56,7 @@
         # The short form of the option and its argument is -uno,
         # hence the name of the alias.
         st1 = st --untracked-files=no
+        ds = diff --staged
 [merge]
         conflictStyle = diff3
         log = true
