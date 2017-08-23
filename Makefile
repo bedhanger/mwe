@@ -5,8 +5,8 @@ deploy: me      = mwe
 deploy: what    = HEAD
 
 deploy:
-	@echo "Deploying ${what} into ${whereto}/${me}..."
+	@echo "Deploying ${what} into $(shell realpath ${whereto})/${me}..."
 	@git archive \
          --verbose \
          --format=tar \
-         --prefix=${me}/ ${what} | ( cd ${whereto} && tar xf - )
+         --prefix=${me}/ ${what} | ( cd $(shell realpath ${whereto}) && tar xf - )
