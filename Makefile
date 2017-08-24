@@ -1,4 +1,5 @@
-all: deploy
+all:
+	${MAKE} deploy
 
 deploy: whereto = $${HOME:-/tmp}
 deploy: me      = mwe
