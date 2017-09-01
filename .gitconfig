@@ -49,7 +49,7 @@
         rpc = show --no-patch --date=short --pretty='format:%h (\"%s\", %ad)%n'
         dcw = diff --color-words
         # What we usually want invoked when we spell it out.
-        vi = ci --amend
+        vi = ci --amend --allow-empty
         # Useful to produce diff slices even if no local changes
         # are present.
         tree0 = hash-object -t tree /dev/null
