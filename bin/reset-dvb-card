@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Unload and then load the kernel modules for the DVB card.
+
+# While this is not exactly like resetting the card, it has the
+# same effect.
+
+MODULE=${1:-mantis}
+
+[ ${UID} -eq 0 ] || PRIVILEGE_ELEVATION=sudo
+
+${PRIVILEGE_ELEVATION} /sbin/modprobe --remove --verbose ${MODULE} && \
+${PRIVILEGE_ELEVATION} /sbin/modprobe --verbose ${MODULE}
