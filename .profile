@@ -1,3 +1,11 @@
+# This inserts a thousands separator into the sizes displayed by
+# ls.  It is dependent upon LC_NUMERIC, but there appears to be
+# none which features "_", :-(
+# There are at least two variants of this: DU_BLOCK_SIZE and
+# DF_BLOCK_SIZE, for du and df, respectively, but their visual
+# result are more confusing than helpful.
+export LS_BLOCK_SIZE="'1"
+
 # Some useful aliases.  More are scattered throughout the file.
 
 l='ls -la --color=auto --time-style="+%Y-%m-%dT%H:%M:%S"'
