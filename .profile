@@ -1,10 +1,9 @@
 # This inserts a thousands separator into the sizes displayed by
-# ls.  It is dependent upon LC_NUMERIC, but there appears to be
-# none which features "_", :-(
-# There are at least two more variables of this ilk:
-# DU_BLOCK_SIZE and DF_BLOCK_SIZE, for du and df, respectively,
-# but their visual results are more confusing than helpful.
+# ls, du, and df.  It is dependent upon LC_NUMERIC, but there
+# appears to be none which features "_", :-(
 export LS_BLOCK_SIZE="'1"
+export DU_BLOCK_SIZE="'1024"
+export DF_BLOCK_SIZE="'1024"
 
 # Some useful aliases.  More are scattered throughout the file.
 
