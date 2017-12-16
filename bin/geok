@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# Print the currently active GEOK set (A or B)
+
+Me=$(basename ${0})
+GEOKs="$(echo geok-{A,B})"
+Active_GEOK=
+
+if [ ${UID} != 0 ]
+then
+	cat <<-EOM >&2
+		${Me}: fatal: insufficient privileges (must be root)
+	EOM
+	exit -2
+fi
+
+# We have a chance of speeding things up by randomising which
+# set should be checked for first.
+for geok in $(shuf --echo ${GEOKs})
+do
+	ipset -quiet list -name ${geok} >/dev/null 2>&1 && \
+		Active_GEOK=${geok} && break # 1st one found
+done
+
+if [ -z ${Active_GEOK} ]
+then
+	cat <<-EOF >&2
+		${Me}: fatal: cannot determine active GEOK set
+	EOF
+	exit -1
+else
+	echo ${Active_GEOK}
+fi
