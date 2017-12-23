@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Play dice with the cmd line args
+
+# When no args are given, simulate casting a die.
+Eyes="${@:-$(seq 1 6)}"
+
+exec shuf --echo ${Eyes} --head-count=1
