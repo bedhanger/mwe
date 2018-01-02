@@ -23,8 +23,6 @@ set comments+=:--\|,:--,:\":'
 set formatoptions+=r2
 filetype on
 set viminfo=""
-" TABs are evil (in most places).
-set expandtab
 " set fileformat=dos
 set noswapfile
 set splitbelow
@@ -54,7 +52,6 @@ autocmd StdinReadPost * map q :quit!<CR>
 " (would be nice, as we could then forget about CmdwinLeave).
 autocmd CmdwinEnter unmap <CR>
 " autocmd CmdwinLeave * map <CR> :wall<CR>+
-" autocmd FileType mail set tabstop=8
 " This one's local by virtue of textwidth's being local to the buffer.
 autocmd CmdwinEnter set formatoption=
 autocmd CmdwinEnter set textwidth=0

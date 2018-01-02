@@ -7,17 +7,11 @@ set autoindent
 set ignorecase
 set showmode
 set showmatch
-set shiftwidth=3
 set nowrapscan
 set autowrite
 set wrapmargin=15
 set shell=bash
 set showcmd
-" The tabstop setting discourages vi from inserting TABs when
-" you use  repetitively; it makes, however, files that do
-" contain TABs look funny.  The lesson to be learnt from that:
-" do not use TABs in your text files.
-" set tabstop=80
 " This is useful for counting the occurrences of a regex in a
 " file: %s/regex/&/g does the trick.
 set report=0
