@@ -112,7 +112,7 @@ close CPU_INFO;
 my $Faster_CPUs = scalar(@CPU_DATA) / 4;
 
 print <<EOM;
-#CPUs running faster than $Allowance MHz: $Faster_CPUs out of $How_Many_CPUs
+#CPUs running faster than $Min_Freq * $Margin = $Allowance MHz: $Faster_CPUs out of $How_Many_CPUs
 EOM
 
 foreach my $Info_Item (@CPU_DATA)
