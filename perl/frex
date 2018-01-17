@@ -46,6 +46,11 @@ EOM
 # Normalise to MHz.
 $Min_Freq = $Min_Freq / 1000;
 
+# 5 percent
+my $Margin = 1.05;
+
+my $Allowance = $Min_Freq * $Margin;
+
 my $How_Many_CPUs = 0;
 
 PROCESSOR : while (defined(my $Line = <CPU_INFO>))
@@ -77,7 +82,7 @@ EOM
       {
 
          next CPU_MHZ unless ($Line =~ m/^cpu\smhz$LHS_Trailer(\d+)/oix);
-         if ($1 !~ m/$Min_Freq/)
+         if ($1 gt $Allowance)
          {
 
             push @CPU_DATA, $Line;
@@ -107,7 +112,7 @@ close CPU_INFO;
 my $Faster_CPUs = scalar(@CPU_DATA) / 4;
 
 print <<EOM;
-#CPUs running faster than $Min_Freq MHz: $Faster_CPUs out of $How_Many_CPUs
+#CPUs running faster than $Allowance MHz: $Faster_CPUs out of $How_Many_CPUs
 EOM
 
 foreach my $Info_Item (@CPU_DATA)
