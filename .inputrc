@@ -56,7 +56,7 @@ Control-W: "\ek\C-m"
 # made ff an alias) than to invoke good ol' find.
 Control-O: "git ff -z | xargs --max-procs=3 --null --no-run-if-empty grep --perl-regexp --color=auto --with-filename --ignore-case --line-number --byte-offset --unix-byte-offsets "
 
-Control-T: "diff --ignore-file-name-case --ignore-tab-expansion --ignore-blank-lines --ignore-all-space --ignore-case --ignore-space-change --recursive --strip-trailing-cr --exclude=.svn --exclude=.git --unified "
+Control-T: "colordiff --ignore-file-name-case --ignore-tab-expansion --ignore-blank-lines --ignore-all-space --ignore-case --ignore-space-change --recursive --strip-trailing-cr --exclude=.svn --exclude=.git --unified "
 
 Control-E: " export DISPLAY=:1\C-m"
 
