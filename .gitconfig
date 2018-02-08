@@ -18,7 +18,7 @@
 [alias]
         vista = "!git fetch --all && git branch --verbose \
          --verbose"
-        st = status --short --branch
+        st = status --short
         unstage = reset HEAD --
         unedit = checkout --
         ci = commit --signoff
