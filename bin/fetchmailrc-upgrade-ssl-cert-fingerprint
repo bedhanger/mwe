@@ -71,6 +71,6 @@ else
 
    # Replace the old one with the new one
    perl -0777 -p -i -e \
-      "s/'.+?'/'${sslfingerprint}'/o if m/sslfingerprint/o;" \
+      "s/'.*'/'${sslfingerprint}'/o if m/sslfingerprint/o;" \
       ${dot_fetchmailrc}
 fi
