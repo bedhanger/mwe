@@ -62,7 +62,7 @@ then
    exit -3
 else
    # Get the fingerprint
-   sslfingerprint=$(get-pop3-server-ssl-cert-fingerprint \
+   sslfingerprint=$(${HOME}/bin/get-pop3-server-ssl-cert-fingerprint \
       --server=${server} 2> /dev/null | tail --lines=1)
 
    # Massage it into the form expected in .fetchmailrc
