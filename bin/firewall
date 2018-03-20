@@ -183,6 +183,10 @@ unset nics
 nics=$(ip link | rg --only-matching '^\s*\d+:\s\S+:' | \
    cut --field=2 --delimiter=':')
 
+# Zero network and its associated broadcast address
+this_network="0.0.0.0"
+this_bcast="255.255.255.255"
+
 # Traffic from within is Ok?  Not quite...
 iptables --new-chain LANS?
 for nic in ${nics}; do
@@ -190,8 +194,8 @@ for nic in ${nics}; do
    echo -n "${me}> Considering ${nic} for DHCP..."
    iptables --append LANS? \
       --in-interface ${nic} \
-      --source 0.0.0.0 \
-      --destination 255.255.255.255 \
+      --source ${this_network} \
+      --destination ${this_bcast} \
       --protocol udp \
       --source-port bootpc \
       --destination-port bootps \
