@@ -34,7 +34,7 @@ NO_SPEAK_SSL='< /dev/null'
 function HELP {
    cat << EOM
 
-   ${ME} [OPTION...]
+	${ME} [OPTION...]
 
 Retrieve & display a server's SSL cert (fingerprint)
 
@@ -45,18 +45,20 @@ However, the defaults can be overwritten to make other
 combinations possible.  Therefore, OPTION can be [defaults
 shown in brackets]:
 
-   --server=... contact a server [${SERVER}]
-   --port=...   make a connection to a specified port [${PORT}]
-   --format=... print fingerprint in another format [${FORMAT}]
-   --speak-ssl  keep connection to server open [--no-speak-ssl]
+	-s, --server <server>	contact a server [${SERVER}]
+	-p, --port <port>	make a connection to a specified port [${PORT}]
+	-f, --format <format>	print fingerprint in another format [${FORMAT}]
+	-S, --speak-ssl		keep connection to server open [--no-speak-ssl]
+	-N, --no-speak-ssl	close connection to server [this is the default]
+	-h, --help		show this & exit
 
 EXAMPLE: to see the SHA1 fingerprint of the author's web server
 cert, type:
 
-   get-pop3-server-ssl-cert-fingerprint \\
-      --server=bedhanger.strangled.net \\
-      --port=https \\
-      --format=sha1
+	get-pop3-server-ssl-cert-fingerprint \\
+		--server=bedhanger.strangled.net \\
+		--port=https \\
+		--format=sha1
 
 [Depending on the originating IP address, the server's firewall
  might block the request]
@@ -64,43 +66,49 @@ cert, type:
 EOM
 }
 
-function rhs()
-{
-   cut --fields=2 --delimiter='=' <<< ${@}
-}
+# Process command-line options
+options=$(getopt \
+	--options='s:p:f:SNh' \
+	--longoptions='server:,port:,format:,speak-ssl,no-speak-ssl,help' \
+	--name="${ME}" \
+	-- \
+	"${@}")
+opts_ret=${?}
+if [ ${opts_ret} -ne 0 ] ; then
+	echo "Try '${ME} --help' for more information"
+	exit ${opts_ret}
+fi
 
-# Parse the command line.
-for OPTION in "${@}"
-do
-   case "${OPTION}" in
-      --server=*)
-         SERVER=$(rhs ${OPTION})
-         ;;
-      --port=*)
-         PORT=$(rhs ${OPTION})
-         ;;
-      --format=*)
-         FORMAT=$(rhs ${OPTION})
-         ;;
-      --speak-ssl)
-         unset NO_SPEAK_SSL
-         ;;
-      --no-speak-ssl)
-         true
-         ;;
-      --help)
-         HELP
-         exit 0
-         ;;
-      --)
-         true
-         ;;
-      *)
-         echo "Unknown option '${OPTION}', try '${ME} --help'"
-         exit 1
-         ;;
-   esac
-done
+eval set -- "${options}" ; unset options
+
+while true ; do case "${1}" in
+
+	'-s'|'--server') SERVER="${2}"
+		shift 2 ; continue ;;
+
+	'-p'|'--port') PORT="${2}"
+		shift 2 ; continue ;;
+
+	'-f'|'--format') FORMAT="${2}"
+		shift 2 ; continue ;;
+
+	'-S'|'--speak-ssl') unset NO_SPEAK_SSL
+		shift 1 ; continue ;;
+
+	'-N'|'--no-speak-ssl') NO_SPEAK_SSL='< /dev/null'
+		shift 1 ; continue ;;
+
+	'-h'|'--help') HELP
+		shift 1 ; exit 0 ;;
+
+	'--') : # Exit b4 true turns 2 false
+		shift ; break ;;
+
+	*) echo 'Internal error!' >&2
+		exit 1 ;;
+
+esac ; done ; for arg ; do echo "(${ME}: Ignoring '${arg}')" >&2 ; done
+# Done processing command-line options
 
 if [ "${FORMAT}" ]
 then
