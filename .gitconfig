@@ -58,6 +58,8 @@
         # hence the name of the alias.
         st1 = st --untracked-files=no
         ds = diff --staged
+	# Subtracktion
+	l0 = l1 -1
 [merge]
         conflictStyle = diff3
         log = true
