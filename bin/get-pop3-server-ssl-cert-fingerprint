@@ -31,6 +31,9 @@ fi
 # Terminate connection to server.
 NO_SPEAK_SSL='< /dev/null'
 
+# Control chattiness
+verbose=false
+
 function HELP {
    cat << EOM
 
@@ -45,12 +48,13 @@ However, the defaults can be overwritten to make other
 combinations possible.  Therefore, OPTION can be [defaults
 shown in brackets]:
 
-	-s, --server <server>	contact a server [${SERVER}]
-	-p, --port <port>	make a connection to a specified port [${PORT}]
-	-f, --format <format>	print fingerprint in another format [${FORMAT}]
-	-S, --speak-ssl		keep connection to server open [--no-speak-ssl]
-	-N, --no-speak-ssl	close connection to server [this is the default]
-	-h, --help		show this & exit
+	-s, --server <server>		contact a server [${SERVER}]
+	-p, --port <port>		make a connection to a specified port [${PORT}]
+	-f, --format <format>		print fingerprint in another format [${FORMAT}]
+	-S, --speak-ssl			keep connection to server open [--no-speak-ssl]
+	-N, --no-speak-ssl		close connection to server [this is the default]
+	-h, --help			show this & exit
+	-v, --verbose [<true|false>]	explain what is going on [false]
 
 EXAMPLE: to see the SHA1 fingerprint of the author's web server
 cert, type:
@@ -68,8 +72,8 @@ EOM
 
 # Process command-line options
 options=$(getopt \
-	--options='s:p:f:SNh' \
-	--longoptions='server:,port:,format:,speak-ssl,no-speak-ssl,help' \
+	--options='s:p:f:SNhv::' \
+	--longoptions='server:,port:,format:,speak-ssl,no-speak-ssl,help,verbose::' \
 	--name="${ME}" \
 	-- \
 	"${@}")
@@ -101,6 +105,15 @@ while true ; do case "${1}" in
 	'-h'|'--help') HELP
 		shift 1 ; exit 0 ;;
 
+	'-v'|'--verbose') case "${2}" in
+			'')             verbose=true ;;
+			'true'|'false') verbose="${2}" ;;
+			*)
+				echo "Arg to option 'v' must be 'true' or 'false'" >&2
+				exit 1 ;;
+		esac
+		shift 2 ; continue ;;
+
 	'--') : # Exit b4 true turns 2 false
 		shift ; break ;;
 
@@ -109,6 +122,18 @@ while true ; do case "${1}" in
 
 esac ; done ; for arg ; do echo "(${ME}: Ignoring '${arg}')" >&2 ; done
 # Done processing command-line options
+
+${verbose} && {
+	cat <<-EOF
+		Contacting '${SERVER}' at port '${PORT}'
+		Delivering fingerprint in format '${FORMAT}'
+	EOF
+	if [ "${NO_SPEAK_SSL}" ] ; then
+		echo "Will close connection to server"
+	else
+		echo "Will keep connection to server open"
+	fi
+}
 
 if [ "${FORMAT}" ]
 then
