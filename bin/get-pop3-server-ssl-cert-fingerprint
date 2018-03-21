@@ -48,9 +48,9 @@ However, the defaults can be overwritten to make other
 combinations possible.  Therefore, OPTION can be [defaults
 shown in brackets]:
 
-	-s, --server <server>		contact a server [${SERVER}]
-	-p, --port <port>		make a connection to a specified port [${PORT}]
-	-f, --format <format>		print fingerprint in another format [${FORMAT}]
+	-s, --server <server>		contact a server [pop.gmx.net]
+	-p, --port <port>		make a connection to a specified port [pop3s]
+	-f, --format <format>		print fingerprint in another format [md5]
 	-S, --speak-ssl			keep connection to server open [--no-speak-ssl]
 	-N, --no-speak-ssl		close connection to server [this is the default]
 	-h, --help			show this & exit
