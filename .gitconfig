@@ -46,7 +46,8 @@
         # submission guidelines suggest leaving off the %n (aka
         # \n), though.  But referencing more than one makes the
         # result look ugly.
-        rpc = show --no-patch --date=short --pretty='format:%h (\"%s\", %ad)%n'
+        rpc = show --no-patch --date=short \
+		--pretty='format:%C(blue)%h%C(reset) (%C(red)\"%s\"%C(reset), %C(green)%ad%C(reset))%n'
         dcw = diff --color-words
         scw = show --color-words
         # What we usually want invoked when we spell it out.
