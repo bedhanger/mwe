@@ -61,6 +61,8 @@
         ds = diff --staged
 	# Subtracktion
 	l0 = l1 -1
+	# Sorta like wc, but for objects in the repository
+	oc = count-objects --verbose --human-readable
 [merge]
         conflictStyle = diff3
         log = true
