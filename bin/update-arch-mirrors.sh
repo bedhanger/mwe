@@ -12,7 +12,7 @@ then
 	exit 1
 fi
 
-country='"${1}"'
+country="${1}"
 url="https://www.archlinux.org/mirrorlist/?country=$country&protocol=https&protocol=http&ip_version=4&use_mirror_status=on"
 
 tmpfile=$(mktemp --suffix=-mirrorlist)
