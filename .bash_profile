@@ -54,7 +54,6 @@ else
 
 fi
 
-SAYS="ponythink ponysay"
-
+SAYS="cow{think,say}" && SAYS="$(eval echo ${SAYS})"
 [ -z "$(which ${SAYS})" ] || \
-   (echo; python3 $(which $(shuf --echo --head-count=1 ${SAYS})) < <(fortune); echo)
+   (echo; $(which $(shuf --echo --head-count=1 ${SAYS})) < <(fortune); echo)
