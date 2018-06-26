@@ -54,34 +54,7 @@ else
 
 fi
 
-# [ -z "$(which fortune cowsay)" ] || (echo; fortune | cowsay; echo)
-
 SAYS="ponythink ponysay"
 
 [ -z "$(which ${SAYS})" ] || \
    (echo; python3 $(which $(shuf --echo --head-count=1 ${SAYS})) < <(fortune); echo)
-
-function wcd()
-{
-
-   # Prepare wcd to be a drop-in replacement for cd (the call to
-   # perl prevents infinite recursion).
-
-   go="${WCDHOME:-${HOME}}/bin/wcd.go" && \
-   command rm -f "$go" && \
-   command wcd --ignore-case "$@" && \
-   command perl -pi -e 's/\s*(cd)/builtin $1/;' $go && \
-   [ -f "$go" -a -r "$go" ] && source "$go" && \
-   unset go
-
-}
-
-# [ -f ${HOME}/git-completion.bash ] && source ${HOME}/git-completion.bash
-# if [ -f ${HOME}/git-prompt.sh ]
-# then
-#
-#    source ${HOME}/git-prompt.sh
-#    export GIT_PS1_SHOWDIRTYSTATE=1
-#    export PS1='$(__git_ps1 "(%s)") \$ '
-#
-# fi
