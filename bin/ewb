@@ -13,3 +13,6 @@ EMERGE_WORLD_OPTS="\
 "
 
 emerge ${EMERGE_WORLD_OPTS} ${@} @world
+
+# Terminate the root shell.
+exit
