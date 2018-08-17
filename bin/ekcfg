@@ -20,6 +20,9 @@ then
    exit -2
 fi
 
+# Give continuity hint
+echo -n "Most recent upstream commit is: " && git rpc
+
 # Use a branch for the new config
 git co -b $(basename $(realpath .))
 git b
