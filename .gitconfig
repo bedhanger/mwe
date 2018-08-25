@@ -5,6 +5,8 @@
         name = Ann T Ropea
         email = bedhanger@gmx.de
         pager = cat
+[advice]
+	waitingForEditor = false
 [push]
         default = simple
 [color]
