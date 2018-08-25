@@ -51,7 +51,7 @@
         dcw = diff --color-words
         scw = show --color-words
         # What we usually want invoked when we spell it out.
-        vi = ci --amend --allow-empty
+        vi = ci --amend --allow-empty --verbose --verbose
         # Useful to produce diff slices even if no local changes
         # are present.
         tree0 = hash-object -t tree /dev/null
