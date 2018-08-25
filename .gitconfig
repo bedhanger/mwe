@@ -21,7 +21,7 @@
         st = status --short
         unstage = reset HEAD --
         unedit = checkout --
-        ci = commit --signoff
+        ci = commit --signoff --verbose --verbose
         co = checkout
         co3 = checkout --conflict=diff3 --
         b = branch
@@ -51,7 +51,7 @@
         dcw = diff --color-words
         scw = show --color-words
         # What we usually want invoked when we spell it out.
-        vi = ci --amend --allow-empty --verbose --verbose
+        vi = ci --amend --allow-empty
         # Useful to produce diff slices even if no local changes
         # are present.
         tree0 = hash-object -t tree /dev/null
