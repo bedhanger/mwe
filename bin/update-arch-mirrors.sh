@@ -13,6 +13,9 @@ then
 fi
 
 country="${1}"
+# Make it upper case
+country="$(tr '[:lower:]' '[:upper:]' <<<${country})"
+
 url="https://www.archlinux.org/mirrorlist/?country=$country&protocol=https&protocol=http&ip_version=4&use_mirror_status=on"
 
 tmpfile=$(mktemp --suffix=-mirrorlist)
