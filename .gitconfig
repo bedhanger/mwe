@@ -65,6 +65,8 @@
 	l0 = l1 -1
 	# Sorta like wc, but for objects in the repository
 	oc = count-objects --verbose --human-readable
+	# Most recent files and their status
+	mrf = diff HEAD^ --name-status
 [merge]
         conflictStyle = diff3
         log = true
