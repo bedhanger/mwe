@@ -27,11 +27,16 @@ echo -n "Most recent upstream commit is: " && git rpc
 git co -b $(basename $(realpath .))
 git b
 
-cat << EOM
-Now run "make menuconfig" or similar to progress.
-Then commit the changes made to .config, merge them back to the
-master branch, and push them to the origin remote.
-Then run "make colonel --makefile=make.colonel" to start the
-build of the kernel and the (in- as well as the out-of-tree)
-kernel modules.
+cat <<EOM
+Now run a command like
+
+	make menuconfig
+
+or similar to progress.  Then commit the changes made to .config, merge them back to the
+master branch, and push them to the origin remote.  Then run
+
+	make colonel --makefile=make.colonel ; exit
+
+to start the build of the kernel and the (in- as well as the out-of-tree) kernel modules.
+Exit the root shell afterwards.
 EOM
