@@ -16,43 +16,35 @@ function start_ssh_agent {
 
 }
 
-if [ -f "${SSH_ENV}" ]
-then
+function keez
+{
+	if [ -f "${SSH_ENV}" ]
+	then
+		HAVE_SSH_AGENT=false
+		unset SSH_AGENT_PID
 
-   HAVE_SSH_AGENT=false
+		source "${SSH_ENV}" > /dev/null
 
-   unset SSH_AGENT_PID
+		for PID in $(pidof ssh-agent)
+		do
+			# Now check that
+			# (1) SSH_AGENT_PID is a ssh-agent
+			# (2) it is a process of yours
+			# (3) it is not the gnome session ssh-agent
+			if [ ${SSH_AGENT_PID} -eq ${PID} ] && \
+				[ "$(stat --printf '%U' /proc/${PID})" = "${USER}" ] && \
+				! grep --quiet 'gnome-session' /proc/${PID}/cmdline
+			then
+				HAVE_SSH_AGENT=true
+				break
+			fi
+		done
 
-   source "${SSH_ENV}" > /dev/null
-
-   for PID in $(pidof ssh-agent)
-   do
-
-      # Now check that
-      # (1) SSH_AGENT_PID is a ssh-agent
-      # (2) it is a process of yours
-      # (3) it is not the gnome session ssh-agent
-
-      if [ ${SSH_AGENT_PID} -eq ${PID} ] && \
-         [ "$(stat --printf '%U' /proc/${PID})" = "${USER}" ] && \
-         ! grep --quiet 'gnome-session' /proc/${PID}/cmdline
-      then
-
-         HAVE_SSH_AGENT=true
-
-         break
-
-      fi
-
-   done
-
-   ${HAVE_SSH_AGENT} || start_ssh_agent
-
-else
-
-   start_ssh_agent
-
-fi
+		${HAVE_SSH_AGENT} || start_ssh_agent
+	else
+		start_ssh_agent
+	fi
+}
 
 SAYS="cow{think,say}" && SAYS="$(eval echo ${SAYS})"
 [ -z "$(which ${SAYS})" ] || \
