@@ -135,9 +135,8 @@ echo "${ME}> ${OLD_GEOK_IPSET} ---> ${NEW_GEOK_IPSET}"
 # millisecond, about as much as it costs us to insert a single
 # IP into an ipset.
 
-# We also time-stamp this operation.
-
-strace -cw iptables --replace INPUT ${GEOK_IPTABLES_RULE_NR} \
+# We also time-stamp this operation in a double fashion.
+command time --verbose strace -cw iptables --replace INPUT ${GEOK_IPTABLES_RULE_NR} \
    --match set ! --match-set ${NEW_GEOK_IPSET} src \
    --jump RJCTRST \
    --match comment \
