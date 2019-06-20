@@ -24,6 +24,7 @@
         unstage = reset HEAD --
         unedit = checkout --
         ci = commit --signoff --verbose --verbose
+        cia = ci --all
         co = checkout
         co3 = checkout --conflict=diff3 --
         b = branch
