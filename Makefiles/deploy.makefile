@@ -11,5 +11,3 @@ deploy:
          --verbose \
          --format=tar \
          --prefix=${me}/ ${what} | ( cd $(shell realpath ${whereto}) && tar xf - )
-
-# vim:filetype=make

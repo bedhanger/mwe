@@ -47,5 +47,3 @@ clean :
 	-@mdadm --stop ${array}
 	-@losetup --detach /dev/loop[${containers}]
 	@rm --force ${containers}
-
-# vim:filetype=make
