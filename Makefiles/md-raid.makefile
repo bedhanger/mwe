@@ -15,6 +15,13 @@ spare_devs	= 0
 containers	= {0..2}
 container_size	= 100M
 
+# Options for building the array
+create_opts += --level=${raid_level}
+create_opts += --raid-devices=${raid_devs}
+create_opts += --spare-devices=${spare_devs}
+create_opts += --bitmap=internal
+create_opts += --consistency-policy=bitmap
+
 all : create detail show
 
 create : clean
@@ -25,13 +32,7 @@ create : clean
 		losetup --find $${f}; \
 	done
 	@# Create the array (and start it rw)
-	@mdadm  --create ${array} \
-		--level=${raid_level} \
-		--raid-devices=${raid_devs} \
-		--spare-devices=${spare_devs} \
-		--bitmap=internal \
-		--consistency-policy=bitmap \
-		/dev/loop[${containers}]
+	@mdadm --create ${array} ${create_opts} /dev/loop[${containers}]
 
 show :
 	-@cat /proc/mdstat
