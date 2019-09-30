@@ -31,7 +31,7 @@ set output-meta on
 
 Control-F: 'FIELDS_THE_IN="." haystack-the-in-needle '
 
-Control-K: ' ipset add https_bad_guys '
+Control-K: ' ipset test https_bad_guys '
 
 # Renice thyself, both CPU- and IO-wise.  It's left as an
 # exercise to the reader why exec is not to be used here.
