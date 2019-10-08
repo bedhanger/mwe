@@ -9,6 +9,9 @@
 
 Me=$(basename ${0})
 
+# Let us fetch the remotes to make the results more realistic
+git fetch --all
+
 gllr1_cmd="git log --left-right --oneline"
 
 Branches="${@}"
