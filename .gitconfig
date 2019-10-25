@@ -2,9 +2,10 @@
         # Recommended by the Linux kernel development guidelines
         abbrev = 12
 [user]
-        name = Ann T Ropea
-        email = bedhanger@gmx.de
-        pager = cat
+	name = Ann T Ropea
+	email = bedhanger@gmx.de
+	signingkey = 9F7D1FF9E433C458E632C9A6A76185D3B497C68F
+	pager = cat
 [advice]
 	waitingForEditor = false
 [push]
