@@ -36,7 +36,7 @@ EOM
 my $the_new_governor = $ARGV[0];
 my $conduit2allcpus = qq{| \
    tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor \\
-   1> /dev/null # not interested in stdout, just the files};
+   1>/dev/null # not interested in stdout, just the files};
 
 open all_cpus_fd, $conduit2allcpus or die <<EOM;
 Cannot establish a conduit to all CPUs: ${OS_ERROR}
