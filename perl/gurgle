@@ -1,0 +1,42 @@
+#!/usr/bin/perl
+
+# Extract "the URL" from the gibberish Google produces when you save a link it displays
+
+use warnings;
+use strict;
+use English;
+
+# Id
+use File::Basename ();
+my ${me} = File::Basename::fileparse(${PROGRAM_NAME}, qr/\.(pl|exe)/);
+
+# "Save Link As..." in Firefox
+my ${url_file} = qq{${ENV{HOME}}/Downloads/url};
+open URL_FD, "<", ${url_file} or die <<EOM;
+[${me}] Cannot open "${url_file}": ${OS_ERROR}
+EOM
+
+# Read entire file in one go
+undef ${INPUT_RECORD_SEPARATOR};
+my ${url_file_contents} = <URL_FD>;
+
+# Set up what we're looking for
+my ${url_regex} = qr/
+	# It's best to look into the file to see why this gets us what we want.
+	# Note that this is also the most brittle bit.
+	\burl=[^"]+:?"
+/ox;
+
+# Do the matching
+my ${the_URL} = ${MATCH} if (${url_file_contents} =~ m/${url_regex}/);
+die <<EOM unless (defined(${the_URL}));
+[${me}] No URL found in "${url_file}"
+EOM
+
+# Pretty-print
+${the_URL} =~ s/^url=//;
+${the_URL} =~ s/"$/\n/;
+print ${the_URL};
+
+# Bye
+close URL_FD;
