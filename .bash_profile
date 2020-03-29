@@ -46,6 +46,6 @@ function keez
 	fi
 }
 
-SAYS="cow{think,say}" && SAYS="$(eval echo ${SAYS})"
+SAYS="{cow,pony}{think,say}" && SAYS="$(eval echo ${SAYS})"
 [ -z "$(which ${SAYS})" ] || \
    (echo; $(which $(shuf --echo --head-count=1 ${SAYS})) < <(fortune); echo)
