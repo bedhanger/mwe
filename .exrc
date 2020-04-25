@@ -10,6 +10,7 @@ set showmatch
 set nowrapscan
 set autowrite
 set wrapmargin=15
+set nowrap
 set shell=bash
 set showcmd
 " This is useful for counting the occurrences of a regex in a
