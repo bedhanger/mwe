@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Send mail to remind ourselves of important dates
+
+me=$(basename ${0})
+
+calendar="calendar"
+look_ahead="-A7" # a week
+
+mailer="mailx"
+no_send_empty_body="-e"
+subject="Yer current ${me} as of $(now)"
+
+${calendar} \
+	${look_ahead} \
+	| \
+	${mailer} \
+		${no_send_empty_body} \
+		-s"${subject}" \
+		${USER}
