@@ -12,7 +12,7 @@ set background=light
 " let g:solarized_termcolors=256
 " colorscheme solarized
 set ruler
-set textwidth=89
+set textwidth=100
 set tildeop
 set notitle
 set t_ti=
