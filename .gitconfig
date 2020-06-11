@@ -19,8 +19,6 @@
 [rerere]
         enabled = true
 [alias]
-        vista = "!git fetch --all && git branch --verbose \
-         --verbose"
         st = status --short
         unstage = reset HEAD --
         unedit = checkout --
