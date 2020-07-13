@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+
+# Perform Git backupth
+
+# Why is this better than bup?  Well, it isn't, but then it is also not stuck on Python 2.7, support
+# for which is being end-of-life'ed in many distros.
+
+# Note that we currently do not care about file/directory timestamps.
+# Restoring things is not in the scope; you are supposed to work with the Git repository managed and
+# retrieve whatever you want.  A backup run produces three tags to facilitate this: one for the
+# dataset commit, one for the list of empty folders, and the third holds the ACLs of all items.
+# They are named
+
+	# <ts>-dataset
+	# <ts>-mt-dirs
+	# <ts>-acls
+
+# respectively, where <ts> is a human-readable timestamp (the same for all three, so there is your
+# grouping).  Process them in the order above: checkout the first, feed the contents of the second
+# to "mkdir --parents", and use the contents of the last to restore ACLs using setfacl(1).
+
+me=$(basename ${0})
+
+if [ ${UID} != 0 ]
+then
+	echo "${me}> must be root..." >&2
+	exit -1
+fi
+
+git_bupthrc=${HOME}/.git_bupthrc
+dry_run=false
+
+# These we pass to the command as we cannot read a .gitconfig when called from a Systemd timer
+git_whoami="
+	-c  user.name=\"Yer Git Backup Operator\" \
+	-c user.email=\"root@$( hostname --fqdn )\" \
+"
+git_misc_configs="
+	-c core.abbrev=12 \
+"
+
+function rhs()
+{
+	cut --fields=2 --delimiter='=' <<< ${@}
+}
+
+function usage()
+{
+	msg=${1}
+	[ "${msg}" ] && cat <<-EOM >&2
+
+		${msg}
+
+EOM
+	cat <<EOM >&2
+Usage is: ${me} [option]
+where option is
+	--git-bupthrc to specify an alternate control file [${git_bupthrc}]
+	--help or -h  to explicitly require usage instructions
+	--dry-run     to do everything except writing to storage
+EOM
+}
+
+for option in "${@}"
+do
+	case "${option}" in
+		--git-bupthrc=*)
+			git_bupthrc=$(rhs ${option})
+		;;
+		--dry-run)
+			dry_run=true
+		;;
+		--help|-h)
+			usage
+			exit 0
+		;;
+		*)
+			usage "${me}> unknown option '${option}'"
+			exit -2
+		;;
+	esac
+done
+
+if [ -e ${git_bupthrc} ]
+then
+	source ${git_bupthrc}
+else
+	usage "${me}> cannot find control file ${git_bupthrc}"
+	exit -3
+fi
+
+for dir2bupzet in ${bupzet_map}
+do
+	    dir=$(cut --fields=1 --delimiter=${map_delimiter} <<< ${dir2bupzet})
+	git_dir=$(cut --fields=2 --delimiter=${map_delimiter} <<< ${dir2bupzet})
+	    git="${dry_run} || git ${git_whoami} ${git_misc_configs} --git-dir=${git_dir}"
+
+	if [ -d ${dir} ]
+	then
+		echo "${me}> backing up \"${dir}\"..."
+		cd ${dir}
+		if [ -d ${git_dir} ]
+		then
+			# We ignore the racing condition regarding the timestamps below.
+
+			# The minimum, fixate the content
+			eval ${git} add . # do *not* use --force, so as to not counteract excludes
+			eval ${git} commit --signoff --message=\"${me} save\"
+
+			# Make it human-readable; note that colons are not allowed in names of tags
+			now=$( date +"%Y-%m-%dT%H.%M.%S" )
+			eval ${git} tag ${now}-dataset HEAD
+
+			# Collect empty folders
+			empty_dirs_list_sha=$( find -type d -empty -printf "%P\n" | \
+				eval ${git} hash-object --stdin -w )
+			eval ${git} tag ${now}-mt-dirs ${empty_dirs_list_sha}
+
+			# ACLs; note that Git will store perms but not owner/group info, and for the
+			# empty dirs we need a solution anyway; note also that this will record the
+			# ACLs for the excludes, too
+			acls_sha=$( getfacl --recursive . | eval ${git} hash-object --stdin -w )
+			eval ${git} tag ${now}-acls ${acls_sha}
+		else
+			echo "${me}> \"${git_dir}\" to back up into is not accessible, skipping..."
+			# TODO: Don't just complain, create the backup set if the user wishes.
+		fi
+	else
+		echo "${me}> \"${dir}\" to back up is not accessible, skipping..."
+	fi
+done

@@ -1,0 +1,14 @@
+# vim:filetype=sh
+
+bupz=/mnt/data/bupz/
+dot_git=.git
+dot_bupz=.bupz
+bupzet=${dot_bupz}${dot_git}
+
+map_delimiter=:
+goezto=${map_delimiter}${bupz}
+bupzet_map="
+   /etc/${goezto}etc${bupzet}
+   /var/lib/${goezto}var-lib${bupzet}
+   /mnt/data/Gits/${goezto}Gits${bupzet}
+"
