@@ -10,9 +10,10 @@ array		= /dev/md${md_id}
 raid_level	= 5
 raid_devs	= 3
 spare_devs	= 0
+total_devs	= $(shell expr ${raid_devs} + ${spare_devs})
 
 # Backing containers
-containers	= {0..2}
+containers	= {1..${total_devs}}
 container_size	= 100M
 
 # Options for building the array
@@ -29,7 +30,7 @@ create : clean
 	@truncate --size=${container_size} ${containers}
 	@# Turn containers into block devices
 	@for f in ${containers}; do \
-		losetup --find $${f}; \
+		losetup /dev/loop$${f} $${f}; \
 	done
 	@# Create the array (and start it rw)
 	@mdadm --create ${array} ${create_opts} /dev/loop[${containers}]
