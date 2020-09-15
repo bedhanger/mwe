@@ -27,9 +27,13 @@ all : create detail show
 
 create : clean containers loopdevs array
 
-containers :
+containers : df
 	@# Create containers
 	@truncate --size=${container_size} ${containers}
+
+df :
+	@# Check for enough free disk space
+	@true # WIP, obviously...
 
 loopdevs :
 	@# Turn containers into block devices
