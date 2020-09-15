@@ -14,7 +14,7 @@ total_devs	= $(shell expr ${raid_devs} + ${spare_devs})
 
 # Backing containers
 containers	= {1..${total_devs}}
-container_size	= 1000M
+container_size	= 1000MiB
 
 # Options for building the array
 create_opts += --level=${raid_level}
