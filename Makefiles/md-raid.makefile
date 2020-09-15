@@ -16,6 +16,11 @@ total_devs	= $(shell expr ${raid_devs} + ${spare_devs})
 containers	= {1..${total_devs}}
 container_size	= 1000MiB
 
+# Free disk space considerations, 5% margin on top...
+nrm_cnt_size	= $(shell humanfriendly --parse-size=${container_size})
+what_we_need	= $(shell bc --mathlib <<<"scale=0; (${total_devs} * ${nrm_cnt_size} * 105) / 100")
+what_we_have	= $(shell df --block-size=1 --output=avail . | tail --lines=1)
+
 # Options for building the array
 create_opts += --level=${raid_level}
 create_opts += --raid-devices=${raid_devs}
@@ -33,7 +38,12 @@ containers : df
 
 df :
 	@# Check for enough free disk space
-	@true # WIP, obviously...
+	@if [ ${what_we_need} -gt ${what_we_have} ]; then \
+		echo "Need more free disk space in this folder: $(shell humanfriendly --binary \
+			--format-size=${what_we_need}) \
+(only have $(shell humanfriendly --binary --format-size=${what_we_have}))"; \
+		false; \
+	fi
 
 loopdevs :
 	@# Turn containers into block devices
