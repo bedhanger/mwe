@@ -25,13 +25,19 @@ create_opts += --consistency-policy=bitmap
 
 all : create detail show
 
-create : clean
+create : clean containers loopdevs array
+
+containers :
 	@# Create containers
 	@truncate --size=${container_size} ${containers}
+
+loopdevs :
 	@# Turn containers into block devices
 	@for f in ${containers}; do \
 		losetup /dev/loop$${f} $${f}; \
 	done
+
+array :
 	@# Create the array (and start it rw)
 	@mdadm --create ${array} ${create_opts} /dev/loop[${containers}]
 
