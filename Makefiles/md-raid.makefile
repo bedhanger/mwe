@@ -9,7 +9,7 @@ array		= /dev/md${md_id}
 # Array specifics
 raid_level	= 5
 raid_devs	= 3
-spare_devs	= 0
+spare_devs	= 1
 total_devs	= $(shell expr ${raid_devs} + ${spare_devs})
 
 # Backing containers
