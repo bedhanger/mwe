@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+# Renew the Let's Encrypt certificate, taking care of the firewall before and after.
+# This is required as Let's Encrypt demands that a number of geographically distributed auth
+# challenges pass before they issue a new cert.
+
+Me=$(basename ${0})
+
+# Bail out if we are not what we need to be
+if [ ${UID} != 0 ]
+then
+	cat <<-EOM >&2
+		${Me}: fatal: insufficient privileges (must be root)
+	EOM
+	exit -2
+fi
+
+# The firewall rule that handles cert renewals
+As_Per_The_Cert_Rule_Spec="--jump CERT"
+
+# Its (numerical) position in the scheme of things
+At_The_Cert_Rule_Posn=5
+
+# Its chain location
+The_Cert_Rule_Chain="INPUT"
+
+# Helpers to make it all more readable
+   Iptables="iptables"
+     Iptlv="${Iptables} --list --verbose"
+Insert_Into_The_Fw="${Iptables} --insert"
+Delete_From_The_Fw="${Iptables} --delete"
+
+# Have some tmp files for firewall snapshots
+Template="/tmp/Iptlv-XXXXXXXX"
+  Before=$(mktemp --suffix=.b4 ${Template})
+  In_Btw=$(mktemp --suffix=.ib ${Template})
+   After=$(mktemp --suffix=.af ${Template})
+
+${Iptlv} >${Before}
+echo "${Me}: drilling calculated hole into the firewall"
+${Insert_Into_The_Fw} ${The_Cert_Rule_Chain} ${At_The_Cert_Rule_Posn} ${As_Per_The_Cert_Rule_Spec}
+
+echo "${Me}: attempting to renew the cert"
+certbot renew
+${Iptlv} >${In_Btw}
+
+echo "${Me}: sealing hole in the firewall again"
+${Delete_From_The_Fw} ${The_Cert_Rule_Chain} ${As_Per_The_Cert_Rule_Spec}
+${Iptlv} >${After}
+
+echo "${Me}: showing what happened in the firewall"
+git diff --no-index ${Before} ${In_Btw}
+git diff --no-index ${In_Btw} ${After}
+# This one's diff sugar
+git diff --no-index ${Before} ${After}
+
+# Cleanup
+rm -f ${Before} ${In_Btw} ${After}
