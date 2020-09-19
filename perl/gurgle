@@ -19,6 +19,7 @@ EOM
 # Read entire file in one go
 undef ${INPUT_RECORD_SEPARATOR};
 my ${url_file_contents} = <URL_FD>;
+# We don't need ${INPUT_RECORD_SEPARATOR} anymore, and we don't bother defining it again...
 
 # Set up what we're looking for
 my ${url_regex} = qr/
