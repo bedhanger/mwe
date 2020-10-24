@@ -4,20 +4,38 @@
 # latter to work, you should source the file, rather than
 # execute it directly.
 
-# The name of the directory.  The call to the filter is a
-# concession to one of the many shortcomings of NTFS in Win32
-# namespace, namely, the boggling list (both in terms of length
-# and content) of which characters are not allowed in filenames.
-TMP_NAME="$(date --iso-8601=seconds | \
-   perl -p -e 's/:/-/g;' -e 's/\+/plus/g;')-${PPID}-${RANDOM}"
+# Let's not make it overly complicated
+if [ "${ND}" ]
+then
+	cat <<-EOM >&2
+	No, no, no: you don't wanna nest this stuff
+	ND currently points to "${ND}"
+	Use that or unset it & try again
+	Let's see if we can get you there
+	EOM
 
-# Where to create it.  Obey user's choice: first arg, env var,
-# and /tmp, in that order.
-WHERE=${1:-${ND_ROOT:-/tmp}}
-WHERE=$(realpath ${WHERE})
+	if cd "${ND}"
+	then
+		echo "Ok"
+	else
+		echo "Didn't work..." >&2
+	fi
+else
+	# The name of the directory.  The call to the filter is a
+	# concession to one of the many shortcomings of NTFS in Win32
+	# namespace, namely, the boggling list (both in terms of length
+	# and content) of which characters are not allowed in filenames.
+	TMP_NAME="$(date --iso-8601=seconds | \
+	   perl -p -e 's/:/-/g;' -e 's/\+/plus/g;')-${PPID}-${RANDOM}"
 
-ND="${WHERE}/${TMP_NAME}"
+	# Where to create it.  Obey user's choice: first arg, env var,
+	# and /tmp, in that order.
+	WHERE=${1:-${ND_ROOT:-/tmp}}
+	WHERE=$(realpath ${WHERE})
 
-mkdir --verbose --parents ${ND} && cd ${ND}
+	ND="${WHERE}/${TMP_NAME}"
 
-export ND
+	mkdir --verbose --parents ${ND} && cd ${ND}
+
+	export ND
+fi
