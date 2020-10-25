@@ -22,7 +22,7 @@ If the target directory is no longer empty, proceed as follows
 
     cd /path/to/target/dir
     git init
-    git remote add mwe https://github.com/bedhanger/mwe.git
+    git remote add mwe <url-to>/mwe.git
     git fetch mwe
     git branch mwe-master --track remotes/mwe/master
     git checkout mwe-master
