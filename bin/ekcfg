@@ -27,6 +27,11 @@ echo -n "Most recent upstream commit is: " && git rpc
 git co -b $(basename $(realpath .))
 git b
 
+# Migrate
+make oldconfig
+git diff
+git ci -m".config: bump version"
+
 cat <<EOM
 Now run a command like
 
