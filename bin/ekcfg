@@ -33,12 +33,8 @@ git diff
 git ci -m".config: bump version"
 
 cat <<EOM
-Now run a command like
-
-	make menuconfig
-
-or similar to progress.  Then commit the changes made to .config, merge them back to the
-master branch, and push them to the origin remote.  Then run
+You can run a command like "make menuconfig" or similar to progress.  Then commit the changes made
+to .config, merge them back to the master branch, and push them to the origin remote.  Then run
 
 	make colonel --makefile=make.colonel ; exit
 
