@@ -156,7 +156,7 @@ iptables --append OUTPUT --jump ACCEPT
 iptables --new-chain CERT-PUNCTURE
 iptables --append CERT-PUNCTURE \
    --jump LOG \
-      --log-prefix "Cert? " \
+      --log-prefix "Cert: " \
       ${common_log_options}
 iptables --append CERT-PUNCTURE --protocol tcp \
    --destination-port https --jump ACCEPT
