@@ -150,16 +150,16 @@ iptables --append OUTPUT --jump ACCEPT
 # Incoming traffic is more complicated.  We need more chains
 # first.
 
-# Open up HTTPS for everyone.  Useful for mastering the ACME
-# challenge when requesting a certificate (renewal).
-# Only use this on an as-needed basis!
+# Open up HTTP et al. for everyone.  Useful for mastering the ACME challenge when requesting a
+# certificate (renewal).  Only use this on an as-needed basis!
 iptables --new-chain CERT-PUNCTURE
 iptables --append CERT-PUNCTURE \
    --jump LOG \
       --log-prefix "Cert: " \
       ${common_log_options}
-iptables --append CERT-PUNCTURE --protocol tcp \
-   --destination-port https --jump ACCEPT
+iptables --append CERT-PUNCTURE --protocol tcp --destination-port https --jump ACCEPT
+iptables --append CERT-PUNCTURE --protocol tcp --destination-port http-alt --jump ACCEPT
+iptables --append CERT-PUNCTURE --protocol tcp --destination-port http --jump ACCEPT
 iptables --append CERT-PUNCTURE \
    --jump LOG \
       --log-prefix "CERT?!? " \
