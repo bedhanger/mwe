@@ -162,7 +162,7 @@ iptables --append CERT-PUNCTURE --protocol tcp --destination-port http-alt --jum
 iptables --append CERT-PUNCTURE --protocol tcp --destination-port http --jump ACCEPT
 iptables --append CERT-PUNCTURE \
    --jump LOG \
-      --log-prefix "CERT?!? " \
+      --log-prefix 'CERT?!? ' \
       ${common_log_options}
 iptables --append CERT-PUNCTURE --jump RJCTRST
 
