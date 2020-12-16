@@ -160,6 +160,10 @@ iptables --append CERT-PUNCTURE \
       ${common_log_options}
 iptables --append CERT-PUNCTURE --protocol tcp \
    --destination-port https --jump ACCEPT
+iptables --append CERT-PUNCTURE \
+   --jump LOG \
+      --log-prefix "CERT?!? " \
+      ${common_log_options}
 iptables --append CERT-PUNCTURE --jump RJCTRST
 
 # Normal HTTPS.
