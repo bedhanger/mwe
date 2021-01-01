@@ -19,7 +19,7 @@ fi
 for geok in $(shuf --echo ${GEOKs})
 do
 	ipset -quiet list -name ${geok} >/dev/null 2>&1 && \
-		Active_GEOK=${geok} && break # 1st one found
+		Active_GEOK=${geok} && break # 1st one found, so cannot detect if both are active...
 done
 
 if [ -z ${Active_GEOK} ]
