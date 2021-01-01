@@ -20,6 +20,9 @@
 me=$(basename ${0})
 unset geok
 
+# We'll use this a lot...
+i="iptables"
+
 if [ ${UID} -ne 0 ]
 then
    cat << EOM >&2
@@ -53,12 +56,12 @@ function rhs()
 function sanitise()
 {
    # Flush everything.
-   iptables --flush
-   iptables --delete-chain
+   ${i} --flush
+   ${i} --delete-chain
 
    # Set chain policy.
    for chain in INPUT OUTPUT FORWARD; do
-      iptables --policy ${chain} ${@}
+      ${i} --policy ${chain} ${@}
    done
 }
 
@@ -113,70 +116,73 @@ then
    geok=geok-A
 fi
 
+inc="${i} --new-chain"
+ia="${i} --append"
+
 # Special chains to log & drop/accept packets indiscriminately.
-iptables --new-chain LOGDROP
-iptables --append LOGDROP \
+${inc} LOGDROP
+${ia} LOGDROP \
    ${log_throttle} \
    --jump LOG \
       --log-prefix "Dropping: " \
       ${common_log_options}
-iptables --append LOGDROP --jump DROP
+${ia} LOGDROP --jump DROP
 
-iptables --new-chain LOGACCEPT
-iptables --append LOGACCEPT \
+${inc} LOGACCEPT
+${ia} LOGACCEPT \
    ${log_throttle} \
    --jump LOG \
       --log-prefix "Accepting: " \
       ${common_log_options}
-iptables --append LOGACCEPT --jump ACCEPT
+${ia} LOGACCEPT --jump ACCEPT
 
 # Special chain to sever/reset a connection.
-iptables --new-chain RJCTRST
-iptables --append RJCTRST --protocol udp --jump REJECT \
-   --reject-with icmp-port-unreachable
-iptables --append RJCTRST --protocol tcp --jump REJECT \
-   --reject-with tcp-reset
+${inc} RJCTRST
+${ia} RJCTRST --protocol udp --jump REJECT --reject-with icmp-port-unreachable
+${ia} RJCTRST --protocol tcp --jump REJECT --reject-with tcp-reset
 
 # The forwarding is very simple.
-iptables --append FORWARD --jump RJCTRST
+${inc} FWD
+${ia} FWD --jump RJCTRST
+${ia} FORWARD --jump FWD
 
 # What goes out must not be heading towards sites we eschew.
-iptables --append OUTPUT \
-   --match set \
-      --match-set forbidden_sites dst \
-   --jump RJCTRST
-iptables --append OUTPUT --jump ACCEPT
+${inc} EGRESS
+${ia} EGRESS --match set --match-set forbidden_sites dst --jump RJCTRST
+${ia} EGRESS --jump ACCEPT
+${ia} OUTPUT --jump EGRESS
 
 # Incoming traffic is more complicated.  We need more chains
 # first.
 
 # Open up HTTP et al. for everyone.  Useful for mastering the ACME challenge when requesting a
 # certificate (renewal).  Only use this on an as-needed basis!
-iptables --new-chain CERT-PUNCTURE
-iptables --append CERT-PUNCTURE \
+${inc} CERT-PUNCTURE
+${ia} CERT-PUNCTURE \
    --jump LOG \
       --log-prefix "Cert: " \
       ${common_log_options}
-iptables --append CERT-PUNCTURE --protocol tcp --destination-port https --jump ACCEPT
-iptables --append CERT-PUNCTURE --protocol tcp --destination-port http-alt --jump ACCEPT
-iptables --append CERT-PUNCTURE --protocol tcp --destination-port http --jump ACCEPT
-iptables --append CERT-PUNCTURE \
+# We do not want multiport matching so that we can count things individually.
+${ia} CERT-PUNCTURE --protocol tcp --destination-port https --jump ACCEPT
+${ia} CERT-PUNCTURE --protocol tcp --destination-port 8008 --jump ACCEPT
+${ia} CERT-PUNCTURE --protocol tcp --destination-port http --jump ACCEPT
+${ia} CERT-PUNCTURE \
    --jump LOG \
       --log-prefix 'CERT?!? ' \
       ${common_log_options}
-iptables --append CERT-PUNCTURE --jump RJCTRST
+${ia} CERT-PUNCTURE --jump RJCTRST
 
 # Normal HTTPS.
-iptables --new-chain HTTPS
-iptables --append HTTPS \
-   --match set \
-      --match-set https_bad_guys src \
-   --jump RJCTRST
-iptables --append HTTPS --jump LOGACCEPT
+${inc} HTTPS
+# We do not want multiport matching so that we can count things individually.
+${ia} HTTPS --protocol tcp --destination-port 8008 --jump RJCTRST
+${ia} HTTPS --protocol tcp --destination-port http --jump RJCTRST
+${ia} HTTPS --match set --match-set https_bad_guys src --jump RJCTRST
+${ia} HTTPS --jump LOGACCEPT
 
 # Invalid packets.  They are a scourge.
-iptables --new-chain INVALID?
-iptables --append INVALID? \
+${inc} INVALID?
+${ia} INVALID? \
    --match conntrack \
       --ctstate INVALID \
    --jump DROP
@@ -192,11 +198,11 @@ this_network="0.0.0.0"
 this_bcast="255.255.255.255"
 
 # Traffic from within is Ok?  Not quite...
-iptables --new-chain LANS?
+${inc} LANS?
 for nic in ${nics}; do
    [ "${nic}" = "lo" ] && continue
    echo -n "${me}> Considering ${nic} for DHCP..."
-   iptables --append LANS? \
+   ${ia} LANS? \
       --in-interface ${nic} \
       --source ${this_network} \
       --destination ${this_bcast} \
@@ -208,111 +214,117 @@ for nic in ${nics}; do
          --comment "Is is DHCP?"
     echo "Ok"
 done
-iptables --append LANS? \
+${ia} LANS? \
    --match set \
       --match-set log-devices src \
    --jump LOG \
       --log-prefix "Logging: " \
       ${common_log_options}
-iptables --append LANS? \
+${ia} LANS? \
    --match set \
       --match-set wanted_lans src \
    --jump ACCEPT
-iptables --append LANS? \
+${ia} LANS? \
    --match set \
       --match-set unwanted_lans src \
    --jump RJCTRST
 
 # Tear a hole in the firewall.  You must be out of your mind to
 # actually use it!
-iptables --new-chain PUNCTURE
+${inc} PUNCTURE
 # At least we log it in its entirety.
-iptables --append PUNCTURE \
+${ia} PUNCTURE \
    --jump LOG \
       --log-prefix "WTF: " \
       ${common_log_options}
-iptables --append PUNCTURE --jump ACCEPT
+${ia} PUNCTURE --jump ACCEPT
 
 # The wastebasket for everything not otherwise dealt with.
-iptables --new-chain RESIDUUM
-iptables --append RESIDUUM \
+${inc} RESIDUUM
+${ia} RESIDUUM \
    ${log_throttle} \
    --jump LOG \
       --log-prefix "Thrufall: " \
       ${common_log_options}
-iptables --append RESIDUUM --jump RJCTRST
+${ia} RESIDUUM --jump RJCTRST
 
 # SSH is well guarded.
-iptables --new-chain SSH
-iptables --append SSH \
+${inc} SSH
+${ia} SSH \
    --match set \
       --match-set headbanger src \
    --jump LOGACCEPT
-iptables --append SSH \
+${ia} SSH \
    --match set \
       --match-set ssh_good_guys src \
    --jump LOGACCEPT
 # Log, but only the "interesting" ones
-iptables --append SSH \
+${ia} SSH \
    --match set \
       ! --match-set dullards src \
    ${log_throttle} \
    --jump LOG \
       --log-prefix "SSHoo: " \
       ${common_log_options}
-iptables --append SSH --jump RJCTRST
+${ia} SSH --jump RJCTRST
+
+# Handle known/expected things
+${inc} SEEN
+${ia} SEEN \
+   --match conntrack \
+      --ctstate RELATED,ESTABLISHED \
+   --jump ACCEPT
+
+# Loop-back is OK
+${inc} LOOP-BACK
+${ia} LOOP-BACK --in-interface lo --jump ACCEPT
+
+# One of the most fundamental rules to banish unsolicited
+# incoming traffic.
+${inc} GEOK
+${ia} GEOK \
+   --match set \
+      ! --match-set ${geok} src \
+   --jump RJCTRST
+
+# During a reboot, DNS info (for NTP, say) needs to be obtained from the ISP's servers.
+# Either because we are not running DNS yet or else its cache is found wanting.
+${inc} EARLY-DNS
+${ia} EARLY-DNS \
+	--protocol udp \
+	--source-port domain \
+	--match set \
+		--match-set early-isp-dns src \
+	--jump ACCEPT
 
 # Now kludge the INPUT chain from the pieces above.  Note that
 # not every element created so far is used permanently; some of
 # them are only for transient usage.
 
+iai="${ia} INPUT"
+
 # Speed dictates that we should deal with what we already have
 # first.
-iptables --append INPUT \
-   --match conntrack \
-      --ctstate RELATED,ESTABLISHED \
-   --jump ACCEPT
+${iai} --jump SEEN
 
-# Loop-back is OK.
-iptables --append INPUT --in-interface lo --jump ACCEPT
+# Traffic from the loop-back interface.
+${iai} --jump LOOP-BACK
 
 # LAN.
-iptables --append INPUT --jump LANS?
+${iai} --jump LANS?
 
 # Now's the time to scan for invalid packets.
-iptables --append INPUT --jump INVALID?
+${iai} --jump INVALID?
 
-# One of the most fundamental rules to banish unsolicited
-# incoming traffic.
-iptables --append INPUT \
-   --match set \
-      ! --match-set ${geok} src \
-   --jump RJCTRST
-
-# Some port scans happen to target the UDP SSH port.
-iptables --append INPUT \
-   --protocol udp \
-   --destination-port ssh \
-   --jump RJCTRST
+# Allow only geographically preselected incoming traffic.
+${iai} --jump GEOK
 
 # Crown jewels.
-iptables --append INPUT \
-   --protocol tcp \
-   --destination-port ssh \
-   --jump SSH
+${iai} --protocol tcp                   --destination-port  ssh             --jump SSH
+${iai} --protocol tcp --match multiport --destination-ports https,8008,http --jump HTTPS
 
-# As with SSH, some port scans happen to target the UDP HTTPS
-# port.
-iptables --append INPUT \
-   --protocol udp \
-   --destination-port https \
-   --jump RJCTRST
+# Allow seeding the DNS cache during reboots.
+${iai} --jump EARLY-DNS
 
-# Genuine HTTPS traffic.  At least in theory.
-iptables --append INPUT \
-   --protocol tcp \
-   --destination-port https \
-   --jump HTTPS
-
-# Abort everything else.
-iptables --append INPUT --jump RESIDUUM
+# Log & abort everything else.
+${iai} --jump RESIDUUM
