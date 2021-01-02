@@ -43,8 +43,8 @@ autocmd BufNewFile,BufRead changes.recent set filetype=diff
 autocmd BufNewFile,BufRead *.qbquery,*.qbquery setfiletype sql
 autocmd BufNewFile,BufRead /var/log/messages*,/tmp/*.messages silent %!~/perl/filter-messages
 autocmd BufNewFile,BufRead /var/log/messages* $
-autocmd BufNewFile,BufRead /var/log/messages* ?Seen
-autocmd BufNewFile,BufRead /var/log/messages*,/tmp/*.messages let @/ = "Seen\\|DPT=\\d\\+\\|\\(Dropp\\|Accept\\|RST\\)ing\\|\\(\\d\\{1,3\\}\\.\\)\\{3\\}\\d\\{1,3\\}"
+autocmd BufNewFile,BufRead /var/log/messages* ?: Seen
+autocmd BufNewFile,BufRead /var/log/messages*,/tmp/*.messages let @/ = ": Seen\\|DPT=\\d\\+\\|\\(Dropp\\|Accept\\|RST\\)ing\\|\\(\\d\\{1,3\\}\\.\\)\\{3\\}\\d\\{1,3\\}"
 autocmd BufNewFile,BufRead /var/log/messages*,/tmp/*.messages set norelativenumber
 autocmd BufNewFile,BufRead /tmp/*.messages set filetype=messages
 autocmd StdinReadPost * map q :quit!<CR>
