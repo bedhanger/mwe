@@ -49,10 +49,10 @@ ${Delete_From_The_Fw} ${The_Cert_Rule_Chain} ${As_Per_The_Cert_Rule_Spec}
 ${Iptlv} >${After}
 
 echo "${Me}: showing what happened in the firewall"
-git diff --no-index ${Before} ${In_Btw}
-git diff --no-index ${In_Btw} ${After}
+git diff --no-index -- ${Before} ${In_Btw}
+git diff --no-index -- ${In_Btw} ${After}
 # This one's diff sugar
-git diff --no-index ${Before} ${After}
+git diff --no-index -- ${Before} ${After}
 
 # Cleanup
 rm -f ${Before} ${In_Btw} ${After}
