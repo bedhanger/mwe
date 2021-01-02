@@ -38,7 +38,8 @@ TMP_DIR=$(mktemp --directory --suffix=.${ME})
 GEOK_IPSET_BASE_NAME="geok"
 GEOK_IPSET_NAME_SEP="-"
 
-GEOK_IPTABLES_RULE_NR=5
+GEOK_IPTABLES_CHAIN_NAME="GEOK"
+GEOK_IPTABLES_RULE_NR=1
 
 STATUS_QUO="iptables --list --verbose --line-numbers"
 
@@ -124,9 +125,8 @@ do
 
 done
 
-# Swap the lists in iptables.  This requires that the old list
-# be at a certain position in the table, namely
-# ${GEOK_IPTABLES_RULE_NR}.
+# Swap the lists in iptables.  This requires that the old list be at a certain position in the
+# table, namely ${GEOK_IPTABLES_RULE_NR} in the chain denoted by ${GEOK_IPTABLES_CHAIN_NAME}.
 
 echo "${ME}> ${OLD_GEOK_IPSET} ---> ${NEW_GEOK_IPSET}"
 
@@ -136,11 +136,12 @@ echo "${ME}> ${OLD_GEOK_IPSET} ---> ${NEW_GEOK_IPSET}"
 # IP into an ipset.
 
 # We also time-stamp this operation in a double fashion.
-command time --verbose strace -cw iptables --replace INPUT ${GEOK_IPTABLES_RULE_NR} \
-   --match set ! --match-set ${NEW_GEOK_IPSET} src \
-   --jump RJCTRST \
-   --match comment \
-   --comment "$(date +"%a %Y-%m-%dT%H:%M:%S")"
+command time --verbose strace -cw \
+	iptables --replace ${GEOK_IPTABLES_CHAIN_NAME} ${GEOK_IPTABLES_RULE_NR} \
+		--match set ! --match-set ${NEW_GEOK_IPSET} src \
+		--jump RJCTRST \
+		--match comment \
+		--comment "$(date +"%a %Y-%m-%dT%H:%M:%S")"
 
 # Destroy old list.
 
