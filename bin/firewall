@@ -140,6 +140,8 @@ ${ia} LOGACCEPT --jump ACCEPT
 ${inc} RJCTRST
 ${ia} RJCTRST --protocol udp --jump REJECT --reject-with icmp-port-unreachable
 ${ia} RJCTRST --protocol tcp --jump REJECT --reject-with tcp-reset
+# In case it wasn't UDP or TCP...
+${ia} RJCTRST --jump REJECT
 
 # The forwarding is very simple.
 ${inc} FWD
