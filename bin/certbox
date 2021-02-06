@@ -4,6 +4,9 @@
 # This is required as Let's Encrypt demand that a number of geographically distributed auth
 # challenges pass before they issue a new cert.
 
+# This normally collides with our unwillingness to accept connections from geographically divers
+# locations.
+
 Me=$(basename ${0})
 
 # Bail out if we are not what we need to be
@@ -16,17 +19,15 @@ then
 fi
 
 # The firewall rule that handles cert renewals
-As_Per_The_Cert_Rule_Spec="--jump CERT"
+The_Cert_Rule_Spec="--jump CERT"
 
-# Its (numerical) position in the scheme of things
-At_The_Cert_Rule_Posn=5
-
-# Its chain location
-The_Cert_Rule_Chain="INPUT"
+# The chain and the position within where we need to temporarily suspend the strict regime
+In_The_Cert_Rule_Chain="GEOK"
+At_The_Cert_Rule_Chain_Posn=1
 
 # Helpers to make it all more readable
-   Iptables="iptables"
-     Iptlv="${Iptables} --list --verbose"
+          Iptables="iptables"
+             Iptlv="${Iptables} --list --verbose"
 Insert_Into_The_Fw="${Iptables} --insert"
 Delete_From_The_Fw="${Iptables} --delete"
 
@@ -38,14 +39,17 @@ Template="/tmp/Iptlv-XXXXXXXX"
 
 ${Iptlv} >${Before}
 echo "${Me}: drilling calculated hole into the firewall"
-${Insert_Into_The_Fw} ${The_Cert_Rule_Chain} ${At_The_Cert_Rule_Posn} ${As_Per_The_Cert_Rule_Spec}
+${Insert_Into_The_Fw} ${In_The_Cert_Rule_Chain} ${At_The_Cert_Rule_Chain_Posn} ${The_Cert_Rule_Spec}
 
-echo "${Me}: attempting to renew the cert"
-certbot renew
-${Iptlv} >${In_Btw}
+	# The next few statements cannot happen quickly enough; it's not a bad idea to think about
+	# upping the resources until right after the undoing of the previous statement.
+	echo "${Me}: attempting to renew the cert"
+	certbot renew
+	${Iptlv} >${In_Btw}
+	${Delete_From_The_Fw} ${In_The_Cert_Rule_Chain} ${The_Cert_Rule_Spec}
 
-echo "${Me}: sealing hole in the firewall again"
-${Delete_From_The_Fw} ${The_Cert_Rule_Chain} ${As_Per_The_Cert_Rule_Spec}
+# Ok, from here on, we can be lazy again.
+echo "${Me}: sealed hole in the firewall again"
 ${Iptlv} >${After}
 
 echo "${Me}: showing what happened in the firewall"
