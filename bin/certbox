@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Renew the Let's Encrypt certificate, taking care of the firewall before and after.
-# This is required as Let's Encrypt demands that a number of geographically distributed auth
+# This is required as Let's Encrypt demand that a number of geographically distributed auth
 # challenges pass before they issue a new cert.
 
 Me=$(basename ${0})
