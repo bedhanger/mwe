@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 
-# Finds files.  Augment as desired.
-
-find "${@:-.}" -type f -print
+# Find files
+find "${@:-.}" -type f -printf "%P\n"
