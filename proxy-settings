@@ -7,6 +7,7 @@ proxy_port=3128 # Default for Squid
 proxy_template="http://localhost:${proxy_port}/"
 no_proxy_template="localhost,127.0.0.0/8,::1"
 
+# We provide upper and lower case variants
 export FTP_PROXY=${proxy_template}
 export HTTPS_PROXY=${proxy_template}
 export HTTP_PROXY=${proxy_template}
