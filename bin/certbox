@@ -60,3 +60,9 @@ git diff --no-index -- ${Before} ${After}
 
 # Cleanup
 rm -f ${Before} ${In_Btw} ${After}
+
+# Reload web server; this will pull in the new cert
+systemctl reload apache2
+
+# Look cursorily at the new cert.  This probably only works if run on the very machine.
+get-pop3-server-ssl-cert-fingerprint --server localhost --port https | head
