@@ -242,13 +242,13 @@ ${ia} PUNCTURE \
 ${ia} PUNCTURE --jump ACCEPT
 
 # The wastebasket for everything not otherwise dealt with.
-${inc} RESIDUUM
-${ia} RESIDUUM \
+${inc} residuum
+${ia} residuum \
    ${log_throttle} \
    --jump LOG \
       --log-prefix "Thrufall: " \
       ${common_log_options}
-${ia} RESIDUUM --jump RJCTRST
+${ia} residuum --jump RJCTRST
 
 # SSH is well guarded.
 ${inc} SSH
@@ -329,4 +329,4 @@ ${iai} --protocol tcp --match multiport --destination-ports https,8008,http --ju
 ${iai} --jump EARLY-DNS
 
 # Log & abort everything else.
-${iai} --jump RESIDUUM
+${iai} --jump residuum
