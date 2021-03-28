@@ -159,20 +159,20 @@ ${ia} OUTPUT --jump EGRESS
 
 # Open up HTTP et al. for everyone.  Useful for mastering the ACME challenge when requesting a
 # certificate (renewal).  Only use this on an as-needed basis!
-${inc} CERT-PUNCTURE
-${ia} CERT-PUNCTURE \
+${inc} cert-puncture
+${ia} cert-puncture \
    --jump LOG \
       --log-prefix "Cert: " \
       ${common_log_options}
 # We do not want multiport matching so that we can count things individually.
-${ia} CERT-PUNCTURE --protocol tcp --destination-port https --jump ACCEPT
-${ia} CERT-PUNCTURE --protocol tcp --destination-port 8008 --jump ACCEPT
-${ia} CERT-PUNCTURE --protocol tcp --destination-port http --jump ACCEPT
-${ia} CERT-PUNCTURE \
+${ia} cert-puncture --protocol tcp --destination-port https --jump ACCEPT
+${ia} cert-puncture --protocol tcp --destination-port 8008 --jump ACCEPT
+${ia} cert-puncture --protocol tcp --destination-port http --jump ACCEPT
+${ia} cert-puncture \
    --jump LOG \
       --log-prefix 'CERT?!? ' \
       ${common_log_options}
-${ia} CERT-PUNCTURE --jump RJCTRST
+${ia} cert-puncture --jump RJCTRST
 
 # Normal HTTPS.
 ${inc} HTTPS
