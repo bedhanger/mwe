@@ -271,8 +271,8 @@ ${ia} ssh \
 ${ia} ssh --jump RJCTRST
 
 # Handle known/expected things
-${inc} SEEN
-${ia} SEEN \
+${inc} seen
+${ia} seen \
    --match conntrack \
       --ctstate RELATED,ESTABLISHED \
    --jump ACCEPT
@@ -307,7 +307,7 @@ iai="${ia} INPUT"
 
 # Speed dictates that we should deal with what we already have
 # first.
-${iai} --jump SEEN
+${iai} --jump seen
 
 # Traffic from the loop-back interface.
 ${iai} --jump LOOP-BACK
