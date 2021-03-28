@@ -250,25 +250,25 @@ ${ia} residuum \
       ${common_log_options}
 ${ia} residuum --jump RJCTRST
 
-# SSH is well guarded.
-${inc} SSH
-${ia} SSH \
+# Secure Shell is well guarded.
+${inc} ssh
+${ia} ssh \
    --match set \
       --match-set headbanger src \
    --jump LOGACCEPT
-${ia} SSH \
+${ia} ssh \
    --match set \
       --match-set ssh_good_guys src \
    --jump LOGACCEPT
 # Log, but only the "interesting" ones
-${ia} SSH \
+${ia} ssh \
    --match set \
       ! --match-set dullards src \
    ${log_throttle} \
    --jump LOG \
       --log-prefix "SSHoo: " \
       ${common_log_options}
-${ia} SSH --jump RJCTRST
+${ia} ssh --jump RJCTRST
 
 # Handle known/expected things
 ${inc} SEEN
@@ -322,7 +322,7 @@ ${iai} --jump INVALID?
 ${iai} --jump GEOK
 
 # Crown jewels.
-${iai} --protocol tcp                   --destination-port  ssh             --jump SSH
+${iai} --protocol tcp                   --destination-port  ssh             --jump ssh
 ${iai} --protocol tcp --match multiport --destination-ports https,8008,http --jump HTTPS
 
 # Allow seeding the DNS cache during reboots.
