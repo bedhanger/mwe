@@ -291,8 +291,8 @@ ${ia} GEOK \
 
 # During a reboot, DNS info (for NTP, say) needs to be obtained from the ISP's servers.
 # Either because we are not running DNS yet or else its cache is found wanting.
-${inc} EARLY-DNS
-${ia} EARLY-DNS \
+${inc} early-dns
+${ia} early-dns \
 	--protocol udp \
 	--source-port domain \
 	--match set \
@@ -326,7 +326,7 @@ ${iai} --protocol tcp                   --destination-port  ssh             --ju
 ${iai} --protocol tcp --match multiport --destination-ports https,8008,http --jump HTTPS
 
 # Allow seeding the DNS cache during reboots.
-${iai} --jump EARLY-DNS
+${iai} --jump early-dns
 
 # Log & abort everything else.
 ${iai} --jump residuum
