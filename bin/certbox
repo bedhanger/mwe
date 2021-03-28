@@ -19,7 +19,7 @@ then
 fi
 
 # The firewall rule that handles cert renewals
-The_Cert_Rule_Spec="--jump CERT"
+The_Cert_Rule_Spec="--jump cert-puncture"
 
 # The chain and the position within where we need to temporarily suspend the strict regime
 In_The_Cert_Rule_Chain="GEOK"
