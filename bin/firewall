@@ -278,8 +278,8 @@ ${ia} seen \
    --jump ACCEPT
 
 # Loop-back is OK
-${inc} LOOP-BACK
-${ia} LOOP-BACK --in-interface lo --jump ACCEPT
+${inc} loop-back
+${ia} loop-back --in-interface lo --jump ACCEPT
 
 # One of the most fundamental rules to banish unsolicited
 # incoming traffic.
@@ -310,7 +310,7 @@ iai="${ia} INPUT"
 ${iai} --jump seen
 
 # Traffic from the loop-back interface.
-${iai} --jump LOOP-BACK
+${iai} --jump loop-back
 
 # LAN.
 ${iai} --jump LANS?
