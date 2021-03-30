@@ -183,8 +183,8 @@ ${ia} HTTPS --match set --match-set https_bad_guys src --jump RJCTRST
 ${ia} HTTPS --jump LOGACCEPT
 
 # Invalid packets.  They are a scourge.
-${inc} INVALID?
-${ia} INVALID? \
+${inc} invalid?
+${ia} invalid? \
    --match conntrack \
       --ctstate INVALID \
    --jump DROP
@@ -316,7 +316,7 @@ ${iai} --jump loop-back
 ${iai} --jump LANS?
 
 # Now's the time to scan for invalid packets.
-${iai} --jump INVALID?
+${iai} --jump invalid?
 
 # Allow only geographically preselected incoming traffic.
 ${iai} --jump GEOK
