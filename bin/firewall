@@ -149,10 +149,10 @@ ${ia} fwd --jump RJCTRST
 ${ia} FORWARD --jump fwd
 
 # What goes out must not be heading towards sites we eschew.
-${inc} EGRESS
-${ia} EGRESS --match set --match-set forbidden_sites dst --jump RJCTRST
-${ia} EGRESS --jump ACCEPT
-${ia} OUTPUT --jump EGRESS
+${inc} egress
+${ia} egress --match set --match-set forbidden_sites dst --jump RJCTRST
+${ia} egress --jump ACCEPT
+${ia} OUTPUT --jump egress
 
 # Incoming traffic is more complicated.  We need more chains
 # first.
