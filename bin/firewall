@@ -175,12 +175,12 @@ ${ia} cert-puncture \
 ${ia} cert-puncture --jump RJCTRST
 
 # Normal HTTPS.
-${inc} HTTPS
+${inc} https
 # We do not want multiport matching so that we can count things individually.
-${ia} HTTPS --protocol tcp --destination-port 8008 --jump RJCTRST
-${ia} HTTPS --protocol tcp --destination-port http --jump RJCTRST
-${ia} HTTPS --match set --match-set https_bad_guys src --jump RJCTRST
-${ia} HTTPS --jump LOGACCEPT
+${ia} https --protocol tcp --destination-port 8008 --jump RJCTRST
+${ia} https --protocol tcp --destination-port http --jump RJCTRST
+${ia} https --match set --match-set https_bad_guys src --jump RJCTRST
+${ia} https --jump LOGACCEPT
 
 # Invalid packets.  They are a scourge.
 ${inc} invalid?
@@ -323,7 +323,7 @@ ${iai} --jump GEOK
 
 # Crown jewels.
 ${iai} --protocol tcp                   --destination-port  ssh             --jump ssh
-${iai} --protocol tcp --match multiport --destination-ports https,8008,http --jump HTTPS
+${iai} --protocol tcp --match multiport --destination-ports https,8008,http --jump https
 
 # Allow seeding the DNS cache during reboots.
 ${iai} --jump early-dns
