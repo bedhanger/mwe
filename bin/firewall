@@ -137,20 +137,20 @@ ${ia} LOGACCEPT \
 ${ia} LOGACCEPT --jump ACCEPT
 
 # Special chain to sever/reset a connection.
-${inc} RJCTRST
-${ia} RJCTRST --protocol udp --jump REJECT --reject-with icmp-port-unreachable
-${ia} RJCTRST --protocol tcp --jump REJECT --reject-with tcp-reset
+${inc} rjctrst
+${ia} rjctrst --protocol udp --jump REJECT --reject-with icmp-port-unreachable
+${ia} rjctrst --protocol tcp --jump REJECT --reject-with tcp-reset
 # In case it wasn't UDP or TCP...
-${ia} RJCTRST --jump REJECT
+${ia} rjctrst --jump REJECT
 
 # The forwarding is very simple.
 ${inc} fwd
-${ia} fwd --jump RJCTRST
+${ia} fwd --jump rjctrst
 ${ia} FORWARD --jump fwd
 
 # What goes out must not be heading towards sites we eschew.
 ${inc} egress
-${ia} egress --match set --match-set forbidden_sites dst --jump RJCTRST
+${ia} egress --match set --match-set forbidden_sites dst --jump rjctrst
 ${ia} egress --jump ACCEPT
 ${ia} OUTPUT --jump egress
 
@@ -172,14 +172,14 @@ ${ia} cert-puncture \
    --jump LOG \
       --log-prefix 'CERT?!? ' \
       ${common_log_options}
-${ia} cert-puncture --jump RJCTRST
+${ia} cert-puncture --jump rjctrst
 
 # Normal HTTPS.
 ${inc} https
 # We do not want multiport matching so that we can count things individually.
-${ia} https --protocol tcp --destination-port 8008 --jump RJCTRST
-${ia} https --protocol tcp --destination-port http --jump RJCTRST
-${ia} https --match set --match-set https_bad_guys src --jump RJCTRST
+${ia} https --protocol tcp --destination-port 8008 --jump rjctrst
+${ia} https --protocol tcp --destination-port http --jump rjctrst
+${ia} https --match set --match-set https_bad_guys src --jump rjctrst
 ${ia} https --jump LOGACCEPT
 
 # Invalid packets.  They are a scourge.
@@ -229,7 +229,7 @@ ${ia} LANS? \
 ${ia} LANS? \
    --match set \
       --match-set unwanted_lans src \
-   --jump RJCTRST
+   --jump rjctrst
 
 # Tear a hole in the firewall.  You must be out of your mind to
 # actually use it!
@@ -248,7 +248,7 @@ ${ia} residuum \
    --jump LOG \
       --log-prefix "Thrufall: " \
       ${common_log_options}
-${ia} residuum --jump RJCTRST
+${ia} residuum --jump rjctrst
 
 # Secure Shell is well guarded.
 ${inc} ssh
@@ -268,7 +268,7 @@ ${ia} ssh \
    --jump LOG \
       --log-prefix "SSHoo: " \
       ${common_log_options}
-${ia} ssh --jump RJCTRST
+${ia} ssh --jump rjctrst
 
 # Handle known/expected things
 ${inc} seen
@@ -287,7 +287,7 @@ ${inc} GEOK
 ${ia} GEOK \
    --match set \
       ! --match-set ${geok} src \
-   --jump RJCTRST
+   --jump rjctrst
 
 # During a reboot, DNS info (for NTP, say) needs to be obtained from the ISP's servers.
 # Either because we are not running DNS yet or else its cache is found wanting.

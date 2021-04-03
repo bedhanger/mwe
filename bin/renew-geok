@@ -139,7 +139,7 @@ echo "${ME}> ${OLD_GEOK_IPSET} ---> ${NEW_GEOK_IPSET}"
 command time --verbose strace -cw \
 	iptables --replace ${GEOK_IPTABLES_CHAIN_NAME} ${GEOK_IPTABLES_RULE_NR} \
 		--match set ! --match-set ${NEW_GEOK_IPSET} src \
-		--jump RJCTRST \
+		--jump rjctrst \
 		--match comment \
 		--comment "$(date +"%a %Y-%m-%dT%H:%M:%S")"
 
