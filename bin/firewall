@@ -233,13 +233,13 @@ ${ia} LANS? \
 
 # Tear a hole in the firewall.  You must be out of your mind to
 # actually use it!
-${inc} PUNCTURE
+${inc} puncture
 # At least we log it in its entirety.
-${ia} PUNCTURE \
+${ia} puncture \
    --jump LOG \
       --log-prefix "WTF: " \
       ${common_log_options}
-${ia} PUNCTURE --jump ACCEPT
+${ia} puncture --jump ACCEPT
 
 # The wastebasket for everything not otherwise dealt with.
 ${inc} residuum
