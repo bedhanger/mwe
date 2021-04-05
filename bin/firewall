@@ -128,13 +128,13 @@ ${ia} LOGDROP \
       ${common_log_options}
 ${ia} LOGDROP --jump DROP
 
-${inc} LOGACCEPT
-${ia} LOGACCEPT \
+${inc} logaccept
+${ia} logaccept \
    ${log_throttle} \
    --jump LOG \
       --log-prefix "Accepting: " \
       ${common_log_options}
-${ia} LOGACCEPT --jump ACCEPT
+${ia} logaccept --jump ACCEPT
 
 # Special chain to sever/reset a connection.
 ${inc} rjctrst
@@ -180,7 +180,7 @@ ${inc} https
 ${ia} https --protocol tcp --destination-port 8008 --jump rjctrst
 ${ia} https --protocol tcp --destination-port http --jump rjctrst
 ${ia} https --match set --match-set https_bad_guys src --jump rjctrst
-${ia} https --jump LOGACCEPT
+${ia} https --jump logaccept
 
 # Invalid packets.  They are a scourge.
 ${inc} invalid?
@@ -255,11 +255,11 @@ ${inc} ssh
 ${ia} ssh \
    --match set \
       --match-set headbanger src \
-   --jump LOGACCEPT
+   --jump logaccept
 ${ia} ssh \
    --match set \
       --match-set ssh_good_guys src \
-   --jump LOGACCEPT
+   --jump logaccept
 # Log, but only the "interesting" ones
 ${ia} ssh \
    --match set \
