@@ -200,11 +200,11 @@ this_network="0.0.0.0"
 this_bcast="255.255.255.255"
 
 # Traffic from within is Ok?  Not quite...
-${inc} LANS?
+${inc} lans?
 for nic in ${nics}; do
    [ "${nic}" = "lo" ] && continue
    echo -n "${me}> Considering ${nic} for DHCP..."
-   ${ia} LANS? \
+   ${ia} lans? \
       --in-interface ${nic} \
       --source ${this_network} \
       --destination ${this_bcast} \
@@ -216,17 +216,17 @@ for nic in ${nics}; do
          --comment "Is is DHCP?"
     echo "Ok"
 done
-${ia} LANS? \
+${ia} lans? \
    --match set \
       --match-set log-devices src \
    --jump LOG \
       --log-prefix "Logging: " \
       ${common_log_options}
-${ia} LANS? \
+${ia} lans? \
    --match set \
       --match-set wanted_lans src \
    --jump ACCEPT
-${ia} LANS? \
+${ia} lans? \
    --match set \
       --match-set unwanted_lans src \
    --jump rjctrst
@@ -313,7 +313,7 @@ ${iai} --jump seen
 ${iai} --jump loop-back
 
 # LAN.
-${iai} --jump LANS?
+${iai} --jump lans?
 
 # Now's the time to scan for invalid packets.
 ${iai} --jump invalid?
