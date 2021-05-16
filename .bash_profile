@@ -12,7 +12,7 @@ function start_ssh_agent {
 
    source "${SSH_ENV}" > /dev/null
 
-   ssh-add ${HOME}/.ssh/{bra_id_ecdsa,ket_id_rsa,rsjlaa_id_ecdsa}
+   ssh-add ${HOME}/.ssh/{bra_id_ecdsa,ket_id_rsa,rsjlaa_id_ecdsa,github_id_ed25519}
 
 }
 
