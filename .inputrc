@@ -1,3 +1,7 @@
+# Safeguard against blindly pasting strings into the terminal; especially those that contain
+# misguided "commands" and carriage returns.  The default's on, but that might change in the future.
+set enable-bracketed-paste on
+
 set editing-mode vi
 
 set bell-style none
