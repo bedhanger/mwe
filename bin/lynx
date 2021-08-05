@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Start Lynx the way i like it
+exec /usr/bin/lynx \
+	-hiddenlinks=merge \
+	-number_fields \
+	-cookies \
+	-book \
+	-vikeys \
+	"${@}"
