@@ -20,8 +20,9 @@ then
    exit -2
 fi
 
-# Give continuity hint
+# Give continuity hints
 echo -n "Most recent upstream commit is: " && git rpc
+echo -n "Building kernel for: " && eselect kernel show
 
 # Use a branch for the new config
 git co -b $(basename $(realpath .))
