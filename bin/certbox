@@ -65,4 +65,4 @@ rm -f ${Before} ${In_Btw} ${After}
 systemctl reload apache2
 
 # Look cursorily at the new cert.  This probably only works if run on the very machine.
-get-pop3-server-ssl-cert-fingerprint --server localhost --port https | head
+/root/bin/get-pop3-server-ssl-cert-fingerprint --server localhost --port https | head
