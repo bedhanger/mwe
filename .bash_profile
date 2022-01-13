@@ -47,5 +47,7 @@ function keez
 }
 
 SAYS="{shuf,cat,tac,{cow,pony}{think,say}}" && SAYS="$(eval echo ${SAYS})"
+CATZ="$(which lolcat)"
+[ -n "${CATZ}" ] && CATZ="${CATZ} --truecolor"
 [ -z "$(which ${SAYS})" ] || \
    (echo ; $(which $(shuf --echo --head-count=1 ${SAYS})) < <(fortune) | ${CATZ:-"cat"} ; echo)
