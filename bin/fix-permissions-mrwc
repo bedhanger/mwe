@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Make the most recent VDR recording group modifiable.
+
+sync && sleep 2 # wait for all files to be created...
+
+cat "${@}" | xargs --null --no-run-if-empty chmod g+w --recursive #--verbose
