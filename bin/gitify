@@ -1,38 +1,32 @@
 #!/usr/bin/env bash
 
-# Attempt to make a dir a Git repository
+# Attempt to make a dir a Git repository and/or check the integrity of it.
 
 ME=$(basename ${0})
 
 A_DIR=${1:-.}
 
+git_fsck() { git fsck ; }
+
 if ! cd 2> /dev/null ${A_DIR}
 then
-
-   echo "${ME}> Cannot access \"${A_DIR}\""
-   exit -1
-
+        echo "${ME}> Cannot access \"${A_DIR}\""
+        exit -1
 fi
 
 if [ -d .git ]
 then
-
-   echo "${ME}> \"${A_DIR}\" is already a Git repository, ;-)"
-   echo "${ME}> run \`\`git init'' to re-initialise it..."
-   exit 0
-
+        git_fsck
+        exit ${?}
 fi
 
 if [ -w . ]
 then
-
-   git init && \
-   git add . && \
-   git commit --signoff --allow-empty -m"Track $(realpath .)"
-
+        git init && \
+        git add . && \
+        git commit --signoff --allow-empty -m"Track $(realpath .)"
+        git_fsck
 else
-
-   echo "${ME}> No write permission in \"${A_DIR}\""
-   exit -2
-
+        echo "${ME}> No write permission in \"${A_DIR}\""
+        exit -2
 fi
