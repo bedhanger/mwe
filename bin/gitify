@@ -6,7 +6,7 @@ ME=$(basename ${0})
 
 A_DIR=${1:-.}
 
-git_fsck() { eval $(sed 's/_/ /' <<< ${FUNCNAME}) ; }
+git_fsck() { eval $(sed 's/_/ /' <<< ${FUNCNAME}) --verbose ; }
 
 if ! cd 2> /dev/null ${A_DIR}
 then
