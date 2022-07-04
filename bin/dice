@@ -2,7 +2,8 @@
 
 # Play dice with the cmd line args
 
-# When no args are given, simulate casting a die.
-Eyes="${@:-$(seq 1 6)}"
+# When no args are given, simulate casting a die.  The number of eyes can be controlled by prefixing
+# the command with a variable (of the same name) setting; the default is 6.
+eyes="${@:-$(seq 1 ${eyes:-"6"})}"
 
-exec shuf --echo ${Eyes} --head-count=1
+exec shuf --echo ${eyes} --head-count=1
