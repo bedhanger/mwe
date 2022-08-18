@@ -6,4 +6,5 @@ exec /usr/bin/lynx \
 	-number_fields \
 	-cookies \
 	-vikeys \
+	-cache=0 \
 	"${@}"
