@@ -53,7 +53,7 @@ Control-P: " parallel --jobs=0 --ungroup ::: "
 
 Control-L: "\e\C-la"
 
-Control-W: "\ek\C-m"
+Control-W: " _t=$(uuidgen | sed 's/-//g') && mkdir ${_t} && cd ${_t} && pwd && unset _t\C-m"
 
 # In a Git repository, it can be faster to get the list of files to
 # search thru by using the ls-files command (for which we've
