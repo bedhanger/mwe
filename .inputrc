@@ -73,5 +73,7 @@ Control-B: " bind -f ~/.inputrc\C-m"
 Control-R: " rlffts\C-m"
 
 # Gitify current directory.
-
 Control-G: ' gitify\C-m'
+
+# Delete the most recent command history entry
+Control-H: ' history -d-1\C-m'
