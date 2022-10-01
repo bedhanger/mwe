@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# Remove newlines (and carriage returns)
+exec tr --delete \\n\\r
