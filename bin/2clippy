@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Put stdin into the X clipboard selection after trailing newlines have been removed
+
+to_the_clippy='\-n | xclip -selection clipboard'
+to_the_clippy="eval ${to_the_clippy}"
+
+if [ ${#} -eq 0 ]; then
+    ${to_the_clippy}
+else
+    echo "${@}" | ${to_the_clippy}
+fi
