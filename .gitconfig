@@ -33,7 +33,7 @@
         wi = diff --check
         rr = clean -d -x --force --quiet
         bav = branch -a --verbose --verbose
-        d = describe
+        d = describe --tags
         # Not part of the canon.  Needs script.
         tprs = thread-push-remotes
         sb = show-branch
