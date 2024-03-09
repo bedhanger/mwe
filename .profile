@@ -9,11 +9,12 @@ export DF_BLOCK_SIZE="'1024"
 
 # eza vs. ls and their derivatives
 eval eza=eza
+eval time_style="+%Y-%m-%dT%H:%M:%S"
 
 which ${eza} >/dev/null 2>&1
 if [ ${?} -ne 0 ]
 then
-	eza='ls -la --color=auto --time-style="+%Y-%m-%dT%H:%M:%S"'
+	eza='ls -la --color=auto --time-style="${time_style}"'
 	alias lt="${eza} --sort=time --reverse"
 	alias lth="lt --human-readable"
 else
@@ -29,7 +30,7 @@ else
 		--links \
 		--long \
 		--smart-group \
-		--time-style="+%Y-%m-%dT%H:%M:%S" \
+		--time-style="${time_style}" \
 '
 	alias lt="${eza} --sort=time"
 	alias lth="lt"
