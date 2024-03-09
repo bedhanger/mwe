@@ -8,13 +8,26 @@ export DF_BLOCK_SIZE="'1024"
 # Some useful aliases.  More are scattered throughout the file.
 
 l='ls -la --color=auto --time-style="+%Y-%m-%dT%H:%M:%S"'
-
-alias l="${l}"
+eza='eza \
+	--all \
+	--color=auto \
+	--colour-scale \
+	--git \
+	--git-repos \
+	--group \
+	--header \
+	--icons=automatic \
+	--links \
+	--long \
+	--smart-group \
+	--time-style="+%Y-%m-%dT%H:%M:%S" \
+'
+alias l="${eza}"
 
 alias ,="pwd | tr \\\n \\\000 | xargs --null ${l} --directory"
 alias ,,="(cd .. && pwd) | tr \\\n \\\000 | xargs --null ${l} --directory"
 
-alias lt='l --sort=time --reverse'
+alias lt='l --sort=time'
 alias lth='lt --human-readable'
 
 alias cls='clear'
