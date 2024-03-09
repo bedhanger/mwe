@@ -19,7 +19,7 @@ then
 	alias lth="lt --human-readable"
 else
 	eza='eza \
-		--all \
+		--all --all \
 		--color=auto \
 		--colour-scale \
 		--git \
