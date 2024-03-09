@@ -7,28 +7,37 @@ export DF_BLOCK_SIZE="'1024"
 
 # Some useful aliases.  More are scattered throughout the file.
 
-l='ls -la --color=auto --time-style="+%Y-%m-%dT%H:%M:%S"'
-eza='eza \
-	--all \
-	--color=auto \
-	--colour-scale \
-	--git \
-	--git-repos \
-	--group \
-	--header \
-	--icons=automatic \
-	--links \
-	--long \
-	--smart-group \
-	--time-style="+%Y-%m-%dT%H:%M:%S" \
+# eza vs. ls and their derivatives
+eval eza=eza
+which ${eza} >/dev/null 2>&1
+
+if [ ${?} -ne 0 ]
+then
+	eza='ls -la --color=auto --time-style="+%Y-%m-%dT%H:%M:%S"'
+	alias lt="${eza} --sort=time --reverse"
+	alias lth="lt --human-readable"
+else
+	eza='eza \
+		--all \
+		--color=auto \
+		--colour-scale \
+		--git \
+		--git-repos \
+		--group \
+		--header \
+		--icons=automatic \
+		--links \
+		--long \
+		--smart-group \
+		--time-style=+%Y-%m-%dT%H:%M:%S \
 '
+	alias lt="${eza} --sort=time"
+	alias lth="lt"
+fi
 alias l="${eza}"
 
 alias ,="pwd | tr \\\n \\\000 | xargs --null ${l} --directory"
 alias ,,="(cd .. && pwd) | tr \\\n \\\000 | xargs --null ${l} --directory"
-
-alias lt='l --sort=time'
-alias lth='lt --human-readable'
 
 alias cls='clear'
 
