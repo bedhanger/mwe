@@ -9,8 +9,8 @@ export DF_BLOCK_SIZE="'1024"
 
 # eza vs. ls and their derivatives
 eval eza=eza
-which ${eza} >/dev/null 2>&1
 
+which ${eza} >/dev/null 2>&1
 if [ ${?} -ne 0 ]
 then
 	eza='ls -la --color=auto --time-style="+%Y-%m-%dT%H:%M:%S"'
