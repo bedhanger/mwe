@@ -29,7 +29,7 @@ else
 		--links \
 		--long \
 		--smart-group \
-		--time-style=+%Y-%m-%dT%H:%M:%S \
+		--time-style="+%Y-%m-%dT%H:%M:%S" \
 '
 	alias lt="${eza} --sort=time"
 	alias lth="lt"
