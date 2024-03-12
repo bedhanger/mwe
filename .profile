@@ -18,6 +18,7 @@ then
 	alias lt="${eza} --sort=time --reverse"
 	alias lth="lt --human-readable"
 else
+	alias ls="${eza}"
 	eza='eza \
 		--all --all \
 		--color=auto \
