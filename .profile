@@ -237,8 +237,6 @@ NNN_OPTS=${NNN_OPTS}J
 NNN_OPTS=${NNN_OPTS}Q
 # Disable rollover at edges
 NNN_OPTS=${NNN_OPTS}R
-# Sort order time-reversed
-NNN_OPTS=${NNN_OPTS}T
 # Use selection if available
 NNN_OPTS=${NNN_OPTS}u
 # User:group info
