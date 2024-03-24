@@ -221,3 +221,26 @@ alias gti=hub
 alias -- -='cd -'
 
 export MTR_OPTIONS="--order="SDLNAV"  --interval=13"
+
+unset NNN_OPTS
+# Disable directory auto-enter on unique filter match
+NNN_OPTS=${NNN_OPTS}A
+# Detail mode
+NNN_OPTS=${NNN_OPTS}d
+# Show hidden files
+NNN_OPTS=${NNN_OPTS}H
+# Show current file info
+NNN_OPTS=${NNN_OPTS}i
+# No auto-advance on selection
+NNN_OPTS=${NNN_OPTS}J
+# Disable confirmation on quit with multiple contexts active
+NNN_OPTS=${NNN_OPTS}Q
+# Disable rollover at edges
+NNN_OPTS=${NNN_OPTS}R
+# Sort order time-reversed
+NNN_OPTS=${NNN_OPTS}T
+# Use selection if available
+NNN_OPTS=${NNN_OPTS}u
+# User:group info
+NNN_OPTS=${NNN_OPTS}U
+export NNN_OPTS
