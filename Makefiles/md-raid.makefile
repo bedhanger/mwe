@@ -60,14 +60,13 @@ show :
 
 details : detail
 
-readonly readwrite detail :
+readonly readwrite detail stop :
 	-@mdadm --${@} ${array}
 
 ro : readonly
 rw : readwrite
 
 # Undo create, in reverse order
-clean : readonly
-	-@mdadm --stop ${array}
+clean : readonly stop
 	-@losetup --detach /dev/loop[${containers}]
 	@rm --force ${containers}
