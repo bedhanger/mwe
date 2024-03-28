@@ -58,12 +58,9 @@ array :
 show :
 	-@cat /proc/mdstat
 
-detail :
-	-@mdadm --${@} ${array}
-
 details : detail
 
-readonly readwrite :
+readonly readwrite detail :
 	-@mdadm --${@} ${array}
 
 ro : readonly
