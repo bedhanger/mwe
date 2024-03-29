@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Allow to view detached files in nnn
+if [ -n "${TMUX}" ]
+then
+    # tmux session running
+    tmux split-window -h "vim \"${*}\""
+else
+    # Remove option --tab for new window
+    gnome-terminal --tab --command "vim \"$*\""
+fi
+
+# vim:set filetype=sh
