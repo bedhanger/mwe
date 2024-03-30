@@ -35,11 +35,11 @@ all : create detail show
 create : clean containers loopdevs array ${config}
 
 ${config} :
-	@mdadm --detail --scan | rg ${array} | tee ${@}
+	mdadm --detail --scan | rg ${array} | tee ${@}
 
 containers : df
 	@# Create containers
-	@truncate --size=${container_size} ${containers}
+	truncate --size=${container_size} ${containers}
 
 df :
 	@# Check for enough free disk space
@@ -53,35 +53,35 @@ df :
 loopdevs :
 	@# Turn containers into block devices
 	@for f in ${containers}; do \
-		losetup /dev/loop$${f} $${f}; \
+		losetup --verbose /dev/loop$${f} $${f}; \
 	done
 
 array :
 	@# Create the array (and start it rw)
-	@mdadm --create ${array} ${create_opts} /dev/loop[${containers}]
+	mdadm --create ${array} ${create_opts} /dev/loop[${containers}]
 
 show :
-	-@cat /proc/mdstat
+	-cat /proc/mdstat
 
 details : detail
 
 readonly readwrite detail stop assemble :
-	-@mdadm --${@} --config=${config} ${array}
+	-mdadm --${@} --config=${config} ${array}
 
 ro : readonly
 rw : readwrite
 
 synx : sync
 sync :
-	@${@}
-	@${@}
-	@${@}
+	${@}
+	${@}
+	${@}
 
 # Undo create, in reverse order
 clean : synx readonly stop release remove
 
 release :
-	-@losetup --detach /dev/loop[${containers}]
+	-losetup --verbose --detach /dev/loop[${containers}]
 
 remove :
-	@rm --force --verbose ${containers} ${config}
+	rm --force --verbose ${containers} ${config}
