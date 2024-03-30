@@ -6,6 +6,7 @@
 id		= 42
 md_id		= md${id}
 array		= /dev/${md_id}
+config		= ${md_id}.conf
 
 # Array specifics
 raid_level	= 5
@@ -34,7 +35,7 @@ all : create detail show
 create : clean containers loopdevs array config
 
 config :
-	-@mdadm --detail --scan | rg ${array} | tee ${md_id}.conf
+	-@mdadm --detail --scan | rg ${array} | tee ${config}
 
 containers : df
 	@# Create containers
@@ -65,7 +66,7 @@ show :
 details : detail
 
 readonly readwrite detail stop assemble :
-	-@mdadm --${@} --config=${md_id}.conf ${array}
+	-@mdadm --${@} --config=${config} ${array}
 
 ro : readonly
 rw : readwrite
@@ -83,4 +84,4 @@ release :
 	-@losetup --detach /dev/loop[${containers}]
 
 remove :
-	@rm --force ${containers}
+	@rm --force --verbose ${containers} ${config}
