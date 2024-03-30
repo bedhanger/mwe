@@ -66,7 +66,13 @@ readonly readwrite detail stop :
 ro : readonly
 rw : readwrite
 
+synx : sync
+sync :
+	-@${@}
+	-@${@}
+	-@${@}
+
 # Undo create, in reverse order
-clean : readonly stop
+clean : synx readonly stop
 	-@losetup --detach /dev/loop[${containers}]
 	@rm --force ${containers}
