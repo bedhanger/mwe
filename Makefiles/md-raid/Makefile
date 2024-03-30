@@ -73,6 +73,10 @@ sync :
 	-@${@}
 
 # Undo create, in reverse order
-clean : synx readonly stop
+clean : synx readonly stop release remove
+
+release :
 	-@losetup --detach /dev/loop[${containers}]
+
+remove :
 	@rm --force ${containers}
