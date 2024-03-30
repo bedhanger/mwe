@@ -35,7 +35,7 @@ all : create detail show
 create : clean containers loopdevs array ${config}
 
 ${config} :
-	-@mdadm --detail --scan | rg ${array} | tee ${@}
+	@mdadm --detail --scan | rg ${array} | tee ${@}
 
 containers : df
 	@# Create containers
@@ -73,9 +73,9 @@ rw : readwrite
 
 synx : sync
 sync :
-	-@${@}
-	-@${@}
-	-@${@}
+	@${@}
+	@${@}
+	@${@}
 
 # Undo create, in reverse order
 clean : synx readonly stop release remove
