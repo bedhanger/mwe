@@ -31,7 +31,10 @@ create_opts += --consistency-policy=bitmap
 
 all : create detail show
 
-create : clean containers loopdevs array
+create : clean containers loopdevs array config
+
+config :
+	-@mdadm --detail --scan | rg ${array} | tee ${md_id}.conf
 
 containers : df
 	@# Create containers
