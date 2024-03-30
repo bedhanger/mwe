@@ -3,8 +3,9 @@
 # names...  Error handling is rather crude.
 
 # md admin data
-md_id		= 42
-array		= /dev/md${md_id}
+id		= 42
+md_id		= md${id}
+array		= /dev/${md_id}
 
 # Array specifics
 raid_level	= 5
@@ -60,8 +61,8 @@ show :
 
 details : detail
 
-readonly readwrite detail stop :
-	-@mdadm --${@} ${array}
+readonly readwrite detail stop assemble :
+	-@mdadm --${@} --config=${md_id}.conf ${array}
 
 ro : readonly
 rw : readwrite
