@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# Ask ifconfig.me for your external wan ip with witch you connect to it
+echo $(curl --silent ifconfig.me/ip)
