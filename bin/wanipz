@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Print sanity-check information of your WAN IP/registered domain
+
+fqdn=$(hostname --fqdn)
+wan_ip=$(wanip)
+# Currently set to Cloudflare; use "dns.google." for Google or any other name/IP address of a
+# provider that allows this
+public_dns=one.one.one.one.
+
+function cut_here()
+{
+    # Scissors ASCII art for visual distinction
+    printf -- '--->8%.0s' {1..15} && printf '%s\n' '---'
+}
+
+cat <<EOM
+$(cut_here)
+# What the local DNS server thinks; you must track an entry named "wanip" for this to work
+$(host wanip)
+$(host ${wan_ip})
+$(cut_here)
+# What ifconfig.me thinks
+$(echo ${wan_ip})
+$(cut_here)
+# What a public DNS provider thinks
+$(host ${fqdn} ${public_dns})
+$(cut_here)
+EOM
