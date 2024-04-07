@@ -6,7 +6,7 @@
 id		= 42
 md_id		= md${id}
 array		= /dev/${md_id}
-config		= ${md_id}.conf
+config		= $(shell realpath ${md_id}.conf)
 
 # Array specifics
 raid_level	= 5
