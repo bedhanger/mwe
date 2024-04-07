@@ -1,0 +1,17 @@
+[Unit]
+Description=the activation of the md42 array
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/mdadm --assemble --config=/etc/systemd/system/md42.conf /dev/md42
+ExecStop=/usr/bin/sync
+ExecStop=/usr/bin/sync
+ExecStop=/usr/bin/sync
+ExecStop=/sbin/mdadm --readonly --config=/etc/systemd/system/md42.conf /dev/md42
+ExecStop=/sbin/mdadm --stop --config=/etc/systemd/system/md42.conf /dev/md42
+RemainAfterExit=yes
+Nice=19
+IOSchedulingClass=idle
+CPUQuota=2%
+
+# vim:filetype=systemd
