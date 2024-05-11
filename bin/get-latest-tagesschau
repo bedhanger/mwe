@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+WHAT_TO_GET="${@:-https://www.tagesschau.de/export/video-podcast/webxl/tagesschau}"
+
+# Always try secure connection...
+WHAT_TO_GET=$(perl -p -e 's|^(http)(://)|\1s\2|;' <<< ${WHAT_TO_GET})
+
+# Go for the .webxxl. version if .web(l|s). is offered.
+WHAT_TO_GET=$(perl -p -e 's/(\.web)(l|s)\.\b/\1xxl./' <<< ${WHAT_TO_GET})
+
+#downloader=youtube-dl
+downloader=${downloader:-yt-dlp}
+
+exec \
+	${downloader} \
+		--playlist-items=1 \
+		--no-part \
+		--restrict-filenames \
+		--fixup never \
+		--format='(xl_mp4/mp4)' \
+		--socket-timeout=600 \
+		--concurrent-fragments=12 \
+		--ignore-errors \
+		${WHAT_TO_GET} \
