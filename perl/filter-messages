@@ -1,0 +1,86 @@
+#!/usr/bin/env perl
+
+# Reformats the system log...
+
+use warnings;
+use strict;
+use English;
+
+my $Any_Of_The_Unwanted_Lines = qr{
+
+    (?:b(ed)?h(anger)?\svdr:)
+
+    |
+
+    (?:(dovecot)|(log)(\[\d+\])?:\simap)
+
+    |
+
+    (?:b(ed)?h(anger)?\sfirefox(\.desktop)?(\[\d+\])?:)
+
+    |
+
+    (?:b(ed)?h(anger)?\smp3fs(\[\d+\])?:)
+
+    |
+
+    (?:b(ed)?h(anger)?\scron.*:)
+
+    |
+
+    (?:failed\sto\scoldplug\sunifying.*:)
+
+    |
+
+    (?:b(ed)?h(anger)?\ssmartd.*:.*SMART\sUsage\sAttribute:\s194\sTemperature_Celsius\schanged\sfrom)
+
+    |
+
+    (?:EMITTING\sCHANGED\sfor)
+
+    |
+
+    (?:helper\(pid\s+\d+\):\scompleted\swith\sexit\scode\s0)
+
+    |
+
+    (?:helper\(pid\s+\d+\):\slaunched\sjob\sudisks-helper-ata-smart-collect\son)
+
+    |
+
+    (?:Refreshing\sATA\sSMART\sdata\sfor)
+
+    |
+
+    (?:dvb_frontend_get_frequency_limits)
+
+    |
+
+    (?:systemd\[1\]:\sCondition\scheck\sresulted\sin\s.+\sbeing\sskipped\.)
+
+    |
+
+    (?:gdm-x-session\[\d+\]:\s>\sWarning:\s+Could\snot\sresolve\skeysym\s\S+)
+
+}xo;
+
+LINE : while (defined(my $Line = <>))
+{
+    next LINE if ($Line =~ m/$Any_Of_The_Unwanted_Lines/);
+
+    if ($Line =~ m/squid\[\d+\]:\sWARNING:\sForwarding\sloop\sdetected\sfor:/xo)
+    {
+        IGNORE_SQUID_FWD_LOOPS : while (defined($Line = <>))
+        {
+            last if ($Line =~ m/current\smaster\stransaction:\smaster\d+/xo);
+        }
+    }
+    else
+    {
+	# This allows us to select an IP address presented in an iptables LOG chain format with the
+	# mouse by simply double-clicking on it...
+        $Line =~ s/(SRC|DST)=((?:\d{1,3}\.){3}\d{1,3})/$1 ith $2/g;
+
+        print $Line;
+    }
+}
