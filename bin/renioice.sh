@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-# Renice & ionice the current shell
+# Renice & ionice the parent shell
 
 renice \
 	34 \
-	${$} \
+	${PPID} \
 && \
 ionice \
 	-c3 \
-	-p${$} \
+	-p${PPID} \
 && \
-ionice -p${$}
+ionice -p${PPID}
