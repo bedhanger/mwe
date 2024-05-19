@@ -15,7 +15,7 @@ send-keys -l " renioice.sh ; export DISPLAY=:1 && sct \${night_light_temp:-2222}
 new-window
 select-pane -T"Gucke"
 send-keys -l " renioice.sh ; export DISPLAY=:1 && sct \${night_light_temp:-2222}"
-send-keys -l " cd video && nnntttrG"
+send-keys -l " cd ~/video && nnntttrG"
 
 new-window
 select-pane -T"Mutt"
