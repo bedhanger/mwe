@@ -24,7 +24,7 @@ send-keys -l " mutt	"
 new-window
 select-pane -T"Lynx"
 send-keys -l " renioice.sh ; export DISPLAY=:1 && sct \${night_light_temp:-2222}"
-send-keys -l " lynx"
+send-keys -l " lynx -book"
 
 new-window
 select-pane -T"Bash"
