@@ -30,8 +30,8 @@ new-window
 select-pane -T"Bash"
 send-keys -l " renioice.sh ; export DISPLAY=:1 && sct \${night_light_temp:-2222}"
 
-# Go "home"
+# Go "home" to the first pane that wants input
 select-window -t0
-select-pane -tStandard:0.0
+select-pane -tStandard:0.1
 
 # vim:filetype=tmux
