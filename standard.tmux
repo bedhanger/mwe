@@ -1,6 +1,7 @@
 new-session -sStandard
 select-pane -T"Network Connexions"
 send-keys -l " renioice.sh ; export DISPLAY=:1 && sct \${night_light_temp:-2222}"
+send-keys -l " watch-netz.sh"
 
 split-window -v
 select-pane -TIrssi
