@@ -5,6 +5,7 @@ send-keys -l " renioice.sh ; export DISPLAY=:1 && sct \${night_light_temp:-2222}
 split-window -v
 select-pane -TIrssi
 send-keys -l " renioice.sh ; export DISPLAY=:1 && sct \${night_light_temp:-2222}"
+send-keys -l " e irssi"
 
 new-window
 select-pane -T"Emerge et al."
