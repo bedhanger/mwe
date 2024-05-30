@@ -252,7 +252,7 @@ ${ia} residuum \
    --jump LOG \
       --log-prefix "Thrufall: " \
       ${common_log_options}
-${ia} residuum --jump rjctrst
+${ia} residuum --jump blackhole
 
 # Secure Shell is well guarded.
 ${inc} ssh
@@ -332,5 +332,5 @@ ${iai} --protocol tcp --match multiport --destination-ports https,8008,http --ju
 # Allow seeding the DNS cache during reboots.
 ${iai} --jump early-dns
 
-# Log & abort everything else.
+# Log & ignore everything else.
 ${iai} --jump residuum
