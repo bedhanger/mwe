@@ -176,7 +176,7 @@ ${ia} cert-puncture \
    --jump LOG \
       --log-prefix 'CERT?!? ' \
       ${common_log_options}
-${ia} cert-puncture --jump rjctrst
+${ia} cert-puncture --jump blackhole
 
 # Normal HTTPS.
 ${inc} https
