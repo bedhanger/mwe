@@ -291,7 +291,7 @@ ${inc} GEOK
 ${ia} GEOK \
    --match set \
       ! --match-set ${geok} src \
-   --jump rjctrst
+   --jump blackhole
 
 # During a reboot, DNS info (for NTP, say) needs to be obtained from the ISP's servers.
 # Either because we are not running DNS yet or else its cache is found wanting.
