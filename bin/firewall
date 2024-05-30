@@ -181,9 +181,9 @@ ${ia} cert-puncture --jump rjctrst
 # Normal HTTPS.
 ${inc} https
 # We do not want multiport matching so that we can count things individually.
-${ia} https --protocol tcp --destination-port 8008 --jump rjctrst
-${ia} https --protocol tcp --destination-port http --jump rjctrst
-${ia} https --match set --match-set https_bad_guys src --jump rjctrst
+${ia} https --protocol tcp --destination-port 8008 --jump blackhole
+${ia} https --protocol tcp --destination-port http --jump blackhole
+${ia} https --match set --match-set https_bad_guys src --jump blackhole
 ${ia} https --jump logaccept
 
 # Invalid packets.  They are a scourge.
