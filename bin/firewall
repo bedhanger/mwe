@@ -272,7 +272,7 @@ ${ia} ssh \
    --jump LOG \
       --log-prefix "SSHoo: " \
       ${common_log_options}
-${ia} ssh --jump rjctrst
+${ia} ssh --jump blackhole
 
 # Handle known/expected things
 ${inc} seen
