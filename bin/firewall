@@ -119,6 +119,10 @@ fi
 inc="${i} --new-chain"
 ia="${i} --append"
 
+# A black hole
+${inc} blackhole
+${ia} blackhole --jump DROP
+
 # Special chains to log & drop/accept packets indiscriminately.
 ${inc} LOGDROP
 ${ia} LOGDROP \
@@ -126,7 +130,7 @@ ${ia} LOGDROP \
    --jump LOG \
       --log-prefix "Dropping: " \
       ${common_log_options}
-${ia} LOGDROP --jump DROP
+${ia} LOGDROP --jump blackhole
 
 ${inc} logaccept
 ${ia} logaccept \
@@ -187,7 +191,7 @@ ${inc} invalid?
 ${ia} invalid? \
    --match conntrack \
       --ctstate INVALID \
-   --jump DROP
+   --jump blackhole
 
 # The beauty of the ip command is that it is so antique that its
 # output format will probably never ever change again.
