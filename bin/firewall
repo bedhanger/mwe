@@ -149,7 +149,7 @@ ${ia} rjctrst --jump REJECT
 
 # The forwarding is very simple.
 ${inc} fwd
-${ia} fwd --jump rjctrst
+${ia} fwd --jump blackhole
 ${ia} FORWARD --jump fwd
 
 # What goes out must not be heading towards sites we eschew.
