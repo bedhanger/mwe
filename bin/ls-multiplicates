@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Print multiplicates of files using a user-defined hash function or a default
+
+# The hash function should print the hash value followed immediately by the filename, with just
+# whitespace in between.
+
+default_hash_func=sha256sum
+
+${hash_func:-${default_hash_func}} -- "${@}" | \
+	awk '{print $NF, $1}' | \
+	sort --key=2 | \
+	uniq --skip-fields=1 --all-repeated=separate | \
+	awk '{print $NF, $1}'
