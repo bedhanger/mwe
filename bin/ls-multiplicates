@@ -7,8 +7,9 @@
 
 default_hash_func=sha256sum
 
-${hash_func:-${default_hash_func}} -- "${@}" | \
-	awk '{print $NF, $1}' | \
-	sort --key=2 | \
-	uniq --skip-fields=1 --all-repeated=separate | \
-	awk '{print $NF, $1}'
+find "${@}" -type f -printf "%p\0" | \
+	xargs --null ${hash_func:-${default_hash_func}} | \
+		awk '{print $NF, $1}' | \
+		sort --key=2 | \
+		uniq --skip-fields=1 --all-repeated=separate | \
+		awk '{print $NF, $1}'
