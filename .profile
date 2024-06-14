@@ -1,3 +1,6 @@
+# Don't execute whatever is in there...
+unset PROMPT_COMMAND
+
 # This inserts a thousands separator into the sizes displayed by
 # ls, du, and df.  It is dependent upon LC_NUMERIC, but there
 # appears to be none which features "_", :-(
