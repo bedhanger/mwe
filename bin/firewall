@@ -303,6 +303,12 @@ ${ia} early-dns \
 		--match-set early-isp-dns src \
 	--jump ACCEPT
 
+# Mail
+${inc} smtp
+# Remove this to log and accept
+${ia} smtp --jump blackhole
+${ia} smtp --jump logaccept
+
 # Now kludge the INPUT chain from the pieces above.  Note that
 # not every element created so far is used permanently; some of
 # them are only for transient usage.
@@ -328,6 +334,7 @@ ${iai} --jump GEOK
 # Crown jewels.
 ${iai} --protocol tcp                   --destination-port  ssh             --jump ssh
 ${iai} --protocol tcp --match multiport --destination-ports https,8008,http --jump https
+${iai} --protocol tcp                   --destination-port  smtp            --jump smtp
 
 # Allow seeding the DNS cache during reboots.
 ${iai} --jump early-dns
