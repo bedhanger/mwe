@@ -25,21 +25,14 @@
         unstage = reset HEAD --
         unedit = checkout --
         ci = commit --signoff --verbose --verbose
-        cia = ci --all
         co = checkout
-        co3 = checkout --conflict=diff3 --
         b = branch
         l1 = log --oneline
         l = log --graph --all --decorate=short --oneline \
            --format=\"%C(blue)%h%C(reset) %C(green)%ad%C(reset) %C(yellow)%an%C(reset) %C(cyan)%ar%C(reset) %C(red)%s%C(reset) %C(bold magenta)%d%C(reset)\"
-        wi = diff --check
         rr = clean -d -x --force --quiet
         bav = branch -a --verbose --verbose
         d = describe --tags
-        # Not part of the canon.  Needs script.
-        tprs = thread-push-remotes
-        sb = show-branch
-        pus = push
         # Not part of the canon.  Needs script.
         lr = left-right
         bd = branch --delete
@@ -53,7 +46,6 @@
         rpc = show --no-patch --date=short \
 		--pretty='format:%C(blue)%h%C(reset) (%C(red)\"%s\"%C(reset), %C(green)%ad%C(reset))%n'
         dcw = diff --color-words
-        scw = show --color-words
         # What we usually want invoked when we spell it out.
         vi = ci --amend --allow-empty
         # Useful to produce diff slices even if no local changes
