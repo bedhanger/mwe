@@ -63,6 +63,8 @@
 	mrf = diff HEAD^ --name-status
 	# When colordiff is nowhere to be found
 	diphth = diff --no-index --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol --ignore-space-at-eol --ignore-space-change
+	# Unconditionally make it look like upstream
+	up = reset --merge @{upstream}
 [merge]
         conflictStyle = diff3
         log = true
