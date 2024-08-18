@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 
-PURPOSE = 'Ask a provider for your external wan ip with which you connect to it, then print it out'
-HINT = 'Respect the netiquette when contacting the provider'
+__PURPOSE__ = 'Ask a provider for your external wan ip with which you connect to it, then print it out'
+__HINT__ = 'Respect the netiquette when contacting the provider'
+
+__all__ = [
+    'run_wanip',
+]
 
 def run_wanip():
 
@@ -40,8 +44,8 @@ def run_wanip():
         # Parse the command line
         parser = argparse.ArgumentParser(
             prog = ME,
-            description = PURPOSE,
-            epilog = HINT,
+            description = __PURPOSE__,
+            epilog = __HINT__,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter,
         )
         parser.add_argument(
