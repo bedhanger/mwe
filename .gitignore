@@ -1,2 +1,5 @@
 # These should always be pulled out of Git itself
 *.patch
+
+# Caches, compiled object files, and the like
+__pycache__/
