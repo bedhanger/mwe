@@ -37,24 +37,24 @@ def run_wanip():
         # Identify ourselves
         ME = os.path.basename(__file__)
 
-        # This should simply return the address it sees in the connection
-        DEFAULT_PROVIDER = 'ifconfig.me/ip'
-
         # Parse the command line
         parser = argparse.ArgumentParser(
             prog = ME,
             description = PURPOSE,
             epilog = HINT,
+            formatter_class = argparse.ArgumentDefaultsHelpFormatter,
         )
         parser.add_argument(
             '-u', '--url',
             type = str,
-            default = DEFAULT_PROVIDER,
-            help = f'the URL to contact; defaults to "{DEFAULT_PROVIDER}"',
+            # This should simply return the address it sees in the connection
+            default = 'ifconfig.me/ip',
+            help = 'the URL to contact',
         )
         parser.add_argument(
             '-n', '--add-trailing-newline',
             action = 'store_true',
+            default = False,
             help = 'add a trailing newline character to the output, purely cosmetic',
         )
         args = parser.parse_args()
