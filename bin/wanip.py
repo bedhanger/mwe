@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-__PURPOSE__ = 'Ask a provider for your external wan ip with which you connect to it, then print it out'
+__PURPOSE__ = 'Ask a provider for your ip with which you connect to it, then print it out'
 __HINT__ = 'Respect the netiquette when contacting the provider'
 
 __all__ = [
