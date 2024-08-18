@@ -26,35 +26,39 @@ def run_wanip():
         # Bye
         sys.exit(result.returncode)
 
-    import argparse
-    import os
+    def parse_cmd_line():
+        """
+        Read options, show help
+        """
+        import argparse
+        import os
 
-    # Identify ourselves
-    ME = os.path.basename(__file__)
+        # Identify ourselves
+        ME = os.path.basename(__file__)
 
-    DEFAULT_PROVIDER = 'ifconfig.me/ip'
+        DEFAULT_PROVIDER = 'ifconfig.me/ip'
 
-    # Parse the command line
-    parser = argparse.ArgumentParser(
-        prog = ME,
-        description = PURPOSE,
-        epilog = HINT,
-    )
-    parser.add_argument(
-        '-u', '--url',
-        type = str,
-        default = DEFAULT_PROVIDER,
-        help = f'the URL to contact; defaults to "{DEFAULT_PROVIDER}"',
-    )
-    parser.add_argument(
-        '-n', '--add-trailing-newline',
-        action = 'store_true',
-        help = 'add a trailing newline character to the output, purely cosmetic',
-    )
-    args = parser.parse_args()
-    url = args.url
-    add_trailing_lf = args.add_trailing_newline
+        # Parse the command line
+        parser = argparse.ArgumentParser(
+            prog = ME,
+            description = PURPOSE,
+            epilog = HINT,
+        )
+        parser.add_argument(
+            '-u', '--url',
+            type = str,
+            default = DEFAULT_PROVIDER,
+            help = f'the URL to contact; defaults to "{DEFAULT_PROVIDER}"',
+        )
+        parser.add_argument(
+            '-n', '--add-trailing-newline',
+            action = 'store_true',
+            help = 'add a trailing newline character to the output, purely cosmetic',
+        )
+        args = parser.parse_args()
+        return (args.url, args.add_trailing_newline)
 
+    url, add_trailing_lf = parse_cmd_line()
     curlme(url, add_trailing_lf)
 
 if __name__ == '__main__':
