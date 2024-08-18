@@ -20,7 +20,7 @@ def run_wanip():
         curl_cmd = f'curl --fail --show-error --silent {url}'
 
         # Obtain data & report
-        result = subprocess.run(curl_cmd, shell = True, capture_output = True)
+        result = subprocess.run(curl_cmd, shell=True, capture_output=True)
         if result.returncode != 0:
             sys.stderr.write(f'Cannot retrieve your WAN IP address from "{url}"\n')
             sys.stderr.write(f'The error message is this: {result.stderr.decode()}')
@@ -43,23 +43,23 @@ def run_wanip():
 
         # Parse the command line
         parser = argparse.ArgumentParser(
-            prog = ME,
-            description = __PURPOSE__,
-            epilog = __HINT__,
-            formatter_class = argparse.ArgumentDefaultsHelpFormatter,
+            prog=ME,
+            description=__PURPOSE__,
+            epilog=__HINT__,
+            formatter_class=argparse.ArgumentDefaultsHelpFormatter,
         )
         parser.add_argument(
             '-u', '--url',
-            type = str,
+            type=str,
             # This should simply return the address it sees in the connection
-            default = 'ifconfig.me/ip',
-            help = 'the URL to contact',
+            default='ifconfig.me/ip',
+            help='the URL to contact',
         )
         parser.add_argument(
             '-n', '--add-trailing-newline',
-            action = 'store_true',
-            default = False,
-            help = 'add a trailing newline character to the output, purely cosmetic',
+            action='store_true',
+            default=False,
+            help='add a trailing newline character to the output, purely cosmetic',
         )
         args = parser.parse_args()
         return (args.url, args.add_trailing_newline)
