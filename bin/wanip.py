@@ -65,7 +65,7 @@ def run_wanip():
         return (args.url, args.add_trailing_newline)
 
     url, add_trailing_lf = parse_cmd_line()
-    curlme(url, add_trailing_lf)
+    curlme(url=url, add_trailing_lf=add_trailing_lf)
 
 if __name__ == '__main__':
     run_wanip()
