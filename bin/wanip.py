@@ -4,10 +4,30 @@ PURPOSE = 'Ask a provider for your external wan ip with which you connect to it,
 HINT = 'Respect the netiquette when contacting the provider'
 
 def run_wanip():
+
+    def curlme(url, add_trailing_lf):
+        """
+        Use curl to get hold of my WANIP
+        """
+        import subprocess
+        import sys
+
+        curl_cmd = f'curl --fail --show-error --silent {url}'
+
+        # Obtain data & report
+        result = subprocess.run(curl_cmd, shell = True, capture_output = True)
+        if result.returncode != 0:
+            sys.stderr.write(f'Cannot retrieve your WAN IP address from "{url}"\n')
+            sys.stderr.write(f'The error message is this: {result.stderr.decode()}')
+        else:
+            sys.stdout.write(f'{result.stdout.decode()}')
+            if add_trailing_lf:
+                sys.stdout.write('\n')
+        # Bye
+        sys.exit(result.returncode)
+
     import argparse
     import os
-    import subprocess
-    import sys
 
     # Identify ourselves
     ME = os.path.basename(__file__)
@@ -35,20 +55,7 @@ def run_wanip():
     url = args.url
     add_trailing_lf = args.add_trailing_newline
 
-    # Use curl to get the data
-    curl_cmd = f'curl --fail --show-error --silent {url}'
-
-    # Obtain data & report
-    result = subprocess.run(curl_cmd, shell = True, capture_output = True)
-    if result.returncode != 0:
-        sys.stderr.write(f'Cannot retrieve your WAN IP address from "{url}"\n')
-        sys.stderr.write(f'The error message is this: {result.stderr.decode()}')
-    else:
-        sys.stdout.write(f'{result.stdout.decode()}')
-        if add_trailing_lf:
-            sys.stdout.write('\n')
-    # Bye
-    sys.exit(result.returncode)
+    curlme(url, add_trailing_lf)
 
 if __name__ == '__main__':
     run_wanip()
