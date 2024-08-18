@@ -52,7 +52,7 @@ def run_wanip():
             '-u', '--url',
             type=str,
             # This should simply return the address it sees in the connection
-            default='ifconfig.me/ip',
+            default='https://ifconfig.me/ip',
             help='the URL to contact',
         )
         parser.add_argument(
