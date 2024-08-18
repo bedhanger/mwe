@@ -12,6 +12,7 @@ def run_wanip():
         import subprocess
         import sys
 
+        # Construct curl command
         curl_cmd = f'curl --fail --show-error --silent {url}'
 
         # Obtain data & report
@@ -36,6 +37,7 @@ def run_wanip():
         # Identify ourselves
         ME = os.path.basename(__file__)
 
+        # This should simply return the address it sees in the connection
         DEFAULT_PROVIDER = 'ifconfig.me/ip'
 
         # Parse the command line
