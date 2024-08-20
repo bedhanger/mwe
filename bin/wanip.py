@@ -7,7 +7,7 @@ __all__ = [
     'run_wanip',
 ]
 
-def run_wanip():
+def naime():
 
     def curlme(url, add_trailing_lf):
         """
@@ -68,4 +68,4 @@ def run_wanip():
     curlme(url=url, add_trailing_lf=add_trailing_lf)
 
 if __name__ == '__main__':
-    run_wanip()
+    naime()
