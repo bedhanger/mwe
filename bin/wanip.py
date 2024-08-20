@@ -4,7 +4,7 @@ __PURPOSE__ = 'Ask a provider for your ip with which you connect to it, then pri
 __HINT__ = 'Respect the netiquette when contacting the provider'
 
 __all__ = [
-    'run_wanip',
+    'naime',
 ]
 
 def naime():
