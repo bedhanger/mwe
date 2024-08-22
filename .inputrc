@@ -75,5 +75,5 @@ Control-R: " rlffts\C-m"
 # Gitify current directory.
 Control-G: ' gitify\C-m'
 
-# Delete the most recent command history entry
-Control-H: ' history -d-1\C-m'
+# Delete the most recent command history entry, and then print the then last command
+Control-H: ' history -d-1\C-m !!:p\C-m'
