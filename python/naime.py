@@ -92,6 +92,6 @@ if __name__ == '__main__':
     try:
         naime()
     except Exception as e:
-        sys.stderr.write(colored('Hm, that did not work: {because}\n', 'red', None, ['bold']).
-            format(because=str(type(e))))
+        sys.stderr.write(colored('Hm, that did not work: {what} ({hint})\n', 'red', None, ['bold']).
+            format(what=e, hint=type(e)))
         sys.exit(-1)
