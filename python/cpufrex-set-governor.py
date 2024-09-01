@@ -7,6 +7,7 @@ from termcolor import colored
 
 class GovernorNotAvailableError(Exception): pass
 class CpuNotFoundError(FileNotFoundError): pass
+class NoGovernorsFoundError(Exception): pass
 
 def naime():
     """
@@ -31,7 +32,6 @@ def naime():
             )
             parser.add_argument(
                 'governor',
-                type=str,
                 nargs='?',
                 default='powersave',
                 help='the new frequency governor that will be used for all CPUs found',
@@ -60,7 +60,7 @@ def naime():
 
     def get_available_governors(from_cpu):
         """
-        Produce the list of currently known governors
+        Produce the string of currently known governors
         """
         try:
             with open('/sys/devices/system/cpu/cpu{the_cpu}/cpufreq/scaling_available_governors'.
@@ -79,9 +79,13 @@ def naime():
         """
         Show which ones can be selected from
         """
-        the_list = available_governors.split(' ')
-        print(colored(the_list, 'green')) if verbose else None
-        return the_list
+        try:
+            the_list = available_governors.split(' ')
+            assert the_list != ['']
+            print(colored(the_list, 'green')) if verbose else None
+            return the_list
+        except AssertionError:
+            raise NoGovernorsFoundError('No governors found')
     pass
 
     def set_new_governor(new_governor, verbose=False):
@@ -155,7 +159,7 @@ def naime():
             sys.stderr.write(colored('Could not display list of available governors\n', 'red'))
             raise
 
-    if new_governor in available_governors:
+    if new_governor in list_the_governors(available_governors):
         try:
             set_new_governor(new_governor, verbose)
             print(colored('Set "{new_governor}" as the new governor', 'green', None, ['bold']).
