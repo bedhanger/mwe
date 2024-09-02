@@ -7,6 +7,7 @@ from termcolor import colored
 import subprocess
 import argparse
 import os
+import re
 
 def naime():
     """
@@ -38,6 +39,48 @@ def naime():
             raise
     pass
 
+    def upgrade_to_https(urls):
+        """
+        Replace HTTP protocol specifier in favour of HTTPS.
+        Lowercase the result in this case.
+        """
+        new_urls = []
+        http = re.compile(r"^(http)(://)", re.IGNORECASE)
+        for url in urls:
+            try:
+                found = re.search(http, url)
+                assert found is not None
+                https = found.group(1).lower() + 's' + found.group(2)
+                url = re.sub(http, https, url)
+            except AssertionError:
+                # Just didn't start with http://
+                # Nevermind!
+                pass
+            finally:
+                new_urls.append(url)
+        return new_urls
+    pass
+
+    def upgrade_to_webxxl(urls):
+        """
+        Super-size me!
+        """
+        new_urls = []
+        small = re.compile(r"(\.web)x?(l|s)\.\b", re.IGNORECASE)
+        for url in urls:
+            try:
+                found = re.search(small, url)
+                assert found is not None
+                big = found.group(1) + 'xxl.'
+                url = re.sub(small, big, url)
+            except AssertionError:
+                # Nevermind!
+                pass
+            finally:
+                new_urls.append(url)
+        return new_urls
+    pass
+
     # Parse the command line
     try:
         args = parse_cmd_line()
@@ -52,11 +95,18 @@ def naime():
 
     # Upgrade to https
     try:
-        for url in urls:
-            print(colored('{url}', 'green', None, ['bold']).format(url=url))
-            # TODO: upgrade!
+        urls = upgrade_to_https(urls)
     except:
         raise
+
+    # Try to go for the web XXL version
+    try:
+        urls = upgrade_to_webxxl(urls)
+    except:
+        raise
+
+    for url in urls:
+        print(colored('{url}', 'green', None, ['bold']).format(url=url))
 
     # Download
     try:
@@ -74,10 +124,9 @@ def naime():
         downloader_cmd = '{downloader_name} {downloader_options} {urls}'.format(
             downloader_name=downloader_name, downloader_options=' '.join(downloader_options),
             urls=' '.join(urls))
-        result = subprocess.run(downloader_cmd, check=True, shell=True, capture_output=False)
-    except subprocess.CalledProcessError as e:
+        result = subprocess.run(downloader_cmd, check=True, shell=True)
+    except subprocess.CalledProcessError:
         sys.stderr.write(colored('Cannot download!\n', 'red'))
-        sys.stderr.write(colored('{because}', 'red').format(because=e.stderr.decode()))
         raise
     except:
         sys.stderr.write(colored('Oh!\n', 'red'))
@@ -91,7 +140,3 @@ if __name__ == '__main__':
         sys.stderr.write(colored('Hm, that did not work: {what} ({hint})\n', 'red', None, ['bold']).
             format(what=e, hint=type(e)))
         sys.exit(-1)
-
-# TODO
-## Go for the .webxxl. version if .web(l|s). is offered.
-#WHAT_TO_GET=$(perl -p -e 's/(\.web)(l|s)\.\b/\1xxl./' <<< ${WHAT_TO_GET})
