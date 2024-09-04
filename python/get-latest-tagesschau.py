@@ -48,9 +48,9 @@ def naime():
         http = re.compile(r"^(http)(://)", re.IGNORECASE)
         for url in urls:
             try:
-                found = re.search(http, url)
-                assert found is not None
-                https = found.group(1).lower() + 's' + found.group(2)
+                match = re.search(http, url)
+                assert match is not None
+                https = match.group(1).lower() + 's' + match.group(2)
                 url = re.sub(http, https, url)
             except AssertionError:
                 # Just didn't start with http://
@@ -69,9 +69,9 @@ def naime():
         small = re.compile(r"(\.web)x?(l|s)\.\b", re.IGNORECASE)
         for url in urls:
             try:
-                found = re.search(small, url)
-                assert found is not None
-                big = found.group(1) + 'xxl.'
+                match = re.search(small, url)
+                assert match is not None
+                big = match.group(1) + 'xxl.'
                 url = re.sub(small, big, url)
             except AssertionError:
                 # Nevermind!
