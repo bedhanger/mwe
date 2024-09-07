@@ -7,7 +7,7 @@ from termcolor import colored
 import subprocess
 import argparse
 import os
-import socket
+from socket import gethostbyname_ex, gethostname
 
 def naime():
     """
@@ -85,7 +85,7 @@ def naime():
         try:
             # We're only interested in the first element of the tuple
             #     (canonical_hostname, list_of_alias_hostnames, list_of_IP_addresses)
-            fqdn = socket.gethostbyname_ex(socket.gethostname())[0]
+            fqdn = gethostbyname_ex(gethostname())[0]
 
             # Cloudflare, try 'dns.google.' for Google
             public_dns = 'one.one.one.one.'
