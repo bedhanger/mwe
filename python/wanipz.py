@@ -83,6 +83,8 @@ def naime():
         display_cut_here()
 
         try:
+            # We're only interested in the first element of the tuple
+            #     (canonical_hostname, list_of_alias_hostnames, list_of_IP_addresses)
             fqdn = socket.gethostbyname_ex(socket.gethostname())[0]
 
             # Cloudflare, try 'dns.google.' for Google
