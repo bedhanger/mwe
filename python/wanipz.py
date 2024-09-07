@@ -8,6 +8,7 @@ import subprocess
 import argparse
 import os
 from socket import gethostbyname_ex, gethostname
+from random import shuffle
 
 def naime():
     """
@@ -87,8 +88,15 @@ def naime():
             #     (canonical_hostname, list_of_alias_hostnames, list_of_IP_addresses)
             fqdn = gethostbyname_ex(gethostname())[0]
 
-            # Cloudflare, try 'dns.google.' for Google
-            public_dns = 'one.one.one.one.'
+            # Pseudo-randomly select a public DNS provider
+            public_dnses = [
+                # Cloudflare
+                'one.one.one.one.',
+                # Google
+                'dns.google.',
+            ]
+            shuffle(public_dnses)
+            public_dns = public_dnses[0]
 
             print(colored('What a public DNS provider thinks about "{this_host}"',
                           'blue', None, ['bold']).format(this_host=fqdn))
