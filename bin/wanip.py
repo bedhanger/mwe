@@ -61,11 +61,16 @@ def naime():
             default=False,
             help='add a trailing newline character to the output, purely cosmetic',
         )
-        args = parser.parse_args()
-        return (args.url, args.add_trailing_newline)
+        parser.add_argument(
+            '-v', '--verbose',
+            action='store_true',
+            help='show which provider will be contacted',
+        )
+        return parser.parse_args()
     pass
 
-    url, add_trailing_lf = parse_cmd_line()
+    args = parse_cmd_line()
+    url, add_trailing_lf, verbose = args.url, args.add_trailing_newline, args.verbose
 
     if not url:
         providers = [
@@ -76,6 +81,9 @@ def naime():
             'https://ipecho.net/plain',
         ]
         url = random.choice(providers)
+
+    if verbose:
+        print('Trying {url}'.format(url=url))
 
     curlme(url=url, add_trailing_lf=add_trailing_lf)
 pass
