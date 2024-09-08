@@ -9,7 +9,7 @@ from termcolor import colored
 import subprocess
 import argparse
 import os
-from random import shuffle
+from random import choice
 
 def naime():
     """
@@ -32,7 +32,7 @@ def naime():
             parser.add_argument(
                 'items',
                 nargs='*',
-                help='the items to shuffle',
+                help='the items to pseudo-randomly select from',
             )
             parser.add_argument(
                 '-e', '--eyes',
@@ -62,8 +62,7 @@ def naime():
     try:
         if not items:
             items = list(range(1, eyes + 1))
-        shuffle(items)
-        print(colored('{cast}', 'green', None, ['bold']).format(cast=items[0]))
+        print(colored('{cast}', 'green', None, ['bold']).format(cast=choice(items)))
     except subprocess.CalledProcessError as e:
         sys.stderr.write(colored('Cannot offload work to other commands!\n', 'red'))
         sys.stderr.write(colored('{because}', 'red').format(because=e.stderr.decode()))
