@@ -6,6 +6,7 @@ __HINT__ = 'Respect the netiquette when contacting the provider'
 __all__ = [
     'naime',
 ]
+import random
 
 def naime():
 
@@ -30,6 +31,7 @@ def naime():
                 sys.stdout.write('\n')
         # Bye
         sys.exit(result.returncode)
+    pass
 
     def parse_cmd_line():
         """
@@ -51,8 +53,6 @@ def naime():
         parser.add_argument(
             '-u', '--url',
             type=str,
-            # This should simply return the address it sees in the connection
-            default='https://ifconfig.me/ip',
             help='the URL to contact',
         )
         parser.add_argument(
@@ -63,9 +63,22 @@ def naime():
         )
         args = parser.parse_args()
         return (args.url, args.add_trailing_newline)
+    pass
 
     url, add_trailing_lf = parse_cmd_line()
+
+    if not url:
+        providers = [
+            'https://ifconfig.me/ip',
+            'https://my.ip.fi',
+            'https://icanhazip.com',
+            'https://ifconfig.co',
+            'https://ipecho.net/plain',
+        ]
+        url = random.choice(providers)
+
     curlme(url=url, add_trailing_lf=add_trailing_lf)
+pass
 
 if __name__ == '__main__':
     naime()
