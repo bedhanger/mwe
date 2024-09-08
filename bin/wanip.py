@@ -2,8 +2,6 @@
 """
 Ask a provider for your ip with which you connect to it, then print it out.
 """
-__HINT__ = 'Respect the netiquette when contacting the provider'
-
 __all__ = [
     'naime',
 ]
@@ -48,7 +46,7 @@ def naime():
         parser = argparse.ArgumentParser(
             prog=ME,
             description=__doc__,
-            epilog=__HINT__,
+            epilog='Respect the netiquette when contacting the provider.',
             formatter_class=argparse.RawTextHelpFormatter,
         )
         parser.add_argument(
