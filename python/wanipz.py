@@ -98,8 +98,8 @@ def naime():
                 'dns.linuxpatch.com',
                 # Freifunk München e.V.
                 'dot.ffmuc.net',
-                # Digitalcourage e.V.
-                'dns3.digitalcourage.de',
+                # OpenDNS
+                'dns.opendns.com',
             ]
             public_dns = random.choice(public_dnses)
 
