@@ -78,6 +78,8 @@ def naime():
             'https://icanhazip.com',
             'https://ifconfig.co',
             'https://ipecho.net/plain',
+            'https://ipinfo.io/ip',
+            'https://ident.me',
         ]
         provider = random.choice(providers)
 
