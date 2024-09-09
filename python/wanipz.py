@@ -100,6 +100,8 @@ def naime():
                 'dot.ffmuc.net',
                 # OpenDNS
                 'dns.opendns.com',
+                # Quad9
+                'dns11.quad9.net',
             ]
             public_dns = random.choice(public_dnses)
 
