@@ -6,10 +6,9 @@ When no args are given, simulate casting a die.
 """
 import sys
 from termcolor import colored
-import subprocess
 import argparse
 import os
-from random import choice
+import random
 
 def naime():
     """
@@ -61,11 +60,10 @@ def naime():
 
     try:
         if not items:
-            items = list(range(1, eyes + 1))
-        print(colored('{cast}', 'green', None, ['bold']).format(cast=choice(items)))
-    except subprocess.CalledProcessError as e:
-        sys.stderr.write(colored('Cannot offload work to other commands!\n', 'red'))
-        sys.stderr.write(colored('{because}', 'red').format(because=e.stderr.decode()))
+            items = range(1, eyes + 1)
+        print(colored('{cast}', 'green', None, ['bold']).format(cast=random.choice(items)))
+    except OverflowError:
+        sys.stderr.write(colored('Cannot construct such a huge die!\n', 'red'))
         raise
     except:
         sys.stderr.write(colored('Oh!\n', 'red'))
@@ -75,7 +73,7 @@ pass
 if __name__ == '__main__':
     try:
         naime()
-    except Exception as e:
+    except Exception as exc:
         sys.stderr.write(colored('Hm, that did not work: {what} ({hint})\n', 'red', None, ['bold']).
-            format(what=e, hint=type(e)))
+            format(what=exc, hint=type(exc)))
         sys.exit(-1)
