@@ -80,10 +80,14 @@ def naime():
             'https://ipecho.net/plain',
             'https://ipinfo.io/ip',
             'https://ident.me',
-            'https://wtfismyip.com/text',
+            'https://ip.tyk.nu/',
             'https://whatismyip.akamai.com',
+            'https://eth0.me/',
             'https://api.ipify.org',
             'https://ip.me',
+            'https://checkip.amazonaws.com',
+            'https://ipgrab.io',
+            'https://www.trackip.net/ip',
         ]
         provider = random.choice(providers)
 
