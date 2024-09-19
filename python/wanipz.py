@@ -114,6 +114,8 @@ def naime():
                 'private.canadianshield.cira.ca',
                 # CenturyLink
                 'resolver2.lumen.tech',
+                # Dyn
+                'rdns.dynect.net',
             ]
             public_dns = random.choice(public_dnses)
 
