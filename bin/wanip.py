@@ -9,7 +9,7 @@ import random
 
 def naime():
 
-    def curlme(provider, add_trailing_lf):
+    def curlme(provider):
         """
         Use curl to get hold of my WANIP
         """
@@ -25,9 +25,7 @@ def naime():
             sys.stderr.write(f'Cannot retrieve your WAN IP address from "{provider}"\n')
             sys.stderr.write(f'The error message is this: {result.stderr.decode()}')
         else:
-            sys.stdout.write(f'{result.stdout.decode()}')
-            if add_trailing_lf:
-                sys.stdout.write('\n')
+            print('{output}'.format(output=result.stdout.decode().rstrip()))
         # Bye
         sys.exit(result.returncode)
     pass
@@ -55,11 +53,6 @@ def naime():
             help='the provider to contact, instead of pseudo-randomly auto-selecting one',
         )
         parser.add_argument(
-            '-n', '--add-trailing-newline',
-            action='store_true',
-            help='add a trailing newline character to the output, purely cosmetic',
-        )
-        parser.add_argument(
             '-v', '--verbose',
             action='store_true',
             help='show which provider will be contacted',
@@ -69,7 +62,7 @@ def naime():
 
     # Go
     args = parse_cmd_line()
-    provider, add_trailing_lf, verbose = args.provider, args.add_trailing_newline, args.verbose
+    provider, verbose = args.provider, args.verbose
 
     if not provider:
         providers = [
@@ -94,7 +87,7 @@ def naime():
     if verbose:
         print('Trying {provider}'.format(provider=provider))
 
-    curlme(provider=provider, add_trailing_lf=add_trailing_lf)
+    curlme(provider=provider)
 pass
 
 if __name__ == '__main__':
