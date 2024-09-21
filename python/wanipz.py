@@ -57,10 +57,10 @@ def naime():
 
         try:
             print(colored('Trying to determine your WANIP', 'blue', None, ['bold']))
-            external_cmd = 'wanip'
+            external_cmd = 'wanip --verbose'
             result = subprocess.run(external_cmd, check=True, shell=True, capture_output=True)
             print(colored('{output}', 'green').format(output=result.stdout.decode().strip()))
-            wan_ip = output=result.stdout.decode()
+            *_, wan_ip = result.stdout.decode().split()
         except subprocess.CalledProcessError as e:
             sys.stderr.write(colored('Cannot obtain info regarding external IP address!\n', 'red'))
             sys.stderr.write(colored('{because}', 'red').format(because=e.stderr.decode()))
