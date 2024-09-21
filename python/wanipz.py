@@ -42,7 +42,7 @@ def naime():
 
         try:
             print(colored('What the local DNS server thinks; you must track an entry named "wanip" for this to work', 'blue', None, ['bold']))
-            external_cmd = 'host wanip'
+            external_cmd = 'host -v wanip'
             result = subprocess.run(external_cmd, check=True, shell=True, capture_output=True)
             print(colored('{output}', 'green').format(output=result.stdout.decode().strip()))
         except subprocess.CalledProcessError as e:
@@ -70,7 +70,7 @@ def naime():
             raise
 
         try:
-            external_cmd = 'host {ptr_record}'.format(ptr_record=wan_ip)
+            external_cmd = 'host -v {ptr_record}'.format(ptr_record=wan_ip)
             result = subprocess.run(external_cmd, check=True, shell=True, capture_output=True)
             print(colored('{output}', 'green').format(output=result.stdout.decode().strip()))
         except subprocess.CalledProcessError as e:
@@ -122,7 +122,7 @@ def naime():
             print(colored('What a public DNS provider thinks about "{this_host}"',
                           'blue', None, ['bold']).format(this_host=fqdn))
 
-            external_cmd = 'host {host} {ns}'.format(host=fqdn, ns=public_dns)
+            external_cmd = 'host -v {host} {ns}'.format(host=fqdn, ns=public_dns)
             result = subprocess.run(external_cmd, check=True, shell=True, capture_output=True)
             print(colored('{output}', 'green').format(output=result.stdout.decode().strip()))
         except subprocess.CalledProcessError as e:
