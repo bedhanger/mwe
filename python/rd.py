@@ -1,0 +1,96 @@
+#!/usr/bin/env python
+
+"""
+Remove the most recent temporary directory created by nd.py, if executed in the same environment as
+the corresponding nd.py.
+You should, like in the case of nd.py, eval this script.
+"""
+
+import sys
+from termcolor import colored
+import subprocess
+import argparse
+import os
+import random
+from pathlib import Path
+
+# Note that everything that is printed but that does *not* go to stderr is for the calling shell to
+# eval.
+
+class NoNDError(Exception): pass
+
+def parse_cmd_line():
+    """
+    Get options, show help
+    """
+    me = os.path.basename(__file__)
+    try:
+        parser = argparse.ArgumentParser(
+            prog=me,
+            description=__doc__,
+            epilog='Evaling means "eval $({me})"'.format(me=me),
+            formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        )
+        parser.add_argument(
+            '-v', '--verbose',
+            action='store_true',
+            help='show details of what is being done',
+        )
+        return parser.parse_args()
+    except argparse.ArgumentError:
+        sys.stderr.write(colored('Could not decipher the command line\n', 'red'))
+        raise
+
+def handle_existing_nd(verbose):
+    """
+    Get rid of the previously created ND
+    """
+    verbose = '--verbose' if verbose else ''
+    try:
+        nd = os.environ['ND']
+        nd = Path(nd).resolve()
+
+        # Shred every file, rename it several times, and finally remove it.  Remove the empty dir
+        # skeleton afterwards.  Unset the ND variable.
+        print(
+            'cd',
+            'find {ND} -type f -print0 | xargs --null --max-args=$(nproc) --no-run-if-empty \
+                shred --force --remove {verbose} --exact --zero'.format(ND=nd, verbose=verbose),
+            'rm --recursive --force {verbose} {ND}'.format(ND=nd, verbose=verbose),
+            'unset ND',
+            end='',
+            sep=' && ',
+        )
+    except KeyError:
+        raise NoNDError
+
+def handle_no_nd():
+    """
+    Report that there is nothing to do, and what can be done about it
+    """
+    print(colored('No temporary dir bound to env var ND...', 'red', None, None), file=sys.stderr)
+    print(colored('Re-run with ND pointing to a folder.', 'red', None, None), file=sys.stderr)
+    raise NoNDError('No previous temporary folder')
+
+def naime():
+    """
+    Run the show
+    """
+    args = parse_cmd_line()
+    verbose = args.verbose
+    try:
+        handle_existing_nd(verbose=True)
+    except NoNDError:
+        handle_no_nd()
+    except:
+        raise
+
+if __name__ == '__main__':
+    try:
+        naime()
+    except Exception as exc:
+        print(colored('Hm, that did not work: {what} ({hint})', 'red', None, ['bold']).
+            format(what=exc, hint=type(exc)), file=sys.stderr)
+        sys.exit(-1)
+    else:
+        print(colored('Good, that went well...', 'green', None, ['bold']), file=sys.stderr)
