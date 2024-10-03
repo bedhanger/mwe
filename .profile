@@ -168,8 +168,8 @@ alias rd='eval $(~/work/mwe/python/rd.py)'
 alias rd.="ND=. rd"
 alias rde="rd && exit"
 
-alias ns="nd && gnome-open ."
-alias ns="nd. && gnome-open ."
+alias ns="nd && xdg-open ."
+alias ns="nd. && xdg-open ."
 
 export PARINIT='rTbgqR B=.,?_A_a Q=_s>|'
 
