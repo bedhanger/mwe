@@ -94,3 +94,5 @@ if __name__ == '__main__':
         sys.exit(-1)
     else:
         print(colored('Good, that went well...', 'green', None, ['bold']), file=sys.stderr)
+        print(colored('Your shell has been tasked with', 'green', None, ['bold']), file=sys.stderr)
+        print(colored('shredding the folder.', 'green', None, ['bold']), file=sys.stderr)

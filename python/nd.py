@@ -139,3 +139,7 @@ if __name__ == '__main__':
         sys.exit(-1)
     else:
         print(colored('Good, that went well...', 'green', None, ['bold']), file=sys.stderr)
+        print(colored('Your shell has been tasked with', 'green', None, ['bold']), file=sys.stderr)
+        print(colored('making the new folder known,', 'green', None, ['bold']), file=sys.stderr)
+        print(colored('getting you there, and showing', 'green', None, ['bold']), file=sys.stderr)
+        print(colored('some general info about it.', 'green', None, ['bold']), file=sys.stderr)
