@@ -161,11 +161,11 @@ alias lh="l --sort=size --human-readable --reverse"
 export MULTIPLICATES="(\b\w+\b)(\s+\b\1\b)+"
 
 alias nd='eval $(~/work/mwe/python/nd.py)'
-alias nd.="ND_ROOT=. nd"
+alias nd.='eval $(ND_ROOT=. ~/work/mwe/python/nd.py)'
 alias ng="nd && gitify"
 
 alias rd='eval $(~/work/mwe/python/rd.py)'
-alias rd.="ND=. rd"
+alias rd.='eval $(ND=. ~/work/mwe/python/rd.py)'
 alias rde="rd && exit"
 
 alias ns="nd && xdg-open ."
