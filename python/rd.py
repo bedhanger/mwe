@@ -38,7 +38,7 @@ def parse_cmd_line():
         )
         return parser.parse_args()
     except argparse.ArgumentError:
-        sys.stderr.write(colored('Could not decipher the command line\n', 'red'))
+        sys.stderr.write(colored('Could not decipher the command line\n', 'red', force_color=True))
         raise
 
 def handle_existing_nd(verbose):
@@ -70,7 +70,7 @@ def handle_no_nd():
     """
     print(colored('''\
 No temporary dir bound to env var ND, re-run with ND pointing to a folder.
-''', 'red', None, None), end='', file=sys.stderr)
+''', 'red', None, None, force_color=True), end='', file=sys.stderr)
     raise NoNDError('No previous temporary folder')
 
 def naime():
@@ -90,11 +90,11 @@ if __name__ == '__main__':
     try:
         naime()
     except Exception as exc:
-        print(colored('Hm, that did not work: {what} ({hint})', 'red', None, ['bold']).
+        print(colored('Hm, that did not work: {what} ({hint})', 'red', None, ['bold'], force_color=True).
             format(what=exc, hint=type(exc)), file=sys.stderr)
         sys.exit(-1)
     else:
         print(colored('''\
 Good, that went well...
 Your shell has been tasked with shredding the folder.
-''', 'green', None, ['bold']), end='', file=sys.stderr)
+''', 'green', None, ['bold'], force_color=True), end='', file=sys.stderr)

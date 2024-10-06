@@ -38,7 +38,7 @@ def parse_cmd_line():
         )
         return parser.parse_args()
     except argparse.ArgumentError:
-        sys.stderr.write(colored('Could not decipher the command line\n', 'red'))
+        sys.stderr.write(colored('Could not decipher the command line\n', 'red', force_color=True))
         raise
 
 def handle_existing_nd():
@@ -50,7 +50,7 @@ def handle_existing_nd():
         print(colored('''\
 No, you don\'t wanna nest this stuff.  ND currently is "{nd}"
 This may be due to a wedged previous "state".  Use that or unset it & try again
-''', 'red', None, None).format(nd=nd), end='', file=sys.stderr)
+''', 'red', None, None, force_color=True).format(nd=nd), end='', file=sys.stderr)
         raise ExistingNDError('Attempt to nest operations')
     except KeyError:
         # All good, transfer to the pure state
@@ -76,8 +76,8 @@ def handle_new_nd():
         nd = nd.replace('+', 'plus')
         nd = nd + '-' + str(os.getpid()) + '-' + str(random.randrange(32768))
     except subprocess.CalledProcessError as exc:
-        print(colored('{what} ({hint})', 'red', None, None).format(what=exc,
-                                                                   hint=type(exc)),
+        print(colored('{what} ({hint})', 'red', None, None, force_color=True).format(what=exc,
+                                                                                     hint=type(exc)),
               file=sys.stderr)
         raise
     except:
@@ -109,7 +109,7 @@ def handle_new_nd():
     except FileExistsError:
         raise FileExistsError("Name collision?!?")
     else:
-        print(colored('Made a folder in {nd}', 'green', None, None).format(nd=nd), file=sys.stderr)
+        print(colored('Made a folder in {nd}', 'green', None, None, force_color=True).format(nd=nd), file=sys.stderr)
 
     print(
         'export ND={nd}'.format(nd=nd),
@@ -134,7 +134,7 @@ if __name__ == '__main__':
     try:
         naime()
     except Exception as exc:
-        print(colored('Hm, that did not work: {what} ({hint})', 'red', None, ['bold']).
+        print(colored('Hm, that did not work: {what} ({hint})', 'red', None, ['bold'], force_color=True).
             format(what=exc, hint=type(exc)), file=sys.stderr)
         sys.exit(-1)
     else:
@@ -142,4 +142,4 @@ if __name__ == '__main__':
 Good, that went well...
 Your shell has been tasked with making the new folder known, getting you there,
 and showing some general info about it.
-''', 'green', None, ['bold']), end='', file=sys.stderr)
+''', 'green', None, ['bold'], force_color=True), end='', file=sys.stderr)
