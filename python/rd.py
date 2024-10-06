@@ -68,8 +68,9 @@ def handle_no_nd():
     """
     Report that there is nothing to do, and what can be done about it
     """
-    print(colored('No temporary dir bound to env var ND...', 'red', None, None), file=sys.stderr)
-    print(colored('Re-run with ND pointing to a folder.', 'red', None, None), file=sys.stderr)
+    print(colored('''\
+No temporary dir bound to env var ND, re-run with ND pointing to a folder.
+''', 'red', None, None), end='', file=sys.stderr)
     raise NoNDError('No previous temporary folder')
 
 def naime():
@@ -93,6 +94,7 @@ if __name__ == '__main__':
             format(what=exc, hint=type(exc)), file=sys.stderr)
         sys.exit(-1)
     else:
-        print(colored('Good, that went well...', 'green', None, ['bold']), file=sys.stderr)
-        print(colored('Your shell has been tasked with', 'green', None, ['bold']), file=sys.stderr)
-        print(colored('shredding the folder.', 'green', None, ['bold']), file=sys.stderr)
+        print(colored('''\
+Good, that went well...
+Your shell has been tasked with shredding the folder.
+''', 'green', None, ['bold']), end='', file=sys.stderr)

@@ -47,10 +47,10 @@ def handle_existing_nd():
     """
     try:
         nd = os.environ['ND']
-        print(colored("No, you don't wanna nest this stuff", 'red', None, None), file=sys.stderr)
-        print(colored('ND currently is "{nd}"', 'red', None, None).format(nd=nd), file=sys.stderr)
-        print(colored('This may be due to a wedged previous "state"', 'red', None, None).format(nd=nd), file=sys.stderr)
-        print(colored('Use that or unset it & try again', 'red', None, None), file=sys.stderr)
+        print(colored('''\
+No, you don\'t wanna nest this stuff.  ND currently is "{nd}"
+This may be due to a wedged previous "state".  Use that or unset it & try again
+''', 'red', None, None).format(nd=nd), end='', file=sys.stderr)
         raise ExistingNDError('Attempt to nest operations')
     except KeyError:
         # All good, transfer to the pure state
@@ -138,8 +138,8 @@ if __name__ == '__main__':
             format(what=exc, hint=type(exc)), file=sys.stderr)
         sys.exit(-1)
     else:
-        print(colored('Good, that went well...', 'green', None, ['bold']), file=sys.stderr)
-        print(colored('Your shell has been tasked with', 'green', None, ['bold']), file=sys.stderr)
-        print(colored('making the new folder known,', 'green', None, ['bold']), file=sys.stderr)
-        print(colored('getting you there, and showing', 'green', None, ['bold']), file=sys.stderr)
-        print(colored('some general info about it.', 'green', None, ['bold']), file=sys.stderr)
+        print(colored('''\
+Good, that went well...
+Your shell has been tasked with making the new folder known, getting you there,
+and showing some general info about it.
+''', 'green', None, ['bold']), end='', file=sys.stderr)
