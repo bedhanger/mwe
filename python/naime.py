@@ -42,7 +42,7 @@ def naime():
             )
             return parser.parse_args()
         except argparse.ArgumentError:
-            sys.stderr.write(colored('Could not decipher the command line\n', 'red'))
+            print(colored('Could not decipher the command line', 'red'), file=sys.stderr)
             raise
     pass
 
@@ -54,23 +54,25 @@ def naime():
         # As this is an exception, we must handle it and finish the job.
         sys.exit(0)
     except:
-        sys.stderr.write(colored('Cannot seem to begin; utterly confused & bailing out\n', 'red'))
+        print(colored('Cannot seem to begin; utterly confused & bailing out', 'red'),
+              file=sys.stderr)
         raise
 
     # Show dox about ourselves
     try:
         help(os.path.splitext(ME)[0])
     except:
-        sys.stderr.write(colored('Cannot show beautified help; look at the source code!\n', 'red'))
-        sys.stderr.write(colored("Or type '{me} --help' for more information.\n", 'red').
-            format(me=ME))
+        print(colored('Cannot show beautified help; look at the source code!', 'red'),
+              file=sys.stderr)
+        print(colored("Or type '{me} --help' for more information.", 'red').
+            format(me=ME), file=sys.stderr)
         pass # We carry on!
 
     # Print the args found
     try:
         print(colored(args, 'green', None, ['bold']))
     except:
-        sys.stderr.write(colored('Ugh!\n', 'red'))
+        print(colored('Ugh!', 'red'), file=sys.stderr)
         raise
 
     # Run a simple external command
@@ -80,11 +82,11 @@ def naime():
         print(colored('Truth consumes {output} lines', 'green').format(
             output=result.stdout.decode().strip()))
     except subprocess.CalledProcessError as e:
-        sys.stderr.write(colored('Cannot offload work to other commands!\n', 'red'))
-        sys.stderr.write(colored('{because}', 'red').format(because=e.stderr.decode()))
+        print(colored('Cannot offload work to other commands!', 'red'), file=sys.stderr)
+        print(colored('{because}', 'red').format(because=e.stderr.decode()), file=sys.stderr)
         raise
     except:
-        sys.stderr.write(colored('Oh!\n', 'red'))
+        print(colored('Oh!', 'red'), file=sys.stderr)
         raise
 pass
 
@@ -92,6 +94,6 @@ if __name__ == '__main__':
     try:
         naime()
     except Exception as e:
-        sys.stderr.write(colored('Hm, that did not work: {what} ({hint})\n', 'red', None, ['bold']).
-            format(what=e, hint=type(e)))
+        print(colored('Hm, that did not work: {what} ({hint})', 'red', None, ['bold']).
+            format(what=e, hint=type(e)), file=sys.stderr)
         sys.exit(-1)
