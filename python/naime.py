@@ -44,7 +44,6 @@ def naime():
         except argparse.ArgumentError:
             print(colored('Could not decipher the command line', 'red'), file=sys.stderr)
             raise
-    pass
 
     # Parse the command line
     try:
@@ -88,7 +87,6 @@ def naime():
     except:
         print(colored('Oh!', 'red'), file=sys.stderr)
         raise
-pass
 
 if __name__ == '__main__':
     try:
