@@ -97,3 +97,5 @@ if __name__ == '__main__':
         print(colored('Hm, that did not work: {what} ({hint})', 'red', None, ['bold']).
             format(what=e, hint=type(e)), file=sys.stderr)
         sys.exit(-1)
+    else:
+        print(colored('Good, that went well...', 'green', None, ['bold']))
