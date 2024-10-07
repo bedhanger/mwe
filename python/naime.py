@@ -14,6 +14,7 @@ from termcolor import colored
 import subprocess
 import argparse
 import os
+from pathlib import Path
 
 def naime():
     """
@@ -59,7 +60,7 @@ def naime():
 
     # Show dox about ourselves
     try:
-        help(os.path.splitext(ME)[0])
+        help(Path(ME).stem)
     except:
         print(colored('Cannot show beautified help; look at the source code!', 'red'),
               file=sys.stderr)
