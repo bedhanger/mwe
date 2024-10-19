@@ -71,7 +71,7 @@ let @/ = "\\s\\+$"
 set autoread
 " Spelings.
 set spellfile=~/my.spelling.en.add
-setlocal spell spelllang=en
+setlocal spell spelllang=en,de
 " Make the indications less "noisy".
 highlight SpellBad term=inverse cterm=underline ctermbg=none
 highlight SpellCap term=inverse cterm=underline ctermbg=none
