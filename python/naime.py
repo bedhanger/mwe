@@ -75,18 +75,26 @@ def naime():
         print(colored('Ugh!', 'red'), file=sys.stderr)
         raise
 
-    # Run a simple external command
+    # Run two simple external commands connected via a pipe
     try:
-        external_cmd = 'not false | wc --lines'
-        result = subprocess.run(external_cmd, check=True, shell=True, capture_output=True)
-        print(colored('Truth consumes {output} lines', 'green').format(
-            output=result.stdout.decode().strip()))
+        external_cmd1 = ['/bin/true']
+        external_cmd2 = ['wc', '--lines']
+        with subprocess.Popen(external_cmd1, stdout=subprocess.PIPE) as p1:
+            with subprocess.Popen(external_cmd2, stdin=p1.stdout, stdout=subprocess.PIPE) as p2:
+                raw_output = p2.stdout.readlines()
+                # We assume there is only one line of output (we check below)
+                output = raw_output[0].decode().strip()
+        assert p1.returncode == 0, '"Command" {command} is unhappy'.format(command=external_cmd1)
+        assert p2.returncode == 0, '"Command" {command} is unhappy'.format(command=external_cmd2)
+        assert len(raw_output) == 1, 'There is an unexpected number of lines in the output'
+        assert output == '0', '"{output}" is not what we want to see'.format(output=output)
+        print(colored('Truth consumes {output} lines', 'green').format(output=output))
     except subprocess.CalledProcessError as e:
         print(colored('Cannot offload work to other commands!', 'red'), file=sys.stderr)
         print(colored('{because}', 'red').format(because=e.stderr.decode()), file=sys.stderr)
         raise
-    except:
-        print(colored('Oh!', 'red'), file=sys.stderr)
+    except AssertionError:
+        print(colored('Some of our guards fired!', 'red'), file=sys.stderr)
         raise
 
 if __name__ == '__main__':
