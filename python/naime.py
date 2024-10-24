@@ -75,20 +75,32 @@ def naime():
         print(colored('Ugh!', 'red'), file=sys.stderr)
         raise
 
-    # Run two simple external commands connected via a pipe
+    # Run two simple external commands connected via a pipe; there is no shell support.
+    # We expect a single line of output.
     try:
         external_cmd1 = ['/bin/true']
         external_cmd2 = ['wc', '--lines']
-        with subprocess.Popen(external_cmd1, stdout=subprocess.PIPE) as p1:
-            with subprocess.Popen(external_cmd2, stdin=p1.stdout, stdout=subprocess.PIPE) as p2:
-                raw_output = p2.stdout.readlines()
-                # We assume there is only one line of output (we check below)
-                output = raw_output[0].decode().strip()
+
+        with subprocess.Popen(external_cmd1,
+                              stdin=None,
+                              stdout=subprocess.PIPE,
+                              stderr=subprocess.PIPE) as p1:
+            with subprocess.Popen(external_cmd2,
+                                  stdin=p1.stdout,
+                                  stdout=subprocess.PIPE,
+                                  stderr=subprocess.PIPE) as p2:
+                raw_stdout, raw_stderr = p2.communicate()
+                output,     errors     = raw_stdout.decode(), raw_stderr.decode()
+
+        # Now check some properties
         assert p1.returncode == 0, '"Command" {command} is unhappy'.format(command=external_cmd1)
         assert p2.returncode == 0, '"Command" {command} is unhappy'.format(command=external_cmd2)
-        assert len(raw_output) == 1, 'There is an unexpected number of lines in the output'
-        assert output == '0', '"{output}" is not what we want to see'.format(output=output)
-        print(colored('Truth consumes {output} lines', 'green').format(output=output))
+        assert output.count('\n') == 1, 'There is an unexpected number of lines in the output'
+        assert output == '0\n', '"{this}" is not what we want to see'.format(this=output.strip())
+        assert errors == '', 'Errors occurred: "{oops}"'.format(oops=errors.strip())
+
+        # Finally, output the result
+        print(colored('Truth consumes {so_many} lines', 'green').format(so_many=output.strip()))
     except subprocess.CalledProcessError as e:
         print(colored('Cannot offload work to other commands!', 'red'), file=sys.stderr)
         print(colored('{because}', 'red').format(because=e.stderr.decode()), file=sys.stderr)
