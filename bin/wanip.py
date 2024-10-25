@@ -57,35 +57,41 @@ def naime():
             action='store_true',
             help='show which provider will be contacted',
         )
+        parser.add_argument(
+            '-l', '--list-providers',
+            action='store_true',
+            help='display the built-in list of providers',
+        )
         return parser.parse_args()
     pass
 
     # Go
     args = parse_cmd_line()
-    provider, verbose = args.provider, args.verbose
+    provider, verbose, list_providers = args.provider, args.verbose, args.list_providers
 
-    if not provider:
-        providers = [
-            'https://ifconfig.me/ip',
-            'https://my.ip.fi',
-            'https://icanhazip.com',
-            'https://ifconfig.co',
-            'https://ipecho.net/plain',
-            'https://ipinfo.io/ip',
-            'https://ident.me',
-            'https://ip.tyk.nu/',
-            'https://whatismyip.akamai.com',
-            'https://eth0.me/',
-            'https://api.ipify.org',
-            'https://ip.me',
-            'https://checkip.amazonaws.com',
-            'https://ipgrab.io',
-            'https://www.trackip.net/ip',
-        ]
-        provider = random.choice(providers)
+    providers = [
+        'https://ifconfig.me/ip',
+        'https://my.ip.fi',
+        'https://icanhazip.com',
+        'https://ifconfig.co',
+        'https://ipecho.net/plain',
+        'https://ipinfo.io/ip',
+        'https://ident.me',
+        'https://ip.tyk.nu/',
+        'https://whatismyip.akamai.com',
+        'https://eth0.me/',
+        'https://api.ipify.org',
+        'https://ip.me',
+        'https://checkip.amazonaws.com',
+        'https://ipgrab.io',
+        'https://www.trackip.net/ip',
+    ]
 
-    if verbose:
-        print('Trying {provider}'.format(provider=provider))
+    if list_providers: print(providers)
+
+    if not provider: provider = random.choice(providers)
+
+    if verbose: print('Trying {provider}'.format(provider=provider))
 
     curlme(provider=provider)
 pass
