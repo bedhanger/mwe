@@ -121,6 +121,7 @@ def naime():
     except:
         print('Something went wrong with the command: {cmd}'.format(cmd=nc_cmd), file=sys.stderr)
         print('Trying to execute:', nc_here_doc.decode(), sep='\n', end='', file=sys.stderr)
+        raise
 
 if __name__ == '__main__':
     try:
