@@ -11,7 +11,8 @@ The name is an intentional misspelling of the amalgamation of "name and main".
 """
 import sys
 from termcolor import colored
-import subprocess
+from subprocess import Popen, PIPE, CalledProcessError
+import textwrap
 import argparse
 import os
 from pathlib import Path
@@ -81,14 +82,8 @@ def naime():
         external_cmd1 = ['/bin/true']
         external_cmd2 = ['wc', '--lines']
 
-        with subprocess.Popen(external_cmd1,
-                              stdin=None,
-                              stdout=subprocess.PIPE,
-                              stderr=subprocess.PIPE) as p1:
-            with subprocess.Popen(external_cmd2,
-                                  stdin=p1.stdout,
-                                  stdout=subprocess.PIPE,
-                                  stderr=subprocess.PIPE) as p2:
+        with Popen(external_cmd1, stdin=None, stdout=PIPE, stderr=PIPE) as p1:
+            with Popen(external_cmd2, stdin=p1.stdout, stdout=PIPE, stderr=PIPE) as p2:
                 raw_stdout, raw_stderr = p2.communicate()
                 output,     errors     = raw_stdout.decode(), raw_stderr.decode()
 
@@ -101,13 +96,31 @@ def naime():
 
         # Finally, output the result
         print(colored('Truth consumes {so_many} lines', 'green').format(so_many=output.strip()))
-    except subprocess.CalledProcessError as e:
+    except CalledProcessError as e:
         print(colored('Cannot offload work to other commands!', 'red'), file=sys.stderr)
         print(colored('{because}', 'red').format(because=e.stderr.decode()), file=sys.stderr)
         raise
     except AssertionError:
         print(colored('Some of our guards fired!', 'red'), file=sys.stderr)
         raise
+
+    # Let us attempt to feed this netcat command a here-document.  Tcpdump with -XX to localhost and
+    # the UDP port given to verify that leading indentation is not an issue:
+    nc_cmd = ['nc', '-vvu', 'localhost', '49123']
+    try:
+        nc_here_doc = textwrap.dedent('''
+            This
+            That
+            The other
+        ''').lstrip().encode()
+
+        with Popen(nc_cmd, stdin=PIPE, stdout=PIPE, stderr=PIPE) as nc:
+            outs, errs = nc.communicate(nc_here_doc)
+        assert nc.returncode == 0
+        print('The length of here-doc is {this}'.format(this=len(nc_here_doc)))
+    except:
+        print('Something went wrong with the command: {cmd}'.format(cmd=nc_cmd), file=sys.stderr)
+        print('Trying to execute:', nc_here_doc.decode(), sep='\n', end='', file=sys.stderr)
 
 if __name__ == '__main__':
     try:
