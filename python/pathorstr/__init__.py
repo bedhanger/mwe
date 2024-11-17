@@ -1,13 +1,11 @@
 """
-Define the type alias PathOrStr
+Define PathOrStr as a type alias or at least as a union
 """
 from sys import version_info
-from typing import Union
 from pathlib import Path
 
 __all__ = ['PathOrStr']
 
-if version_info < (3, 12):
-    PathOrStr = Union[Path, str]
-else:
-    type PathOrStr = Union(Path, str)
+PathOrStr = Path | str
+if version_info >= (3, 12):
+    type PathOrStr = PathOrStr
