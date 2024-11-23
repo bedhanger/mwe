@@ -16,8 +16,9 @@ import textwrap
 import argparse
 import os
 from pathlib import Path
+import asyncio
 
-def naime():
+async def naime():
     """
     Run the show
     """
@@ -124,11 +125,4 @@ def naime():
         raise
 
 if __name__ == '__main__':
-    try:
-        naime()
-    except Exception as e:
-        print(colored('Hm, that did not work: {what} ({hint})', 'red', None, ['bold']).
-            format(what=e, hint=type(e)), file=sys.stderr)
-        sys.exit(-1)
-    else:
-        print(colored('Good, that went well...', 'green', None, ['bold']))
+    sys.exit(asyncio.run(naime()))
