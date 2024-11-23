@@ -107,7 +107,7 @@ async def naime():
 
     # Let us attempt to feed this netcat command a here-document.  Tcpdump with -XX to localhost and
     # the UDP port given to verify that leading indentation is not an issue:
-    nc_cmd = ['nc', '-vvu', 'localhost', '49123']
+    nc_cmd = ['nc', '--verbose', '--udp', '--send-only', 'localhost', '49123']
     try:
         nc_here_doc = textwrap.dedent('''
             This
