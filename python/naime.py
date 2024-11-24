@@ -126,7 +126,7 @@ async def naime():
         port=str(the_port)
     )
 
-    print('Asking tcpdump to shutdown...', end='')
+    print('Asking tcpdump to shut down...', end='')
     tcpdumping.terminate()
     print('Ok')
 
