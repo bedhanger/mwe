@@ -112,6 +112,7 @@ async def naime():
         raise
 
     the_port = 49123
+
     tcpdumping = await do_tcpdumping(
         prog='tcpdump',
         nic='--interface=lo',
@@ -124,7 +125,10 @@ async def naime():
         host='localhost',
         port=str(the_port)
     )
+
+    print('Asking tcpdump to shutdown...', end='')
     tcpdumping.terminate()
+    print('Ok')
 
 if __name__ == '__main__':
     sys.exit(asyncio.run(naime()))
