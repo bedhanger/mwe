@@ -5,12 +5,22 @@ from subprocess import (
     PIPE,
     Popen,
 )
-async def do_netcatting() -> None:
+from support.pathorstr import (
+    PathOrStr,
+)
+async def do_netcatting(prog: PathOrStr='nc', host: str='localhost', port: str=None) -> None:
     """
     Let us attempt to feed this netcat command a here-document.  Tcpdump with -XX to localhost and
     the UDP port given to verify that leading indentation is not an issue:
     """
-    nc_cmd = ['nc', '--verbose', '--udp', '--send-only', 'localhost', '49123']
+    nc_cmd = [
+        prog,
+            '--verbose',
+            '--udp',
+            '--send-only',
+            host,
+            port
+    ]
     try:
         nc_here_doc = textwrap.dedent('''
             This

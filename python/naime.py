@@ -119,7 +119,11 @@ async def naime():
     )
     print('Running tcpdump as PID {pid}'.format(pid=tcpdumping.pid))
 
-    await do_netcatting()
+    await do_netcatting(
+        prog='ncat',
+        host='localhost',
+        port=str(the_port)
+    )
     tcpdumping.terminate()
 
 if __name__ == '__main__':
