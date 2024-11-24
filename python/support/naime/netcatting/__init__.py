@@ -2,11 +2,9 @@ import textwrap
 import asyncio
 import sys
 from subprocess import (
-    CalledProcessError,
     PIPE,
     Popen,
 )
-
 async def do_netcatting() -> None:
     """
     Let us attempt to feed this netcat command a here-document.  Tcpdump with -XX to localhost and
@@ -18,11 +16,16 @@ async def do_netcatting() -> None:
             This
             That
             The other
+                And everything above
         ''').lstrip().encode()
 
-        with Popen(nc_cmd, stdin=PIPE, stdout=PIPE, stderr=PIPE) as nc:
-            outs, errs = nc.communicate(nc_here_doc)
-        assert nc.returncode == 0
+        for _ in range(5):
+            print('Sending packet...', end='')
+            with Popen(nc_cmd, stdin=PIPE, stdout=PIPE, stderr=PIPE) as nc:
+                outs, errs = nc.communicate(nc_here_doc)
+            await asyncio.sleep(1)
+            assert nc.returncode == 0
+            print('Ok')
         print('The length of here-doc is {this}'.format(this=len(nc_here_doc)))
     except:
         print('Something went wrong with the command: {cmd}'.format(cmd=nc_cmd), file=sys.stderr)

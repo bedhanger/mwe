@@ -20,6 +20,9 @@ import asyncio
 from support.naime.netcatting import (
     do_netcatting,
 )
+from support.naime.tcpdumping import (
+    do_tcpdumping,
+)
 
 async def naime():
     """
@@ -108,7 +111,10 @@ async def naime():
         print(colored('Some of our guards fired!', 'red'), file=sys.stderr)
         raise
 
+    tcpdumping = await do_tcpdumping()
+    print('Running tcpdump as PID {pid}'.format(pid=tcpdumping.pid))
     await do_netcatting()
+    tcpdumping.terminate()
 
 if __name__ == '__main__':
     sys.exit(asyncio.run(naime()))
