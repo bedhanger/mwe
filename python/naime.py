@@ -111,8 +111,14 @@ async def naime():
         print(colored('Some of our guards fired!', 'red'), file=sys.stderr)
         raise
 
-    tcpdumping = await do_tcpdumping()
+    the_port = 49123
+    tcpdumping = await do_tcpdumping(
+        prog='tcpdump',
+        nic='--interface=lo',
+        fltr_expr='udp port {port}'.format(port=the_port),
+    )
     print('Running tcpdump as PID {pid}'.format(pid=tcpdumping.pid))
+
     await do_netcatting()
     tcpdumping.terminate()
 
