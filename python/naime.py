@@ -111,24 +111,29 @@ async def naime():
         print(colored('Some of our guards fired!', 'red'), file=sys.stderr)
         raise
 
-    the_port = 49123
+    try:
+        print('Tcpdump and netcat simultaneously')
+        the_port = 49123
 
-    tcpdumping = await do_tcpdumping(
-        prog='tcpdump',
-        nic='--interface=lo',
-        fltr_expr='udp port {port}'.format(port=the_port),
-    )
-    print('Running tcpdump as PID {pid}'.format(pid=tcpdumping.pid))
+        tcpdumping = await do_tcpdumping(
+            prog='tcpdump',
+            nic='--interface=lo',
+            fltr_expr='udp port {port}'.format(port=the_port),
+        )
+        print('Running tcpdump as PID {pid}'.format(pid=tcpdumping.pid))
 
-    await do_netcatting(
-        prog='ncat',
-        host='localhost',
-        port=str(the_port)
-    )
+        await do_netcatting(
+            prog='ncat',
+            host='localhost',
+            port=str(the_port)
+        )
 
-    print('Asking tcpdump to shut down...', end='')
-    tcpdumping.terminate()
-    print('Ok')
+        # Netcat's done when we are done netcatting, so we only worry about tcpdump
+        print('Asking tcpdump to shut down...', end='')
+        tcpdumping.terminate()
+        print('Ok')
+    except:
+        print(colored('Juggling two jobs & the main routine did not work.', 'red'), file=sys.stderr)
 
 if __name__ == '__main__':
     sys.exit(asyncio.run(naime()))
