@@ -12,11 +12,14 @@ The name is an intentional misspelling of the amalgamation of "name and main".
 import sys
 from termcolor import colored
 from subprocess import Popen, PIPE, CalledProcessError
-import textwrap
 import argparse
 import os
 from pathlib import Path
 import asyncio
+
+from support.naime.netcatting import (
+    do_netcatting,
+)
 
 async def naime():
     """
@@ -105,24 +108,7 @@ async def naime():
         print(colored('Some of our guards fired!', 'red'), file=sys.stderr)
         raise
 
-    # Let us attempt to feed this netcat command a here-document.  Tcpdump with -XX to localhost and
-    # the UDP port given to verify that leading indentation is not an issue:
-    nc_cmd = ['nc', '--verbose', '--udp', '--send-only', 'localhost', '49123']
-    try:
-        nc_here_doc = textwrap.dedent('''
-            This
-            That
-            The other
-        ''').lstrip().encode()
-
-        with Popen(nc_cmd, stdin=PIPE, stdout=PIPE, stderr=PIPE) as nc:
-            outs, errs = nc.communicate(nc_here_doc)
-        assert nc.returncode == 0
-        print('The length of here-doc is {this}'.format(this=len(nc_here_doc)))
-    except:
-        print('Something went wrong with the command: {cmd}'.format(cmd=nc_cmd), file=sys.stderr)
-        print('Trying to execute:', nc_here_doc.decode(), sep='\n', end='', file=sys.stderr)
-        raise
+    await do_netcatting()
 
 if __name__ == '__main__':
     sys.exit(asyncio.run(naime()))
