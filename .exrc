@@ -82,8 +82,8 @@ map <F7> :w<CR>:.,$!exec gpg 2> /dev/tty --encrypt
 map <F8> :w<CR>:.,$!exec gpg 2> /dev/tty --encrypt --sign
 " F9 decrypts/verifies a message
 map <F9> :w<CR>!2}exec gpg 2> /dev/tty<CR>
-" LaTeX the current file.
-map <F12> :!time (latex % && latex %)<CR>
+" Execute the current file.
+map <F12> :!./%<CR>
 " CTRL-N loads the next file, CTRL-P rewinds the arg list
 map  :next<CR>
 map  :rewind<CR>
