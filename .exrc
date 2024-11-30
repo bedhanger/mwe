@@ -135,7 +135,6 @@ abbreviate calulate calculate
 " ;-)
 abbreviate desgin design
 abbreviate edi Edinburgh
-abbreviate exc exception
 abbreviate fov -- For operator visibility.o
 abbreviate func function
 abbreviate pac package
