@@ -6,16 +6,19 @@ __all__ = [
     'naime',
 ]
 import random
+import sys
+import subprocess
+import argparse
+import os
 
 def naime():
-
+    """
+    Run the show
+    """
     def curlme(provider):
         """
         Use curl to get hold of my WANIP
         """
-        import subprocess
-        import sys
-
         # Construct curl command
         curl_cmd = f'curl --fail --show-error --silent {provider}'
 
@@ -26,17 +29,11 @@ def naime():
             sys.stderr.write(f'The error message is this: {result.stderr.decode()}')
         else:
             print('{output}'.format(output=result.stdout.decode().rstrip()))
-        # Bye
-        sys.exit(result.returncode)
-    pass
 
     def parse_cmd_line():
         """
         Read options, show help
         """
-        import argparse
-        import os
-
         # Identify ourselves
         ME = os.path.basename(__file__)
 
@@ -45,56 +42,57 @@ def naime():
             prog=ME,
             description=__doc__,
             epilog='Respect the netiquette when contacting the provider.',
-            formatter_class=argparse.RawTextHelpFormatter,
+            formatter_class=argparse.ArgumentDefaultsHelpFormatter,
         )
         parser.add_argument(
             '-p', '--provider',
             type=str,
-            help='the provider to contact, instead of pseudo-randomly auto-selecting one',
+            help='''
+                the provider to contact, instead of pseudo-randomly auto-selecting one from a
+                pre-built internal list
+                ''',
         )
         parser.add_argument(
             '-v', '--verbose',
-            action='store_true',
-            help='show which provider will be contacted',
-        )
-        parser.add_argument(
-            '-l', '--list-providers',
-            action='store_true',
-            help='display the built-in list of providers',
+            action='count',
+            default=0,
+            help='''
+                used once: show which provider will be contacted; used twice (or more often):
+                display contactable providers as well (i.e., the pre-built internal list)
+                ''',
         )
         return parser.parse_args()
-    pass
 
     # Go
     args = parse_cmd_line()
-    provider, verbose, list_providers = args.provider, args.verbose, args.list_providers
+    provider, verbose = args.provider, args.verbose
 
-    providers = [
-        'https://ifconfig.me/ip',
-        'https://my.ip.fi',
-        'https://icanhazip.com',
-        'https://ifconfig.co',
-        'https://ipecho.net/plain',
-        'https://ipinfo.io/ip',
-        'https://ident.me',
-        'https://ip.tyk.nu/',
-        'https://whatismyip.akamai.com',
-        'https://eth0.me/',
-        'https://api.ipify.org',
-        'https://ip.me',
-        'https://checkip.amazonaws.com',
-        'https://ipgrab.io',
-        'https://www.trackip.net/ip',
-    ]
+    if provider:
+        providers = [provider]
+    else:
+        providers = [
+            'https://ifconfig.me/ip',
+            'https://my.ip.fi',
+            'https://icanhazip.com',
+            'https://ifconfig.co',
+            'https://ipecho.net/plain',
+            'https://ipinfo.io/ip',
+            'https://ident.me',
+            'https://ip.tyk.nu/',
+            'https://whatismyip.akamai.com',
+            'https://eth0.me/',
+            'https://api.ipify.org',
+            'https://ip.me',
+            'https://checkip.amazonaws.com',
+            'https://ipgrab.io',
+            'https://www.trackip.net/ip',
+        ]
+    provider = random.choice(providers)
 
-    if list_providers: print(providers)
-
-    if not provider: provider = random.choice(providers)
-
-    if verbose: print('Trying {provider}'.format(provider=provider))
+    if verbose > 1: print(providers)
+    if verbose >= 1: print('Trying {provider}'.format(provider=provider))
 
     curlme(provider=provider)
-pass
 
 if __name__ == '__main__':
-    naime()
+    sys.exit(naime())
