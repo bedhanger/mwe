@@ -1,6 +1,9 @@
+"""
+Ask a provider for your ip with which you connect to it, then print it out.
+"""
 import subprocess
 import sys
-import os
+import pathlib
 import argparse
 
 providers = [
@@ -40,7 +43,7 @@ def parse_cmd_line():
     Read options, show help
     """
     # Identify ourselves
-    ME = os.path.basename(__file__)
+    ME = pathlib.PurePath(__file__).stem
 
     # Parse the command line
     parser = argparse.ArgumentParser(

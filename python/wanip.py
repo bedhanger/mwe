@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Ask a provider for your ip with which you connect to it, then print it out.
+Wrapper for the wanip script
 """
 __all__ = [
     'naime',
