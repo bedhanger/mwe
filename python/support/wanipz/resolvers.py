@@ -25,4 +25,8 @@ public_dnses = [
     'resolver2.lumen.tech',
     # Dyn
     'rdns.dynect.net',
+    # FreeDNS
+    'ns2.afraid.org',
+    'ns3.afraid.org',
+    'ns4.afraid.org',
 ]
