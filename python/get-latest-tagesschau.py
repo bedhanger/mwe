@@ -6,7 +6,7 @@ import sys
 from termcolor import colored
 import subprocess
 import argparse
-import os
+from pathlib import PurePath
 import re
 
 def naime():
@@ -14,7 +14,7 @@ def naime():
     Run the show
     """
     # Identify ourselves
-    ME = os.path.basename(__file__)
+    ME = PurePath(__file__).name
 
     def parse_cmd_line():
         """

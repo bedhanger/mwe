@@ -12,7 +12,7 @@ import subprocess
 import argparse
 import os
 import random
-from pathlib import Path
+from pathlib import Path, PurePath
 
 # Note that everything that is printed but that does *not* go to stderr is for the calling shell to
 # eval.
@@ -23,7 +23,7 @@ def parse_cmd_line():
     """
     Get options, show help
     """
-    me = os.path.basename(__file__)
+    me = PurePath(__file__).name
     try:
         parser = argparse.ArgumentParser(
             prog=me,

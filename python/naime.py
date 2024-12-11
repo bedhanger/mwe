@@ -13,8 +13,7 @@ import sys
 from termcolor import colored
 from subprocess import Popen, PIPE, CalledProcessError
 import argparse
-import os
-from pathlib import Path
+from pathlib import Path, PurePath
 import asyncio
 
 from support.naime.netcatting import (
@@ -29,7 +28,7 @@ async def naime():
     Run the show
     """
     # Identify ourselves
-    ME = os.path.basename(__file__)
+    ME = PurePath(__file__).name
 
     def parse_cmd_line():
         """

@@ -18,10 +18,10 @@ def naime():
         Read options, show help
         """
         import argparse
-        import os
+        from pathlib import PurePath
 
         # Identify ourselves
-        ME = os.path.basename(__file__)
+        ME = PurePath(__file__).name
 
         try:
             parser = argparse.ArgumentParser(
