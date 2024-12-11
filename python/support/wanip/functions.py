@@ -1,28 +1,9 @@
-"""
-Ask a provider for your ip with which you connect to it, then print it out.
-"""
 import subprocess
 import sys
-import pathlib
 import argparse
+import random
+from .providers import public_providers
 
-providers = [
-    'https://ifconfig.me/ip',
-    'https://my.ip.fi',
-    'https://icanhazip.com',
-    'https://ifconfig.co',
-    'https://ipecho.net/plain',
-    'https://ipinfo.io/ip',
-    'https://ident.me',
-    'https://ip.tyk.nu/',
-    'https://whatismyip.akamai.com',
-    'https://eth0.me/',
-    'https://api.ipify.org',
-    'https://ip.me',
-    'https://checkip.amazonaws.com',
-    'https://ipgrab.io',
-    'https://www.trackip.net/ip',
-]
 def curlme(provider):
     """
     Use curl to get hold of my WANIP
@@ -38,17 +19,14 @@ def curlme(provider):
     else:
         print('{output}'.format(output=result.stdout.decode().rstrip()))
 
-def parse_cmd_line():
+def parse_cmd_line(me: str, purpose: str):
     """
     Read options, show help
     """
-    # Identify ourselves
-    ME = pathlib.PurePath(__file__).name
-
     # Parse the command line
     parser = argparse.ArgumentParser(
-        prog=ME,
-        description=__doc__,
+        prog=me,
+        description=purpose,
         epilog='Respect the netiquette when contacting the provider.',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
@@ -70,3 +48,23 @@ def parse_cmd_line():
             ''',
     )
     return parser.parse_args()
+
+def naime(me: str, purpose: str):
+    """
+    Run the show
+    """
+
+    # Mark this global so as to not confuse with an unset local var
+    global public_providers
+
+    args = parse_cmd_line(me, purpose)
+    provider, verbose = args.provider, args.verbose
+
+    if provider:
+        public_providers = [provider]
+    provider = random.choice(public_providers)
+
+    if verbose > 1: print(public_providers)
+    if verbose >= 1: print('Trying {provider}'.format(provider=provider))
+
+    curlme(provider=provider)

@@ -1,32 +1,13 @@
 #!/usr/bin/env python
 """
-Wrapper for the wanip script
+Ask a provider for your ip with which you connect to it, then print it out.
 """
-__all__ = [
-    'naime',
-]
-import random
 import sys
-from support.wanip import (
-    curlme,
-    parse_cmd_line,
-    providers,
-)
-def naime(providers):
-    """
-    Run the show
-    """
-    args = parse_cmd_line()
-    provider, verbose = args.provider, args.verbose
+from pathlib import PurePath
+from support.wanip.functions import naime
 
-    if provider:
-        providers = [provider]
-    provider = random.choice(providers)
-
-    if verbose > 1: print(providers)
-    if verbose >= 1: print('Trying {provider}'.format(provider=provider))
-
-    curlme(provider=provider)
+# Identify ourselves
+me = PurePath(__file__).name
 
 if __name__ == '__main__':
-    sys.exit(naime(providers))
+    sys.exit(naime(me, __doc__))
