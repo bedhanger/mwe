@@ -10,6 +10,10 @@ from pathlib import PurePath
 from socket import gethostbyname_ex, gethostname
 import random
 
+from support.wanipz.resolvers import (
+    public_dnses,
+)
+
 def naime():
     """
     Run the show
@@ -89,34 +93,6 @@ def naime():
             fqdn = gethostbyname_ex(gethostname())[0]
 
             # Pseudo-randomly select a public DNS provider
-            public_dnses = [
-                # Cloudflare
-                'one.one.one.one.',
-                # Google
-                'dns.google.',
-                # LinuxPatch (FR)
-                'dns.linuxpatch.com',
-                # Freifunk München e.V.
-                'dot.ffmuc.net',
-                # OpenDNS
-                'dns.opendns.com',
-                # Quad9
-                'dns11.quad9.net',
-                # TN-BB-AS Tunisia BackBone
-                'dns.defense.tn',
-                # Control D
-                'p0.freedns.controld.com',
-                # Cleanbrowsing
-                'security-filter-dns2.cleanbrowsing.org',
-                # OpenNIC
-                'paimon.sev.monster',
-                # CIRA Canadian Shield
-                'private.canadianshield.cira.ca',
-                # CenturyLink
-                'resolver2.lumen.tech',
-                # Dyn
-                'rdns.dynect.net',
-            ]
             public_dns = random.choice(public_dnses)
 
             print(colored('What a public DNS provider thinks about "{this_host}"',
