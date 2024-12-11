@@ -43,7 +43,7 @@ def parse_cmd_line():
     Read options, show help
     """
     # Identify ourselves
-    ME = pathlib.PurePath(__file__).stem
+    ME = pathlib.PurePath(__file__).name
 
     # Parse the command line
     parser = argparse.ArgumentParser(
