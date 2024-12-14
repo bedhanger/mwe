@@ -6,8 +6,7 @@ import sys
 from pathlib import PurePath
 from support.wanip.functions import naime
 
-# Identify ourselves
-me = PurePath(__file__).name
-
 if __name__ == '__main__':
+    # Identify ourselves
+    me = PurePath(__file__).name
     sys.exit(naime(me, __doc__))
