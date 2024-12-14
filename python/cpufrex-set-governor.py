@@ -4,29 +4,26 @@ Set the CPU frequency governing policy.
 """
 import sys
 from termcolor import colored
-
-class GovernorNotAvailableError(Exception): pass
-class CpuNotFoundError(FileNotFoundError): pass
-class NoGovernorsFoundError(Exception): pass
-
-def naime():
+from pathlib import PurePath
+from support.cpufrex_set_governor.exceptions import (
+    GovernorNotAvailableError,
+    CpuNotFoundError,
+    NoGovernorsFoundError,
+)
+def naime(me: str, purpose: str):
     """
     Run the show
     """
-    def parse_cmd_line():
+    def parse_cmd_line(me: str, purpose: str):
         """
         Read options, show help
         """
         import argparse
-        from pathlib import PurePath
-
-        # Identify ourselves
-        ME = PurePath(__file__).name
 
         try:
             parser = argparse.ArgumentParser(
-                prog=ME,
-                description=__doc__,
+                prog=me,
+                description=purpose,
                 epilog='You may need to load additional kernel modules to get more governors.',
                 formatter_class=argparse.ArgumentDefaultsHelpFormatter,
             )
@@ -56,7 +53,6 @@ def naime():
         except argparse.ArgumentError:
             sys.stderr.write(colored('Could not decipher the command line\n', 'red'))
             raise
-    pass
 
     def get_available_governors(from_cpu):
         """
@@ -73,7 +69,6 @@ def naime():
                 'Could not determine scaling governor availability (from CPU{cpu})\n', 'red').
                     format(cpu=from_cpu))
             raise
-    pass
 
     def list_the_governors(available_governors=None, verbose=False):
         """
@@ -86,7 +81,6 @@ def naime():
             return the_list
         except AssertionError:
             raise NoGovernorsFoundError('No governors found')
-    pass
 
     def set_new_governor(new_governor, verbose=False):
         """
@@ -122,10 +116,8 @@ def naime():
                 sys.stderr.write(colored('Unable to set "{gov}" as the new governor\n', 'red').
                     format(gov=new_governor))
                 raise
-    pass
-
     try:
-        args = parse_cmd_line()
+        args = parse_cmd_line(me, purpose)
         new_governor = args.governor
         verbose = args.verbose
         list_governors = args.list_governors
@@ -174,12 +166,8 @@ def naime():
         sys.stderr.write(colored('Choose one from the list of {available_ones}\n', 'red').
             format(available_ones=list_the_governors(available_governors)))
         raise GovernorNotAvailableError('Unknown governor')
-pass
 
 if __name__ == '__main__':
-    try:
-        naime()
-    except Exception as the_problem:
-        sys.stderr.write(colored('Hm, that did not work: {what} ({hint})\n', 'red', None, ['bold']).
-            format(what=the_problem, hint=type(the_problem)))
-        sys.exit(-1)
+    # Identify ourselves
+    me = PurePath(__file__).name
+    sys.exit(naime(me, __doc__))
