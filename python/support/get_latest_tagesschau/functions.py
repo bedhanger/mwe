@@ -1,11 +1,11 @@
 import sys
-from termcolor import colored
 import subprocess
 import argparse
 import re
-from pathlib import PurePath
-from .downloader import download
-
+from .downloader import (
+    downloader_name,
+    downloader_options,
+)
 def upgrade_to_https(urls):
     """
     Replace HTTP protocol specifier in favour of HTTPS.
@@ -96,12 +96,23 @@ def naime(me: str, purpose: str):
     except:
         raise
 
-    for url in urls:
-        print(colored('{url}', 'green', None, ['bold']).format(url=url))
-
     # Download
     try:
+        for url in urls:
+            print(colored('{url}', 'green', None, ['bold']).format(url=url))
         download(urls)
+    except:
+        raise
+
+def download(urls):
+    """
+    Perform downloads
+    """
+    try:
+        downloader_cmd = '{downloader_name} {downloader_options} {urls}'.format(
+            downloader_name=downloader_name, downloader_options=' '.join(downloader_options),
+            urls=' '.join(urls))
+        result = subprocess.run(downloader_cmd, check=True, shell=True)
     except subprocess.CalledProcessError:
         sys.stderr.write(colored('Cannot download!\n', 'red'))
         raise
