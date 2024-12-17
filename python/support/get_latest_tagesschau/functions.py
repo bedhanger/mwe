@@ -2,6 +2,7 @@ import sys
 import subprocess
 import argparse
 import re
+from termcolor import colored
 from .downloader import (
     downloader_name,
     downloader_options,
