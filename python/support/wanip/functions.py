@@ -52,9 +52,10 @@ def parse_cmd_line(me: str, purpose: str):
 def naime(me: str, purpose: str):
     """
     Run the show
-    """
 
-    # Mark this global so as to not confuse with an unset local var
+    The LEGB scoping rule means that in order to overwrite the public_providers (a sensible thing to
+    do in case the -p/--provider option has been specified), we must declare it as global.
+    """
     global public_providers
 
     args = parse_cmd_line(me, purpose)
