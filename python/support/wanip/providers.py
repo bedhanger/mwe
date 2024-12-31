@@ -6,7 +6,6 @@ public_providers = [
     'https://ipecho.net/plain',
     'https://ipinfo.io/ip',
     'https://ident.me',
-    'https://ip.tyk.nu/',
     'https://whatismyip.akamai.com',
     'https://eth0.me/',
     'https://api.ipify.org',
