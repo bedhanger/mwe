@@ -2,7 +2,6 @@
 """
 Pylint (yerself)
 Use it the way it uses itself
-Run it last in your code, as it currently "replaces the interpreter"
 """
 class PyLintRunner:
     """
@@ -13,18 +12,18 @@ class PyLintRunner:
         try:
             # A calculated concession...
             # pylint: disable=import-outside-toplevel
-            from pylint import run_pylint
+            from pylint.lint import Run as PylintRun
         except (ModuleNotFoundError, ImportError):
             from warnings import simplefilter, warn
             simplefilter('default')
             warn('No self-pylinting: requisite infrastructure not found', category=ImportWarning)
-        self._run_pylint = run_pylint
+        self._pylintrun = PylintRun
 
     def run(self) -> None:
         """
         Try to lint the file
         """
-        self._run_pylint(argv=[self._file])
+        self._pylintrun(args=[self._file], exit=False)
 
     def destroy(self) -> None:
         """
