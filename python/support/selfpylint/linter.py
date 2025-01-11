@@ -25,6 +25,12 @@ class PyLintRunner:
         """
         self._pylintrun(args=[self._file], exit=False)
 
+    def __call__(self):
+        """
+        Make an instance callable
+        """
+        self.run()
+
     def destroy(self) -> None:
         """
         Destroy ourselves
@@ -40,5 +46,7 @@ if __name__ == '__main__':
     # pylint: disable=import-self
     from support.selfpylint.linter import PyLintRunner
     SPL = PyLintRunner(file=__file__)
+    # The next two statements are equivalent
     SPL.run()
+    SPL()
     SPL.destroy()
