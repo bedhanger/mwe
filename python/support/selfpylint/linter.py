@@ -39,6 +39,6 @@ if __name__ == '__main__':
     # should go
     # pylint: disable=import-self
     from support.selfpylint.linter import PyLintRunner
-    SPL = PyLintRunner(__file__)
+    SPL = PyLintRunner(file=__file__)
     SPL.run()
     SPL.destroy()

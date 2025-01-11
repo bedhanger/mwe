@@ -14,6 +14,6 @@ print(x)
 x = [x for x in x if x]
 print(x)
 
-SPL = PyLintRunner(__file__)
+SPL = PyLintRunner(file=__file__)
 SPL.run()
 SPL.destroy()
