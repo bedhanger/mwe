@@ -3,7 +3,7 @@
 Pylint yerself
 Use it the way it uses itself
 """
-def run_selfpylint() -> None:
+def run_selfpylint(file) -> None:
     """
     Try to lint the file this is called in
     """
@@ -11,7 +11,7 @@ def run_selfpylint() -> None:
         # A calculated concession...
         # pylint: disable=import-outside-toplevel
         from pylint import run_pylint
-        run_pylint(argv=[__file__])
+        run_pylint(argv=[file])
     except (ModuleNotFoundError, ImportError):
         from warnings import simplefilter, warn
         simplefilter('default')
@@ -23,4 +23,4 @@ if __name__ == '__main__':
     # self-pylinting can be used *elsewhere*, we carry it out after saying it's ok...
     # pylint: disable=import-self
     from support.selfpylint.linter import run_selfpylint
-    run_selfpylint()
+    run_selfpylint(__file__)
