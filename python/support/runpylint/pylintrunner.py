@@ -16,7 +16,7 @@ When *run*, as per
 
     $   python -msupport.runpylint.pylintrunner
 
-this module is *self-pylinted* (SPL'ed) like so
+this module *self-pylints (SPLs) itself* like so
 
     >>> from support.runpylint.pylintrunner import PyLintRunner
     >>> SPL = PyLintRunner(file=__file__)
@@ -31,11 +31,11 @@ class PyLintRunner:
     """
     def __new__(cls, file):
         _instance = super().__new__(cls)
-        print('Creating', _instance, 'to inspect', file)
+        print('Creating instance of', _instance, 'to inspect', file)
         return _instance
 
     def __init__(self, file):
-        print('Initialising', self)
+        print('Initialising instance of', self)
         self._file = file
         print('File points to', self._file)
         try:
@@ -47,7 +47,7 @@ class PyLintRunner:
             simplefilter('default')
             warn('No self-pylinting: requisite infrastructure not found', category=ImportWarning)
         self._pylintrun = PylintRun
-        print('Will invoke', self._pylintrun,'to do the job')
+        print('Will invoke function of instance of', self._pylintrun, 'to do the job')
 
     def __call__(self):
         """
@@ -57,9 +57,15 @@ class PyLintRunner:
 
     def __del__(self):
         """
-        Finaliser
+        Finalise the runner
         """
-        print('Destructing', self)
+        print('Destructing instance of', self)
+
+    def __repr__(self):
+        """
+        Tell the world who we are, and where
+        """
+        return str(type(self)) + ' @ ' + hex(id(self))
 
 if __name__ == '__main__':
 
@@ -75,5 +81,5 @@ if __name__ == '__main__':
     # Run
     SPL()
 
-    # Cleanup
+    # Explicit cleanup (here, the scope ending would also do the trick)
     del SPL
