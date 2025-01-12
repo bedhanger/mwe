@@ -16,7 +16,7 @@ When *run*, as per
 
     $   python -msupport.runpylint.pylintrunner
 
-this module *self-pylints (SPLs) itself* like so
+this module *self-pylints (SPLs) itself* like so (look at the source code for the fine details)
 
     >>> from support.runpylint.pylintrunner import PyLintRunner
     >>> SPL = PyLintRunner(file=__file__)
@@ -75,6 +75,8 @@ class PyLintRunner:
         return str(type(self)) + ' @ ' + hex(id(self))
 
 if __name__ == '__main__':
+
+    # Self-pylint...
 
     # pylint: disable=import-self
     from support.runpylint.pylintrunner import PyLintRunner
