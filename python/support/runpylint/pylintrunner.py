@@ -16,12 +16,14 @@ When *run*, as per
 
     $   python -msupport.runpylint.pylintrunner
 
-this module is *self-pylinted* (SPL) like so
+this module is *self-pylinted* (SPL'ed) like so
 
     >>> from support.runpylint.pylintrunner import PyLintRunner
     >>> SPL = PyLintRunner(file=__file__)
     >>> SPL()
     >>> del SPL
+
+This handful of statements is what could be placed into "any Python script..."
 """
 class PyLintRunner:
     """
@@ -64,8 +66,10 @@ if __name__ == '__main__':
     # pylint: disable=import-self
     from support.runpylint.pylintrunner import PyLintRunner
 
+    # Explain
     help(vars(PyLintRunner)['__module__'])
 
+    # Create and init runner
     SPL = PyLintRunner(file=__file__)
 
     # Run
