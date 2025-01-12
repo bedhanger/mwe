@@ -23,18 +23,25 @@ this module *self-pylints (SPLs) itself* like so
     >>> SPL()
     >>> del SPL
 
-This handful of statements is what could be placed into "any Python script..."
+This handful of statements is what could be placed into "any Python script" and we'd have a recipe
+for what might be called Pylint-driven development...
 """
 class PyLintRunner:
     """
     A runner for pylint may be instantiated from this to inspect a file
     """
     def __new__(cls, file):
+        """
+        Make a Pylint runner
+        """
         _instance = super().__new__(cls)
         print('Creating instance of', _instance, 'to inspect', file)
         return _instance
 
     def __init__(self, file):
+        """
+        Init a newly made Pylint runner
+        """
         print('Initialising instance of', self)
         self._file = file
         print('File points to', self._file)
