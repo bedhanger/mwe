@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 Pylint (yerself)
-Use it the way it uses itself
+"Use it the way it uses itself"
 
 In the absence of (or complementing) unit tests, this can be used to lint any Python file, including
 itself as is shown below (it would be hypocritical not to do this).
@@ -11,10 +11,21 @@ purpose of being able to recover gracefully to the absence of Pylint from the sy
 or else for being able to actually show how to use the module.
 
 So while the code is not fully Pylint-clean, there are good reasons for this.
+
+When *run*, as per
+
+    $   python -msupport.runpylint.pylintrunner
+
+this module is *self-pylinted* (SPL) like so
+
+    >>> from support.runpylint.pylintrunner import PyLintRunner
+    >>> SPL = PyLintRunner(file=__file__)
+    >>> SPL()
+    >>> del SPL
 """
 class PyLintRunner:
     """
-    The class a runner for pylint may be instantiated from
+    A runner for pylint may be instantiated from this to inspect a file
     """
     def __new__(cls, file):
         _instance = super().__new__(cls)
@@ -36,41 +47,28 @@ class PyLintRunner:
         self._pylintrun = PylintRun
         print('Will invoke', self._pylintrun,'to do the job')
 
-    def run(self) -> None:
+    def __call__(self):
         """
         Try to lint the file
         """
         self._pylintrun(args=[self._file, '--verbose', '--recursive=y'], exit=False)
 
-    def __call__(self):
-        """
-        Make an instance callable
-        """
-        self.run()
-
-    def destroy(self) -> None:
-        """
-        Destroy ourselves
-        """
-        print('Destructing', self)
-        del self
-
     def __del__(self):
         """
         Finaliser
         """
-        self.destroy()
+        print('Destructing', self)
 
 if __name__ == '__main__':
 
     # pylint: disable=import-self
-    from support.selfpylint.linter import PyLintRunner
+    from support.runpylint.pylintrunner import PyLintRunner
 
-    help(PyLintRunner)
+    help(vars(PyLintRunner)['__module__'])
 
     SPL = PyLintRunner(file=__file__)
 
-    # This is equivalent to calling SPL.run()
+    # Run
     SPL()
 
     # Cleanup

@@ -3,7 +3,7 @@
 """
 Try to use 'x' a lot
 """
-from support.selfpylint.linter import PyLintRunner
+from support.runpylint.pylintrunner import PyLintRunner
 
 # Original list
 x = []
@@ -15,5 +15,5 @@ x = [x for x in x if x]
 print(x)
 
 SPL = PyLintRunner(file=__file__)
-SPL.run()
-SPL.destroy()
+SPL()
+del SPL
