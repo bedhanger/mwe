@@ -84,8 +84,8 @@ if __name__ == '__main__':
     # Self-pylint...
 
     # pylint: disable=import-self
-    from support.runpylint.pylintrunner import PyLintRunner
     from pathlib import Path
+    from support.runpylint.pylintrunner import PyLintRunner
 
     # Explain
     help(vars(PyLintRunner)['__module__'])
