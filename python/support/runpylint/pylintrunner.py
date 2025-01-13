@@ -63,7 +63,9 @@ class PyLintRunner:
         """
         Try to lint the file
         """
-        self._pylintrun(args=[self._file, '--verbose', '--recursive=y'], exit=False)
+        # We need to convert the file into a string because of the way pylint pre-processes options
+        # (needs startswith)
+        self._pylintrun(args=[str(self._file), '--verbose', '--recursive=y'], exit=False)
 
     def __del__(self):
         """
@@ -83,12 +85,13 @@ if __name__ == '__main__':
 
     # pylint: disable=import-self
     from support.runpylint.pylintrunner import PyLintRunner
+    from pathlib import Path
 
     # Explain
     help(vars(PyLintRunner)['__module__'])
 
     # Create and init runner
-    SPL = PyLintRunner(file=__file__)
+    SPL = PyLintRunner(file=Path(__file__))
 
     # Run
     SPL()
