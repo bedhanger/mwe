@@ -26,25 +26,22 @@ This handful of statements is what could be placed into "any Python script" and 
 for what might be called Pylint-driven development...
 """
 
+from support.runmwe.mwerunner import MweRunner
 from support.pathorstr import PathOrStr
 
-class PyLintRunner:
+class PyLintRunner(MweRunner):
     """
     A runner for pylint may be instantiated from this to inspect a file
     """
-    def __new__(cls, file: PathOrStr):
-        """
-        Make a Pylint runner
-        """
-        _instance = super().__new__(cls)
-        print('Creating instance of', _instance, 'to inspect', file)
-        return _instance
+
+    # Hm...
+    # pylint: disable=too-few-public-methods
 
     def __init__(self, file: PathOrStr):
         """
         Init a newly made Pylint runner
         """
-        print('Initialising instance of', self)
+        super().__init__()
         self._file = file
         print('File points to', self._file)
         try:
@@ -66,12 +63,6 @@ class PyLintRunner:
         # (needs startswith)
         self._pylintrun(args=[str(self._file), '--verbose', '--recursive=y'], exit=False)
 
-    def __repr__(self):
-        """
-        Tell the world who we are, and where
-        """
-        return str(type(self)) + ' @ ' + hex(id(self))
-
 if __name__ == '__main__':
 
     # Self-pylint...
@@ -84,7 +75,9 @@ if __name__ == '__main__':
     help(vars(PyLintRunner)['__module__'])
 
     # Create and init runner
-    SPL = PyLintRunner(file=Path(__file__))
+    SPL = PyLintRunner(file=Path(__file__).resolve())
+
+    print('So we can now let our pylint runner loose:', SPL)
 
     # Run
     SPL()
