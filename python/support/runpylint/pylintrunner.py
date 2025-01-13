@@ -21,7 +21,6 @@ this module *self-pylints (SPLs) itself* like so (look at the source code for th
     >>> from support.runpylint.pylintrunner import PyLintRunner
     >>> SPL = PyLintRunner(file=__file__)
     >>> SPL()
-    >>> del SPL
 
 This handful of statements is what could be placed into "any Python script" and we'd have a recipe
 for what might be called Pylint-driven development...
@@ -67,12 +66,6 @@ class PyLintRunner:
         # (needs startswith)
         self._pylintrun(args=[str(self._file), '--verbose', '--recursive=y'], exit=False)
 
-    def __del__(self):
-        """
-        Finalise the runner
-        """
-        print('Destructing instance of', self)
-
     def __repr__(self):
         """
         Tell the world who we are, and where
@@ -95,6 +88,3 @@ if __name__ == '__main__':
 
     # Run
     SPL()
-
-    # Explicit cleanup (here, the scope ending would also do the trick)
-    del SPL

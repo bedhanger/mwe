@@ -16,4 +16,3 @@ print(x)
 
 SPL = PyLintRunner(file=__file__)
 SPL()
-del SPL
