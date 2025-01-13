@@ -26,11 +26,14 @@ this module *self-pylints (SPLs) itself* like so (look at the source code for th
 This handful of statements is what could be placed into "any Python script" and we'd have a recipe
 for what might be called Pylint-driven development...
 """
+
+from support.pathorstr import PathOrStr
+
 class PyLintRunner:
     """
     A runner for pylint may be instantiated from this to inspect a file
     """
-    def __new__(cls, file):
+    def __new__(cls, file: PathOrStr):
         """
         Make a Pylint runner
         """
@@ -38,7 +41,7 @@ class PyLintRunner:
         print('Creating instance of', _instance, 'to inspect', file)
         return _instance
 
-    def __init__(self, file):
+    def __init__(self, file: PathOrStr):
         """
         Init a newly made Pylint runner
         """
