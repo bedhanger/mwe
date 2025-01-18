@@ -3,7 +3,11 @@
 Print sanity-check information of your WAN IP/registered domain.
 """
 import sys
-from termcolor import colored
+try:
+    from termcolor import colored
+except ModuleNotFoundError:
+    def colored(_, *pargs, **kwargs):
+        return _
 import subprocess
 import argparse
 from pathlib import PurePath

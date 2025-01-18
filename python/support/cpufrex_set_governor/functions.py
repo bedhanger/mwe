@@ -1,7 +1,10 @@
 import sys
-from termcolor import colored
+try:
+    from termcolor import colored
+except ModuleNotFoundError:
+    def colored(_, *pargs, **kwargs):
+        return _
 import glob
-from termcolor import colored
 from .exceptions import (
     NoGovernorsFoundError,
     CpuNotFoundError,

@@ -1,6 +1,10 @@
 import sys
 import argparse
-from termcolor import colored
+try:
+    from termcolor import colored
+except ModuleNotFoundError:
+    def colored(_, *pargs, **kwargs):
+        return _
 import random
 
 def parse_cmd_line(me: str, purpose: str):

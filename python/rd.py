@@ -7,7 +7,11 @@ You should, like in the case of nd.py, eval this script.
 """
 
 import sys
-from termcolor import colored
+try:
+    from termcolor import colored
+except ModuleNotFoundError:
+    def colored(_, *pargs, **kwargs):
+        return _
 import subprocess
 import argparse
 import os

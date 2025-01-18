@@ -10,7 +10,11 @@ cushioned in exception handling.  And it colours the "diagnostix" it emits!
 The name is an intentional misspelling of the amalgamation of "name and main".
 """
 import sys
-from termcolor import colored
+try:
+    from termcolor import colored
+except ModuleNotFoundError:
+    def colored(_, *pargs, **kwargs):
+        return _
 from subprocess import Popen, PIPE, CalledProcessError
 import argparse
 from pathlib import Path, PurePath

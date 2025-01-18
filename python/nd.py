@@ -6,7 +6,11 @@ script, rather than execute it directly.
 """
 
 import sys
-from termcolor import colored
+try:
+    from termcolor import colored
+except ModuleNotFoundError:
+    def colored(_, *pargs, **kwargs):
+        return _
 import subprocess
 import argparse
 import os

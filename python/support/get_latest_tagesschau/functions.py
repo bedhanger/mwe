@@ -2,7 +2,11 @@ import sys
 import subprocess
 import argparse
 import re
-from termcolor import colored
+try:
+    from termcolor import colored
+except ModuleNotFoundError:
+    def colored(_, *pargs, **kwargs):
+        return _
 from .downloader import (
     downloader_name,
     downloader_options,
