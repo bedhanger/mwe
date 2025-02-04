@@ -64,6 +64,9 @@ new-session -s"Standard"
 			send-keys " renioice.sh ; export DISPLAY=:1 && sct \${night_light_temp:-2222}" C-m
 			send-keys " e" C-m
 
+	# Go to the htop pane
+	select-pane -tStandard:9.0
+
 # Go "home" to the first pane that wants input
 select-window -t0
 select-pane -tStandard:0.1
