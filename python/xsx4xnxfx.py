@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 
-"""
-Try to use 'x' a lot
-"""
+"""Try to use 'x' a lot."""
+
 from support.runpylint.pylintrunner import PyLintRunner
 
 # Original list
