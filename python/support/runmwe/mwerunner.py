@@ -2,7 +2,7 @@
 """Base class for runners in MWE."""
 
 class MweRunner:
-    """A runner from which others may be instantiated from."""
+    """A context-aware runner from which others may be instantiated from."""
 
     def __new__(cls, *pargs, **kwargs):
         """Make a runner."""
@@ -10,6 +10,14 @@ class MweRunner:
 
     def __init__(self):
         """Init a newly made runner."""
+
+    def __enter__(self):
+        """Establish context."""
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        """Leave context."""
+        return False
 
     def __call__(self):
         """Allow the runner to be called."""
