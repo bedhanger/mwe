@@ -19,13 +19,14 @@ When *run*, as per
 this module *self-pylints (SPLs) itself* like so (look at the source code for the fine details)
 
     >>> from support.runpylint.pylintrunner import PyLintRunner
-    >>> SPL = PyLintRunner(file=__file__)
-    >>> SPL()
+    >>> with PyLintRunner(file=__file__) as SPL:
+    >>>     SPL()
 
 This handful of statements is what could be placed into "any Python script" and we'd have a recipe
 for what might be called Pylint-driven development...
 """
 
+from pathlib import Path
 from support.runmwe.mwerunner import MweRunner
 from support.pathorstr import PathOrStr
 
@@ -55,6 +56,11 @@ class PyLintRunner(MweRunner):
         self._pylintrun = PylintRun
         print('Will invoke function of instance of', self._pylintrun, 'to do the job')
 
+    def __enter__(self):
+        assert Path(self._file).exists
+        print('File exists')
+        return self
+
     def __call__(self):
         """
         Try to lint the file
@@ -68,16 +74,12 @@ if __name__ == '__main__':
     # Self-pylint...
 
     # pylint: disable=import-self
-    from pathlib import Path
     from support.runpylint.pylintrunner import PyLintRunner
 
     # Explain
     help(vars(PyLintRunner)['__module__'])
 
-    # Create and init runner
-    SPL = PyLintRunner(file=Path(__file__).resolve())
-
-    print('So we can now let our pylint runner loose:', SPL)
-
-    # Run
-    SPL()
+    # Create and init runner, enter context, and run
+    with PyLintRunner(file=Path(__file__).resolve()) as SPL:
+        print('So we can now let our pylint runner loose:', SPL)
+        SPL()
