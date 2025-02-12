@@ -10,17 +10,28 @@ class MweRunner:
 
     def __init__(self):
         """Init a newly made runner."""
+        # Simplistic form of protection against not instigating the context manager protocol
+        self._ctx = None
 
     def __enter__(self):
-        """Establish context."""
+        """Establish context.
+
+        Appease the context sentry.
+        """
+        self._ctx = not None
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        """Leave context."""
+        """Leave context.
+
+        Arm the context sentry again.
+        """
+        self._ctx = None
         return False
 
     def __call__(self):
-        """Allow the runner to be called."""
+        """Allow the runner to be called if the context sentry allows it."""
+        assert self._ctx is not None
 
     def __repr__(self):
         """Tell the world who we are, and where."""
