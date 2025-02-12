@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-"""
-Create a new temporary directory and jump into it.  For the latter to work, you should eval this
-script, rather than execute it directly.
+"""Create a new temporary directory and jump into it.
+
+For the latter to work, you should eval this script, rather than execute it directly.
 """
 
 import sys
@@ -17,10 +17,47 @@ import os
 import random
 from pathlib import Path, PurePath
 
+from support.runmwe.mwerunner import MweRunner
+
+class ExistingNDError(Exception): pass
+
+class NDRunner(MweRunner):
+
+    def __init__(self, me=PurePath(__file__), doc=__doc__):
+        """Save passed-in info."""
+        super().__init__()
+        self._me = me
+        self._doc = doc
+
+    def __enter__(self):
+        """Bail out if the env says we already have an ND.
+
+        Returning None (raising an exception) makes a subsequent call impossible.
+        """
+        try:
+            nd = os.environ['ND']
+            raise ExistingNDError('Attempt to nest operations')
+        except KeyError:
+            super().__enter__()
+            # We are good to go
+            return self
+
+    def __call__(self):
+        """Do the work."""
+        super().__call__()
+        print('Ok', file=sys.stderr)
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        """Seal the runner again when leaving the context."""
+        super().__exit__(exc_type, exc_value, traceback)
+        return False
+
+with NDRunner() as ndr:
+    ndr()
+
 # Note that everything that is printed but that does *not* go to stderr is for the calling shell to
 # eval.
 
-class ExistingNDError(Exception): pass
 class NoNDSituation(Exception): pass # The good case, actually...
 
 def parse_cmd_line():
