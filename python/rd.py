@@ -21,8 +21,6 @@ from pathlib import Path, PurePath
 # Note that everything that is printed but that does *not* go to stderr is for the calling shell to
 # eval.
 
-class NoNDError(Exception): pass
-
 def parse_cmd_line():
     """
     Get options, show help
@@ -66,7 +64,7 @@ def handle_existing_nd(verbose):
             sep=' && ',
         )
     except KeyError:
-        raise NoNDError
+        raise NameError('No env var ND')
 
 def handle_no_nd():
     """
@@ -75,7 +73,7 @@ def handle_no_nd():
     print(colored('''\
 No temporary dir bound to env var ND, re-run with ND pointing to a folder.
 ''', 'red', None, None, force_color=True), end='', file=sys.stderr)
-    raise NoNDError('No previous temporary folder')
+    raise NameError('No previous temporary folder')
 
 def naime():
     """
@@ -85,7 +83,7 @@ def naime():
     verbose = args.verbose
     try:
         handle_existing_nd(verbose=True)
-    except NoNDError:
+    except NameError:
         handle_no_nd()
     except:
         raise
