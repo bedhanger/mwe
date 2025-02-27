@@ -5,8 +5,7 @@ For the latter to work, you should eval this script, rather than execute it dire
 """
 from pathlib import PurePath
 
-from support.nd import parse_cmd_line
-from support.nd.ndrunner import NDRunner
+from support.ndrd.ndrunner import NDRunner, parse_cmd_line
 
 if __name__ == '__main__':
 
