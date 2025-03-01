@@ -1,8 +1,5 @@
 #!/usr/bin/env python
-"""Create a new temporary directory and jump into it.
-
-For the latter to work, you should eval this script, rather than execute it directly.
-"""
+"""Run the runner for nd."""
 from pathlib import PurePath
 
 from support.ndrd.ndrunner import NDRunner, parse_cmd_line

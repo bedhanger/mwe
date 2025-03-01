@@ -1,3 +1,7 @@
+"""Create a new temporary directory and jump into it.
+
+For the latter to work, you should eval this script, rather than execute it directly.
+"""
 import argparse
 from termcolor import colored
 import subprocess
