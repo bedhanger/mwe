@@ -31,6 +31,12 @@ class NDRunner(MweRunner):
         """
         try:
             self._nd = os.environ['ND']
+
+            print(colored(textwrap.dedent('''
+                No, no: do not attempt to nest this stuff.
+                This is gonna get you into a mess without a way out.
+            ''').lstrip(), 'red', None, None, force_color=True), end='', file=sys.stderr)
+
             raise RecursionError('Attempt to nest operations: ND already is', self._nd)
         except KeyError:
             super().__enter__()
