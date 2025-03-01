@@ -8,6 +8,7 @@ from pathlib import Path
 import textwrap
 import shutil
 import logging
+import subprocess
 
 from support.runmwe.mwerunner import MweRunner
 
@@ -20,7 +21,7 @@ class FrexRunner(MweRunner):
         self._args = args
         self._CPU_Info = Path('/proc/cpuinfo');
         self._sensors = shutil.which('sensors')
-        self._min_frex = Path('/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq')
+        self._min_frex_file = Path('/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq')
 
         logging.basicConfig(level=logging.INFO)
         self._logger.debug('Init completed')
@@ -40,7 +41,7 @@ class FrexRunner(MweRunner):
             self._logger.log(logging.ERROR, 'lm sensors package seems missing from system')
             raise FileNotFoundError
         try:
-            assert self._min_frex.exists()
+            assert self._min_frex_file.exists()
         except AssertionError:
             self._logger.log(logging.ERROR, 'Cannot find info regarding CPU minimum frequency')
             raise FileNotFoundError
@@ -53,6 +54,22 @@ class FrexRunner(MweRunner):
         super().__call__()
 
         self._logger.debug('Begining real work')
+
+        self._logger.debug('Determining min frex')
+        with open(self._min_frex_file) as _min_frex:
+            for i in _min_frex:
+                _minimum_freq = i.rstrip() or 0
+        # Make number and normalise to MHz
+        _minimum_freq = int(_minimum_freq) / 1000
+        self._logger.debug('Minimum frequency is {mf}'.format(mf=_minimum_freq))
+
+        # 5 percent
+        _margin = 1.05
+        _allowance = _minimum_freq * _margin
+
+        _no_cpus = subprocess.check_output('nproc').decode().rstrip()
+        self._logger.debug('Found {n} CPUs'.format(n=_no_cpus))
+
         self._logger.debug('Done')
 
     def __exit__(self, exc_type, exc_value, traceback):
