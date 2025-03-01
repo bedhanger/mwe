@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 """Base class for runners in MWE."""
 
+import logging
+
 class MweRunner:
     """A context-aware runner from which others may be instantiated from."""
 
@@ -12,6 +14,7 @@ class MweRunner:
         """Init a newly made runner."""
         # Simplistic form of protection against not instigating the context manager protocol
         self._ctx = None
+        self._logger = logging.getLogger()
 
     def __enter__(self):
         """Establish context.
