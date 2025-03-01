@@ -21,6 +21,7 @@ class NDRunner(MweRunner):
     def __init__(self, args):
         """Save passed-in info."""
         super().__init__()
+
         self._args = args
 
     def __enter__(self):
@@ -108,6 +109,7 @@ class NDRunner(MweRunner):
 
 def parse_cmd_line(me):
     """Get options, show help."""
+
     parser = argparse.ArgumentParser(
         prog=me,
         description=__doc__,

@@ -20,11 +20,13 @@ class RDRunner(MweRunner):
     def __init__(self, args):
         """Save passed-in info."""
         super().__init__()
+
         self._args = args
 
     def __enter__(self):
         """If there's no ND, report that, and what can be done about it."""
         super().__enter__()
+
         try:
             self._nd = os.environ['ND']
             self._nd = Path(self._nd).resolve()
@@ -74,6 +76,7 @@ class RDRunner(MweRunner):
 
 def parse_cmd_line(me):
     """Get options, show help """
+
     parser = argparse.ArgumentParser(
         prog=me,
         description=__doc__,
