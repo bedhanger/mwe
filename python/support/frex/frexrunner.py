@@ -6,6 +6,7 @@ presence of a /proc filesystem, and the availability of the lm sensors tools.
 import argparse
 from pathlib import Path
 import textwrap
+import shutil
 
 from support.runmwe.mwerunner import MweRunner
 
@@ -17,6 +18,8 @@ class FrexRunner(MweRunner):
 
         self._args = args
         self._CPU_Info = Path('/proc/cpuinfo');
+        self._sensors = shutil.which('sensors')
+        self._min_frex = Path('/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq')
 
     def __enter__(self):
         """Establish context."""
@@ -24,9 +27,18 @@ class FrexRunner(MweRunner):
 
         try:
             assert self._CPU_Info.exists()
-            return self
         except AssertionError:
             raise FileNotFoundError('No CPU info found')
+        try:
+            assert self._sensors is not None
+        except AssertionError:
+            raise FileNotFoundError('lm sensors package seems missing from system')
+        try:
+            assert self._min_frex.exists()
+        except AssertionError:
+            raise FileNotFoundError('Cannot find info regarding CPU minimum frequency')
+
+        return self
 
     def __call__(self):
         """Do the work."""
