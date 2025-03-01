@@ -7,6 +7,7 @@ import argparse
 from pathlib import Path
 import textwrap
 import shutil
+import logging
 
 from support.runmwe.mwerunner import MweRunner
 
@@ -21,6 +22,9 @@ class FrexRunner(MweRunner):
         self._sensors = shutil.which('sensors')
         self._min_frex = Path('/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq')
 
+        logging.basicConfig(level=logging.INFO)
+        self._logger.debug('Init completed')
+
     def __enter__(self):
         """Establish context."""
         super().__enter__()
@@ -28,26 +32,34 @@ class FrexRunner(MweRunner):
         try:
             assert self._CPU_Info.exists()
         except AssertionError:
-            raise FileNotFoundError('No CPU info found')
+            self._logger.log(logging.ERROR, 'No CPU info found')
+            raise FileNotFoundError
         try:
             assert self._sensors is not None
         except AssertionError:
-            raise FileNotFoundError('lm sensors package seems missing from system')
+            self._logger.log(logging.ERROR, 'lm sensors package seems missing from system')
+            raise FileNotFoundError
         try:
             assert self._min_frex.exists()
         except AssertionError:
-            raise FileNotFoundError('Cannot find info regarding CPU minimum frequency')
+            self._logger.log(logging.ERROR, 'Cannot find info regarding CPU minimum frequency')
+            raise FileNotFoundError
 
+        self._logger.debug('Context established')
         return self
 
     def __call__(self):
         """Do the work."""
         super().__call__()
 
+        self._logger.debug('Begining real work')
+        self._logger.debug('Done')
+
     def __exit__(self, exc_type, exc_value, traceback):
         """Seal the runner again when leaving the context."""
         super().__exit__(exc_type, exc_value, traceback)
 
+        self._logger.debug('Context left')
         return False
 
 def parse_cmd_line(me):
