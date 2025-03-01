@@ -1,5 +1,7 @@
 #!/usr/bin/env python
+
 """Run the runner for nd."""
+
 from pathlib import PurePath
 
 from support.ndrd.ndrunner import NDRunner, parse_cmd_line

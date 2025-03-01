@@ -1,5 +1,7 @@
 #!/usr/bin/env python
+
 """Run the runner for rd."""
+
 from pathlib import PurePath
 
 from support.ndrd.rdrunner import RDRunner, parse_cmd_line
