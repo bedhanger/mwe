@@ -95,7 +95,13 @@ class FrexRunner(MweRunner):
 
     def _provide_temp_readings(self):
 
-        print('Is cold')
+        _temps = subprocess.check_output('sensors').decode().rstrip()
+
+        for _line in _temps.splitlines():
+            if 'CPU Temperature' in _line:
+                print(_line)
+            if 'MB Temperature' in _line:
+                print(_line)
 
     def __call__(self):
         """Do the work."""
