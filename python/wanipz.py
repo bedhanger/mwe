@@ -1,7 +1,10 @@
 #!/usr/bin/env python
-"""
-Print sanity-check information of your WAN IP/registered domain.
-"""
+
+from support.wanipz.wanipzrunner import WanipzRunner
+
+with WanipzRunner() as WR:
+    WR()
+
 import sys
 try:
     from termcolor import colored
