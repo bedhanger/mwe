@@ -34,7 +34,7 @@ class MweRunner:
 
     def __call__(self):
         """Allow the runner to be called if the context sentry allows it."""
-        assert self._ctx is not None
+        assert self._ctx is not None, 'Context manager says: no context established'
 
     def __repr__(self):
         """Tell the world who we are, and where."""

@@ -57,7 +57,7 @@ class PyLintRunner(MweRunner):
         print('Will invoke function of instance of', self._pylintrun, 'to do the job')
 
     def __enter__(self):
-        assert Path(self._file).exists
+        assert Path(self._file).exists, 'File not found'
         print('File exists')
         return self
 

@@ -34,7 +34,7 @@ async def do_netcatting(prog: PathOrStr='nc', host: str='localhost', port: str=N
             with Popen(nc_cmd, stdin=PIPE, stdout=PIPE, stderr=PIPE) as nc:
                 outs, errs = nc.communicate(nc_here_doc)
             await asyncio.sleep(1)
-            assert nc.returncode == 0
+            assert nc.returncode == 0, 'netcat could not send packet'
             print('Ok')
         print('The length of here-doc is {this}'.format(this=len(nc_here_doc)))
     except:
