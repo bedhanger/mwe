@@ -57,6 +57,7 @@ class PyLintRunner(MweRunner):
         print('Will invoke function of instance of', self._pylintrun, 'to do the job')
 
     def __enter__(self):
+        super().__enter__()
         assert Path(self._file).exists, 'File not found'
         print('File exists')
         return self
@@ -65,6 +66,7 @@ class PyLintRunner(MweRunner):
         """
         Try to lint the file
         """
+        super().__call__()
         # We need to convert the file into a string because of the way pylint pre-processes options
         # (needs startswith)
         self._pylintrun(args=[str(self._file), '--verbose', '--recursive=y'], exit=False)
