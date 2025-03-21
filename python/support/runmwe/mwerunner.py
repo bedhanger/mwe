@@ -32,6 +32,12 @@ class MweRunner:
         self._ctx = None
         return False
 
+    def __str__(self) -> str:
+        return str(__class__)
+
+    def __repr__(self) -> str:
+        return str(self)
+
     def __call__(self):
         """Allow the runner to be called if the context sentry allows it."""
         assert self._ctx is not None, 'No context established.  Did you use a with-statement?'
