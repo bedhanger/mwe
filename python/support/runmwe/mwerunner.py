@@ -33,15 +33,11 @@ class MweRunner:
         return False
 
     def __str__(self) -> str:
-        return str(__class__)
+        return repr(self)
 
     def __repr__(self) -> str:
-        return str(self)
+        return str(type(self))
 
     def __call__(self):
         """Allow the runner to be called if the context sentry allows it."""
         assert self._ctx is not None, 'No context established.  Did you use a with-statement?'
-
-    def __repr__(self):
-        """Tell the world who we are, and where."""
-        return str(type(self)) + ' @ ' + hex(id(self))

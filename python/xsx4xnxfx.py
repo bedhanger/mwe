@@ -14,4 +14,5 @@ x = {x: x for x in x if x}
 print(x)
 
 with PyLintRunner(file=__file__) as SPL:
+    print(repr(SPL))
     SPL()
