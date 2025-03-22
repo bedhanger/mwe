@@ -32,11 +32,14 @@ class MweRunner:
         self._ctx = None
         return False
 
-    def __str__(self) -> str:
-        return repr(self)
-
     def __repr__(self) -> str:
-        return str(type(self))
+        """Canonical representation, following the ideom eval(repr(obj)) == obj."""
+        _class_name = type(self).__name__
+        return  f"{_class_name}()"
+
+    def __str__(self) -> str:
+        """Pretty printing."""
+        return __class__.__doc__
 
     def __call__(self):
         """Allow the runner to be called if the context sentry allows it."""

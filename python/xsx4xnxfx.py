@@ -15,4 +15,5 @@ print(x)
 
 with PyLintRunner(file=__file__) as SPL:
     print(repr(SPL))
+    print(SPL)
     SPL()

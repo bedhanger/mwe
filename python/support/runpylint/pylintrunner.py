@@ -31,9 +31,7 @@ from support.runmwe.mwerunner import MweRunner
 from support.pathorstr import PathOrStr
 
 class PyLintRunner(MweRunner):
-    """
-    A runner for pylint may be instantiated from this to inspect a file
-    """
+    """A runner for pylint may be instantiated from this to inspect a file."""
 
     # Hm...
     # pylint: disable=too-few-public-methods
@@ -70,6 +68,13 @@ class PyLintRunner(MweRunner):
         # We need to convert the file into a string because of the way pylint pre-processes options
         # (needs startswith)
         self._pylintrun(args=[str(self._file), '--verbose', '--recursive=y'], exit=False)
+
+    def __repr__(self) -> str:
+        _class_name = type(self).__name__
+        return  f"{_class_name}(file={self._file!r})"
+
+    def __str__(self) -> str:
+        return __class__.__doc__
 
 if __name__ == '__main__':
 
