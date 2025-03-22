@@ -10,7 +10,7 @@ new-session -s"Standard"
 		send-keys " e irssi" C-m
 
 	new-window
-		select-pane -T"Emerge et al."
+		select-pane -T"System"
 		send-keys " renioice.sh ; export DISPLAY=:1" C-m
 
 	new-window
