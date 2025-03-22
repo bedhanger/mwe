@@ -64,8 +64,12 @@ new-session -s"Standard"
 			send-keys " renioice.sh ; export DISPLAY=:1" C-m
 			send-keys " e" C-m
 
-	# Go to the htop pane
-	select-pane -tStandard:9.0
+		# Go to the htop pane
+		select-pane -tStandard:9.0
+
+		split-window -v
+			select-pane -T"Emerge et al."
+			send-keys " renioice.sh ; export DISPLAY=:1" C-m
 
 # Go "home" to the first pane that wants input
 select-window -t0
