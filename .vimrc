@@ -91,8 +91,6 @@ set isprint=@,~-255
 set isfname+={,},[,],:,@-@,!,\
 " This makes editing in visual mode more consistent.
 set virtualedit=all
-" For vertical alignment.
-set cursorcolumn
 set colorcolumn=+0
 " Custom listing for netrw browser.
 let g:netrw_liststyle=1
