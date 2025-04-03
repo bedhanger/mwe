@@ -37,12 +37,12 @@ class FrexRunner(MweRunner):
             raise FileNotFoundError from exc
         try:
             assert self._sensors is not None
-        except AssertionError from exc:
+        except AssertionError as exc:
             self._logger.log(logging.ERROR, 'lm sensors package seems missing from system')
             raise FileNotFoundError from exc
         try:
             assert self._min_frex_file.exists()
-        except AssertionError from exc:
+        except AssertionError as exc:
             self._logger.log(logging.ERROR, 'Cannot find info regarding CPU minimum frequency')
             raise FileNotFoundError from exc
 
