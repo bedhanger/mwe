@@ -11,10 +11,11 @@ import logging
 import subprocess
 
 from support.runmwe.mwerunner import MweRunner
-from .fastcpu import FastCpu
-from .minfrex import MinFrequency
-from .lofastcpus import ListOfFastCpus
 from support.nproc.getcpucount import NProc
+
+from .fastcpu import FastCpu
+from .lofastcpus import ListOfFastCpus
+from .minfrex import MinFrequency
 
 class FrexRunner(MweRunner):
 
@@ -46,15 +47,6 @@ class FrexRunner(MweRunner):
 
         self._logger.debug('Context established')
         return self
-
-    def _det_min_frex(self) -> float:
-
-        self._logger.debug('Determining min frex')
-        with MinFrequency() as _mf:
-            _minimum_freq = _mf()
-        self._logger.debug(_mf)
-
-        return _minimum_freq / 1000.0
 
     def _det_frex_gov(self, of_cpu) -> str:
 
@@ -103,22 +95,33 @@ class FrexRunner(MweRunner):
         super().__call__()
 
         self._logger.debug('Begining real work')
+        with ListOfFastCpus() as _fastcpus:
 
-        _minimum_freq = self._det_min_frex()
+            with MinFrequency() as _minimum_freq:
+                self._logger.debug('Determining min frex')
+                _minimum_freq = _minimum_freq()
+                _minimum_freq = _minimum_freq / 1000
+                self._logger.debug(_minimum_freq)
 
-        # 5 percent
-        _margin = 1.05
-        _allowance = _minimum_freq * _margin
+            # 5 percent
+            _margin = 1.05
+            _allowance = _minimum_freq * _margin
 
-        with NProc() as _no_cpus:
-            _no_cpus = _no_cpus()
-        self._logger.debug('Found {n} CPUs'.format(n=_no_cpus))
+            with NProc() as _no_cpus:
+                self._logger.debug('Determining #CPUs')
+                _no_cpus = _no_cpus()
+                self._logger.debug('Found {n} CPUs'.format(n=_no_cpus))
 
-        self._provide_overshoots(_allowance, _no_cpus)
+            self._provide_overshoots(_allowance, _no_cpus)
 
-        self._provide_temp_readings()
+            print('#CPUs running faster than', _allowance, 'MHz:', len(_fastcpus),
+                  'out of', _no_cpus)
+            if len(_fastcpus) > 0:
+                print(_fastcpus)
 
-        self._logger.debug('Done')
+            self._provide_temp_readings()
+
+            self._logger.debug('Done')
 
     def __exit__(self, exc_type, exc_value, traceback):
         """Seal the runner again when leaving the context."""
