@@ -13,6 +13,7 @@ import subprocess
 from support.runmwe.mwerunner import MweRunner
 from .fastcpu import FastCpu
 from .minfrex import MinFrequency
+from .lofastcpus import ListOfFastCpus
 from support.nproc.getcpucount import NProc
 
 class FrexRunner(MweRunner):

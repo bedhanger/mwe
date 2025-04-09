@@ -1,8 +1,6 @@
-#!/usr/bin/env python
-
 import textwrap
 
-from fastcpu import FastCpu
+from .fastcpu import FastCpu
 
 class ListOfFastCpus():
 
