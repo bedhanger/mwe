@@ -16,6 +16,7 @@ from support.nproc.getcpucount import NProc
 from .fastcpu import FastCpu
 from .lofastcpus import ListOfFastCpus
 from .minfrex import MinFrequency
+from .tempreadings import TemperatureReadings
 
 class FrexRunner(MweRunner):
 
@@ -80,16 +81,6 @@ class FrexRunner(MweRunner):
 
         print('That is,', _how_many, 'out of', no_cpus)
 
-    def _provide_temp_readings(self):
-
-        _temps = subprocess.check_output('sensors').decode().rstrip()
-
-        for _line in _temps.splitlines():
-            if 'CPU Temperature' in _line:
-                print(_line)
-            if 'MB Temperature' in _line:
-                print(_line)
-
     def __call__(self):
         """Do the work."""
         super().__call__()
@@ -114,12 +105,15 @@ class FrexRunner(MweRunner):
 
             self._provide_overshoots(_allowance, _no_cpus)
 
+            with TemperatureReadings() as _temp_readings:
+                _ = _temp_readings()
+
+            # Outputs
             print('#CPUs running faster than', _allowance, 'MHz:', len(_fastcpus),
                   'out of', _no_cpus)
             if len(_fastcpus) > 0:
                 print(_fastcpus)
-
-            self._provide_temp_readings()
+            print(_temp_readings)
 
             self._logger.debug('Done')
 
