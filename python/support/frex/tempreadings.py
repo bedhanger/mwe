@@ -1,4 +1,4 @@
-"""Determine the the temperature readings as per the lm sensors package."""
+"""Determine the temperature readings as per the lm sensors package."""
 
 import shutil
 import subprocess
