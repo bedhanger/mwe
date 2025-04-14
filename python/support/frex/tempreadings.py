@@ -2,6 +2,8 @@
 
 import shutil
 import subprocess
+import re
+import textwrap
 
 class TemperatureReadings:
 
@@ -20,8 +22,20 @@ class TemperatureReadings:
     def __exit__(self, exc_type, exc_value, traceback) -> bool:
         return False
 
-    def __call__(self) -> float:
-        self._tr = subprocess.check_output(r'sensors | rg "(CPU|MB)\sTemperature"', shell=True)
+    def __call__(self) -> None:
+        _sensors = subprocess.check_output(r'sensors').decode()
+
+        _temps_rx = re.compile(r'''
+            (?P<selector>(CPU|MB))
+            \s
+            Temperature
+            \s*
+            :
+            \s+
+            (?P<values>.+)
+            ''', re.VERBOSE)
+
+        self._tr = re.finditer(_temps_rx, _sensors)
 
     def __repr__(self) -> object:
         _me = type(self).__name__
@@ -32,8 +46,15 @@ class TemperatureReadings:
             assert self._tr is not None
         except AssertionError as exc:
             return 'Temperature readings not avalable'
-        return self._tr.decode().rstrip()
+        _pretty = ''
+        for _s in self._tr:
+            _pretty = _pretty + textwrap.dedent(f"""
+                The reading for {_s.group('selector')} is\t{_s.group('values')}
+            """).lstrip()
+        return _pretty
 
 if __name__ == '__main__':
 
-    pass
+    with TemperatureReadings() as tr:
+        _ = tr()
+        print(tr, end='')
