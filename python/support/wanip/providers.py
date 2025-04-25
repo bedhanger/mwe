@@ -15,6 +15,5 @@ public_providers = [
     'https://api.ipify.org',
     'https://ip.me',
     'https://checkip.amazonaws.com',
-    'https://ipgrab.io',
     'https://www.trackip.net/ip',
 ]
