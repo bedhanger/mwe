@@ -48,8 +48,8 @@ class TemperatureReadings:
         """Arm and return an iterator for the raw matches."""
         if self._auto_read:
             self.__call__()
-        for raw_match in self._tr:
-            yield raw_match
+        for _raw_match in self._tr:
+            yield _raw_match
 
     def __repr__(self) -> object:
         _me = self.__class__.__name__
