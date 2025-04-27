@@ -90,7 +90,7 @@ if __name__ == '__main__':
         # Id ourselves
         print(repr(tr))
 
-        # "Pretty-print" results
+        # Pretty-print "results"
         print(tr)
 
         # You cannot iterate over the raw reading matches unless you perform the reading yourself
@@ -102,3 +102,10 @@ if __name__ == '__main__':
         tr()
         for i in tr:
             print(i)
+
+        # But the results are empty
+        assert str(tr) == ''
+
+        # Until you do another reading
+        tr()
+        assert str(tr) != ''
