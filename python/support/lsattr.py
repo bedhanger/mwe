@@ -1,4 +1,8 @@
-#!/usr/bin/env python
+"""List instance attributes
+
+Use this as a mix-in class to equip other classes with a representation of all instance attributes
+(set via a constructor or otherwise).
+"""
 
 class LsAttr:
 
@@ -10,9 +14,11 @@ class LsAttr:
 
 if __name__ == '__main__':
 
+    # On its own
     X = LsAttr()
     print(X)
 
+    # Single inheritance
     class X(LsAttr):
         pass
     print(X())
@@ -28,6 +34,7 @@ if __name__ == '__main__':
             self.y = 2
     print(X())
 
+    # Multiple inheritance
     class X(LsAttr, list):
         pass
     print(X())
@@ -42,6 +49,7 @@ if __name__ == '__main__':
             self.z = 'Hi'
     print(Y())
 
+    # Defaults
     class X(LsAttr):
         def __init__(self, a=[]):
             self.a = a
