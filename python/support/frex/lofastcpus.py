@@ -1,18 +1,14 @@
 import textwrap
 
+from support.lsattr import LsAttr
 from .fastcpu import FastCpu
 
-class ListOfFastCpus():
+class ListOfFastCpus(LsAttr):
 
     """Collect fast CPUs."""
 
     def __init__(self, fastcpus=[]) -> None:
         self._fastcpus = fastcpus
-
-    def __repr__(self) -> object:
-        """Unambiguously represent."""
-        _me = type(self).__name__
-        return  f"{_me}(fastcpus={self._fastcpus!r})"
 
     def __str__(self) -> str:
         """Pretty-print."""
@@ -49,6 +45,7 @@ class ListOfFastCpus():
 if __name__ == '__main__':
 
     with ListOfFastCpus() as f:
+        print(repr(f))
         print(f)
 
         with FastCpu(identity=42, model='Alpha', mhz=1) as g:
