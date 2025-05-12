@@ -33,7 +33,7 @@ class ListOfFastCpus(LsAttr):
 
     def __add__(self, another):
         self.fastcpus.append(another)
-        return ListOfFastCpus(fastcpus=self.fastcpus)
+        return self.__class__(fastcpus=self.fastcpus)
 
     def __iter__(self) -> object:
         for i in self.fastcpus:
