@@ -15,7 +15,7 @@ class ListOfFastCpus(LsAttr):
 
         if len(self.fastcpus) == 0:
             return 'The are currently no fast CPUs known...'
-        return ''.join(str(_fastcpu) for _fastcpu in self.fastcpus).rstrip()
+        return ''.join(str(_fastcpu) for _fastcpu in self).rstrip()
 
     def __enter__(self):
         return self
