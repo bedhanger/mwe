@@ -15,7 +15,7 @@ class ListOfFastCpus(LsAttr):
 
         if len(self.fastcpus) == 0:
             return 'The are currently no fast CPUs known...'
-        return ''.join(str(_fastcpu) for _fastcpu in self).rstrip()
+        return str('-' * 80 + '\n').join(str(_fastcpu) for _fastcpu in self).rstrip()
 
     def __enter__(self):
         return self
@@ -40,6 +40,7 @@ if __name__ == '__main__':
     with ListOfFastCpus() as f:
         print(repr(f))
         print(f)
+        print('Total:', len(f))
 
         with FastCpu(identity=42, model='Alpha', mhz=1) as g:
             with FastCpu(identity=4711, model='HP', mhz=1000) as h:
@@ -48,5 +49,12 @@ if __name__ == '__main__':
                 # Note that the fast CPUs not introduced via a context, won't have their frex
                 # governor set.  It pays to use contexts whenever possible.
                 f = f + g + h + i + j
-        print(f)
-        print(len(f))
+
+                print(repr(f))
+                print(f)
+                print('Total:', len(f))
+
+                with ListOfFastCpus(fastcpus=[g, h, i, j, j, i, h, g]) as k:
+                    print(repr(k))
+                    print(k)
+                    print('Total:', len(k))
