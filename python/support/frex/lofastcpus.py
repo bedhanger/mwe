@@ -8,12 +8,12 @@ class ListOfFastCpus(LsAttr):
     """Collect fast CPUs."""
 
     def __init__(self, fastcpus=[]) -> None:
-        self._fastcpus = fastcpus
+        self.fastcpus = fastcpus
 
     def __str__(self) -> str:
         """Pretty-print."""
 
-        if len(self._fastcpus) == 0:
+        if len(self.fastcpus) == 0:
             return 'The are currently no fast CPUs known...'
         _fastcpu = iter(self)
         _str = ''
@@ -32,15 +32,15 @@ class ListOfFastCpus(LsAttr):
         return False
 
     def __add__(self, another):
-        self._fastcpus.append(another)
-        return ListOfFastCpus(fastcpus=self._fastcpus)
+        self.fastcpus.append(another)
+        return ListOfFastCpus(fastcpus=self.fastcpus)
 
     def __iter__(self) -> object:
-        for i in self._fastcpus:
+        for i in self.fastcpus:
             yield i
 
     def __len__(self) -> int:
-        return len(self._fastcpus)
+        return len(self.fastcpus)
 
 if __name__ == '__main__':
 
