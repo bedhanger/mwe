@@ -4,7 +4,9 @@ import pytest
 from pathlib import Path
 import textwrap
 
-class FrexGovernor:
+from support.lsattr import LsAttr
+
+class FrexGovernor(LsAttr):
 
     def __init__(self, of_cpu: str='cpu0') -> None:
         self._of_cpu = of_cpu
@@ -27,10 +29,6 @@ class FrexGovernor:
             self._fg = f.readline().rstrip()
         assert self._fg is not None, 'Cannot determine frequency governor'
         return self._fg
-
-    def __repr__(self) -> object:
-        _me = type(self).__name__
-        return f"{_me}(of_cpu={self._of_cpu!r})"
 
     def __str__(self) -> str:
         return textwrap.dedent(f"""

@@ -69,10 +69,6 @@ class PyLintRunner(MweRunner):
         # (needs startswith)
         self._pylintrun(args=[str(self._file), '--verbose', '--recursive=y'], exit=False)
 
-    def __repr__(self) -> str:
-        _class_name = type(self).__name__
-        return  f"{_class_name}(file={self._file!r})"
-
     def __str__(self) -> str:
         return __class__.__doc__
 

@@ -7,7 +7,9 @@ import textwrap
 import logging
 import pytest
 
-class TemperatureReadings:
+from support.lsattr import LsAttr
+
+class TemperatureReadings(LsAttr):
 
     def __init__(self, auto_read=True) -> None:
         self._sensors = shutil.which('sensors')
@@ -50,10 +52,6 @@ class TemperatureReadings:
             self.__call__()
         for _raw_match in self._tr:
             yield _raw_match
-
-    def __repr__(self) -> object:
-        _me = self.__class__.__name__
-        return f"{_me}()"
 
     def __str__(self) -> str:
         if self._auto_read:

@@ -4,7 +4,9 @@ import pytest
 from pathlib import Path
 import textwrap
 
-class MinFrequency:
+from support.lsattr import LsAttr
+
+class MinFrequency(LsAttr):
 
     def __init__(self, ref_cpu: str='cpu0') -> None:
         self._ref_cpu = ref_cpu
@@ -27,10 +29,6 @@ class MinFrequency:
             self._mf = float(f.readline().rstrip())
         assert self._mf is not None, 'Cannot determine minimum frequency'
         return self._mf
-
-    def __repr__(self) -> object:
-        _me = type(self).__name__
-        return f"{_me}(ref_cpu={self._ref_cpu!r})"
 
     def __str__(self) -> str:
         assert self._mf is not None, 'Ups, no-one has tried to determine the min frex'
