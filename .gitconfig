@@ -32,7 +32,7 @@
            --format=\"%C(blue)%h%C(reset) %C(green)%ad%C(reset) %C(yellow)%an%C(reset) %C(cyan)%ar%C(reset) %C(red)%s%C(reset) %C(bold magenta)%d%C(reset)\"
         rr = clean -d -x --force --quiet
         bav = branch -a --verbose --verbose
-        d = describe --tags
+        d = describe --dirty --tags
         # Not part of the canon.  Needs script.
         lr = left-right
         bd = branch --delete
