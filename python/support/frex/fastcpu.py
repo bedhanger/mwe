@@ -7,23 +7,23 @@ class FastCpu(LsAttr):
     """Model a CPU that runs fast(er than the min frex)."""
 
     def __init__(self, identity: int, model: str, mhz: float) -> None:
-        self._identity = identity
-        self._model = model
-        self._mhz = mhz
-        self._governor = None
+        self.identity = identity
+        self.model = model
+        self.mhz = mhz
+        self.governor = None
 
     def __str__(self) -> str:
         """Pretty-print."""
         return textwrap.dedent(f"""
-            Processor id  : {self._identity}
-            Model name    : {self._model}
-            Speed in MHz  : {self._mhz}
-            Frex governor : {self._governor}
+            Processor id  : {self.identity}
+            Model name    : {self.model}
+            Speed in MHz  : {self.mhz}
+            Frex governor : {self.governor}
         """).lstrip()
 
     def __enter__(self):
         """Complete the CPU by determining its frex governor."""
-        self._governor = hex(id(self))
+        self.governor = hex(id(self))
         return self
 
     def __exit__(self, exc_value, exc_type, traceback) -> bool:
