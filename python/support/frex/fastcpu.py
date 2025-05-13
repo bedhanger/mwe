@@ -1,6 +1,8 @@
 import textwrap
 
-class FastCpu:
+from support.lsattr import LsAttr
+
+class FastCpu(LsAttr):
 
     """Model a CPU that runs fast(er than the min frex)."""
 
@@ -9,11 +11,6 @@ class FastCpu:
         self._model = model
         self._mhz = mhz
         self._governor = None
-
-    def __repr__(self) -> object:
-        """Unambiguously represent."""
-        _me = type(self).__name__
-        return  f"{_me}(identity={self._identity!r}, model={self._model!r}, mhz={self._mhz!r})"
 
     def __str__(self) -> str:
         """Pretty-print."""
@@ -49,4 +46,4 @@ if __name__ == '__main__':
     for p in Z:
         print(p, end='-' * 100 + '\n')
 
-    print(Z)
+    print(repr(q))
