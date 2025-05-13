@@ -3,7 +3,9 @@
 
 import logging
 
-class MweRunner:
+from support.lsattr import LsAttr
+
+class MweRunner(LsAttr):
     """A context-aware runner from which others may be instantiated from."""
 
     def __new__(cls, *pargs, **kwargs):
@@ -32,11 +34,6 @@ class MweRunner:
         self._ctx = None
         return False
 
-    def __repr__(self) -> str:
-        """Canonical representation, following the ideom eval(repr(obj)) == obj."""
-        _class_name = type(self).__name__
-        return  f"{_class_name}()"
-
     def __str__(self) -> str:
         """Pretty printing."""
         return __class__.__doc__
@@ -44,3 +41,6 @@ class MweRunner:
     def __call__(self):
         """Allow the runner to be called if the context sentry allows it."""
         assert self._ctx is not None, 'No context established.  Did you use a with-statement?'
+
+if __name__ == '__main__':
+    print(repr(MweRunner()))
