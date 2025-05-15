@@ -17,3 +17,14 @@ public_providers = [
     'https://checkip.amazonaws.com',
     'https://www.trackip.net/ip',
 ]
+
+from support.lsattr import LsAttr
+
+class Providers(LsAttr):
+
+    def __init__(self, public_providers=public_providers):
+        self.public_providers = public_providers
+
+if __name__ ==  '__main__':
+    P = Providers()
+    print(repr(P))
