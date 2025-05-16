@@ -18,6 +18,8 @@ public_providers = [
     'https://www.trackip.net/ip',
 ]
 
+import random
+
 from support.lsattr import LsAttr
 
 class Providers(LsAttr):
@@ -25,6 +27,13 @@ class Providers(LsAttr):
     def __init__(self, public_providers=public_providers):
         self.public_providers = public_providers
 
+    def __call__(self) -> str:
+        return random.choice(self.public_providers)
+
+Public_Providers = Providers()
+
 if __name__ ==  '__main__':
-    P = Providers()
-    print(repr(P))
+
+    print(Public_Providers)
+
+    print(Public_Providers())
