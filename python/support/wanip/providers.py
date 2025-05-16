@@ -62,23 +62,23 @@ class Providers(LsAttr):
         except AssertionError as exc:
             raise ValueError(f'"{provider}" is already part of the collection') from exc
 
-        _l = list(self.providers)
-        _l.append(provider)
-        return self.__class__(*(_ for _ in _l))
+        _ = list(self.providers)
+        _.append(provider)
+        return self.__class__(*(_ for _ in _))
 
     def __sub__(self, provider):
         """Diminish the collection
 
         Again, we resort to lists while doing the job.
         """
-        _l = list(self.providers)
+        _ = list(self.providers)
 
         try:
-            _l.remove(provider)
+            _.remove(provider)
         except ValueError as exc:
             raise ValueError(f'"{provider}" is not part of the collection') from exc
 
-        return self.__class__(*(_ for _ in _l))
+        return self.__class__(*(_ for _ in _))
 
     def __len__(self):
         """Tell the size of the collection"""
@@ -93,8 +93,8 @@ class Providers(LsAttr):
     def __iter__(self):
         """Make the collection iterable/usable in generators"""
 
-        for _provider in self.providers:
-            yield _provider
+        for _ in self.providers:
+            yield _
 
 # Export this
 Public_Providers = Providers(*public_providers)
