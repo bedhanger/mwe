@@ -56,35 +56,29 @@ class Providers(LsAttr):
 
         As tuples are immutable, we temporarily escape to lists.  We do not allow an element to be
         added more than once.
-
-        We do not return a new instance, as this would wrap a tuple in a tuple.
         """
         try:
             assert provider not in self.providers
         except AssertionError as exc:
             raise ValueError(f'"{provider}" is already part of the collection') from exc
 
-        _ = list(self.providers)
-        _.append(provider)
-        self.providers = tuple(_)
-        return self
+        _l = list(self.providers)
+        _l.append(provider)
+        return self.__class__(*(_ for _ in _l))
 
     def __sub__(self, provider):
         """Diminish the collection
 
         Again, we resort to lists while doing the job.
-
-        And again, we do not return a new instance, as this would wrap a tuple in a tuple.
         """
-        _ = list(self.providers)
+        _l = list(self.providers)
 
         try:
-            _.remove(provider)
+            _l.remove(provider)
         except ValueError as exc:
             raise ValueError(f'"{provider}" is not part of the collection') from exc
 
-        self.providers = tuple(_)
-        return self
+        return self.__class__(*(_ for _ in _l))
 
     def __len__(self):
         """Tell the size of the collection"""
@@ -99,8 +93,8 @@ class Providers(LsAttr):
     def __iter__(self):
         """Make the collection iterable/usable in generators"""
 
-        for provider in self.providers:
-            yield provider
+        for _provider in self.providers:
+            yield _provider
 
 # Export this
 Public_Providers = Providers(*public_providers)
