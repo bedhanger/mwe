@@ -24,13 +24,13 @@ from support.lsattr import LsAttr
 
 class Providers(LsAttr):
 
-    def __init__(self, public_providers=public_providers):
-        self.public_providers = public_providers
+    def __init__(self, *pargs):
+        self.public_providers = tuple(pargs)
 
     def __call__(self) -> str:
         return random.choice(self.public_providers)
 
-Public_Providers = Providers()
+Public_Providers = Providers(1, 2, 3, 4, 5, 6)
 
 if __name__ ==  '__main__':
 
