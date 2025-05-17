@@ -86,9 +86,14 @@ class Providers(LsAttr):
         return len(self.providers)
 
     def __contains__(self, provider):
-        """Test for membership"""
+        """Test for membership
 
-        return provider in self.providers
+        We waive the "in" operator so that we can use the re-use the iterator.
+        """
+        for _ in self:
+            if _ == provider:
+                return True
+        return False
 
     def __iter__(self):
         """Make the collection iterable/usable in generators"""
