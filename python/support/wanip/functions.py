@@ -1,7 +1,7 @@
 import subprocess
 import sys
 import argparse
-import random
+
 from .providers import Public_Providers, Providers
 
 def curlme(provider):
