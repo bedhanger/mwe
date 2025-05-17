@@ -98,7 +98,7 @@ class Providers(LsAttr):
     def __contains__(self, provider):
         """Test for membership
 
-        We waive the "in" operator so that we can use the re-use the iterator.
+        We waive the "in" operator so that we can re-use the iterator.
         """
         for _ in self:
             if _ == provider:
