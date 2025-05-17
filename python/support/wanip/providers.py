@@ -40,16 +40,25 @@ class Providers(LsAttr):
         and emulate semantix of the latter below.
         """
         self.providers = tuple(providers)
+        self.cached = None
 
-    def __call__(self):
+    def __call__(self, use_cached=False):
         """Gimme any one"""
 
-        try:
-            assert len(self.providers) >= 1
-        except AssertionError as exc:
-            raise ValueError('no element found in collection') from exc
+        if not use_cached:
+            try:
+                assert len(self.providers) >= 1
+            except AssertionError as exc:
+                raise ValueError('no element found in collection') from exc
 
-        return random.choice(self.providers)
+            self.cached = random.choice(self.providers)
+            return self.cached
+        else:
+            try:
+                assert self.cached is not None
+                return self.cached
+            except AssertionError as exc:
+                raise ValueError('no element found in cache') from exc
 
     def __add__(self, provider):
         """Augment the collection
@@ -184,7 +193,18 @@ if __name__ ==  '__main__':
     with pytest.raises(ValueError):
         Public_Providers = Public_Providers + 'an element' + 'an element'
 
+    for _ in range(9):
+        print(Public_Providers())
+    print('>8' * 4)
+    for _ in range(9):
+        print(Public_Providers(use_cached=True))
+
     # Cannot obtain a provider from an empty collection
     Public_Providers = Providers()
     with pytest.raises(ValueError):
         print(Public_Providers())
+
+    # Not even when asking for a cached one
+    Public_Providers = Providers()
+    with pytest.raises(ValueError):
+        print(Public_Providers(use_cached=not False))
