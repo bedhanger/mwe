@@ -96,6 +96,12 @@ class Providers(LsAttr):
         for _ in self.providers:
             yield _
 
+    def __str__(self):
+        """Pretty-print"""
+
+        return '\n'.join(str(provider) for provider in self)
+
+
 # Export this
 Public_Providers = Providers(*public_providers)
 
@@ -106,54 +112,63 @@ if __name__ ==  '__main__':
 
     print('There are currently', len(Public_Providers), 'public providers')
     print('"my machine" is in Public_Providers? ', "my machine" in Public_Providers)
-    print('This is what Public_Providers is internally:', Public_Providers)
+    print('This is what Public_Providers is internally:', repr(Public_Providers))
+    print('The public providers:'); print(Public_Providers)
     print('Here is a public provider:', Public_Providers(), end='\n\n')
 
     print('There are currently', len(Public_Providers), 'public providers')
     print('"https://ifconfig.me/ip" is in Public_Providers? ', "https://ifconfig.me/ip" in Public_Providers)
-    print('This is what Public_Providers is internally:', Public_Providers)
+    print('This is what Public_Providers is internally:', repr(Public_Providers))
+    print('The public providers:'); print(Public_Providers)
     print('Here is a public provider:', Public_Providers(), end='\n\n')
 
     Public_Providers = Providers(1, 2, 3, 4, 5, 6)
     print('There are currently', len(Public_Providers), 'public providers')
     print('6 is in Public_Providers? ', 6 in Public_Providers)
-    print('This is what Public_Providers is internally:', Public_Providers)
+    print('This is what Public_Providers is internally:', repr(Public_Providers))
+    print('The public providers:'); print(Public_Providers)
     print('Here is a public provider:', Public_Providers(), end='\n\n')
 
     Public_Providers = Public_Providers + 42
     print('There are currently', len(Public_Providers), 'public providers')
     print('4 is in Public_Providers? ', 42 in Public_Providers)
-    print('This is what Public_Providers is internally:', Public_Providers)
+    print('This is what Public_Providers is internally:', repr(Public_Providers))
+    print('The public providers:'); print(Public_Providers)
     print('Here is a public provider:', Public_Providers(), end='\n\n')
 
     Public_Providers = Public_Providers + 'foo'
     print('There are currently', len(Public_Providers), 'public providers')
     print('\'foo\' is in Public_Providers? ', 'foo' in Public_Providers)
-    print('This is what Public_Providers is internally:', Public_Providers)
+    print('This is what Public_Providers is internally:', repr(Public_Providers))
+    print('The public providers:'); print(Public_Providers)
     print('Here is a public provider:', Public_Providers(), end='\n\n')
 
     Public_Providers = Public_Providers + "bar"
     print('There are currently', len(Public_Providers), 'public providers')
     print('"baz" is in Public_Providers? ', "baz" in Public_Providers)
-    print('This is what Public_Providers is internally:', Public_Providers)
+    print('This is what Public_Providers is internally:', repr(Public_Providers))
+    print('The public providers:'); print(Public_Providers)
     print('Here is a public provider:', Public_Providers(), end='\n\n')
 
     Public_Providers = Public_Providers + "zonk" + 'baz'
     print('There are currently', len(Public_Providers), 'public providers')
     print('"baz" is in Public_Providers? ', "baz" in Public_Providers)
-    print('This is what Public_Providers is internally:', Public_Providers)
+    print('This is what Public_Providers is internally:', repr(Public_Providers))
+    print('The public providers:'); print(Public_Providers)
     print('Here is a public provider:', Public_Providers(), end='\n\n')
 
     Public_Providers = Public_Providers - "zonk" - 3
     print('There are currently', len(Public_Providers), 'public providers')
     print('3 is in Public_Providers? ', 3 in Public_Providers)
-    print('This is what Public_Providers is internally:', Public_Providers)
+    print('This is what Public_Providers is internally:', repr(Public_Providers))
+    print('The public providers:'); print(Public_Providers)
     print('Here is a public provider:', Public_Providers(), end='\n\n')
 
     Public_Providers = Public_Providers - 4
     print('There are currently', len(Public_Providers), 'public providers')
     print('4 is in Public_Providers? ', 4 in Public_Providers)
-    print('This is what Public_Providers is internally:', Public_Providers)
+    print('This is what Public_Providers is internally:', repr(Public_Providers))
+    print('The public providers:'); print(Public_Providers)
     print('Here is a public provider:', Public_Providers(), end='\n\n')
 
     # Cannot remove non-existing element
@@ -163,9 +178,6 @@ if __name__ ==  '__main__':
     # Cannot add an element more than once
     with pytest.raises(ValueError):
         Public_Providers = Public_Providers + 'an element' + 'an element'
-
-    print('Here are all ', len(Public_Providers), ' current public providers:\n',
-          '\n'.join(' ' * 4 + str(provider) for provider in Public_Providers), sep='')
 
     # Cannot obtain a provider from an empty collection
     Public_Providers = Providers()
