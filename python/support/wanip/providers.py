@@ -48,7 +48,8 @@ class Providers(LsAttr):
         if not use_cached:
             try:
                 assert len(self.providers) >= 1
-            except AssertionError as exc:
+            # We catch TypeError in case we have left the context: len(None)...
+            except (AssertionError, TypeError) as exc:
                 raise ValueError('no element found in collection') from exc
 
             self.cached = random.choice(self.providers)
@@ -115,6 +116,17 @@ class Providers(LsAttr):
 
         return '\n'.join(str(provider) for provider in self)
 
+    def __enter__(self):
+        """Enter context"""
+
+        return self
+
+    def __exit__(self, exc_value, exc_type, traceback):
+        """Leave context"""
+
+        self.providers = None
+        self.cached    = None
+        return False
 
 # Export this
 Public_Providers = Providers(*public_providers)
@@ -208,3 +220,10 @@ if __name__ ==  '__main__':
     Public_Providers = Providers()
     with pytest.raises(ValueError):
         print(Public_Providers(use_cached=not False))
+
+    # Test the context manager protocol
+    with Providers('spam', 'eggs') as P:
+        print(P())
+    with pytest.raises(ValueError):
+        # We have left the context (of Providers(...), that is)
+        print(P())
