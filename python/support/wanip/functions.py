@@ -2,7 +2,7 @@ import subprocess
 import sys
 import argparse
 import random
-from .providers import public_providers
+from .providers import Public_Providers, Providers
 
 def curlme(provider):
     """
@@ -53,19 +53,19 @@ def naime(me: str, purpose: str):
     """
     Run the show
 
-    The LEGB scoping rule means that in order to overwrite the public_providers (a sensible thing to
+    The LEGB scoping rule means that in order to overwrite the Public_Providers (a sensible thing to
     do in case the -p/--provider option has been specified), we must declare it as global.
     """
-    global public_providers
+    global Public_Providers
 
     args = parse_cmd_line(me, purpose)
     provider, verbose = args.provider, args.verbose
 
     if provider:
-        public_providers = [provider]
-    provider = random.choice(public_providers)
+        Public_Providers = Providers(provider)
+    provider = Public_Providers()
 
-    if verbose > 1: print(public_providers)
+    if verbose > 1: print(Public_Providers)
     if verbose >= 1: print('Trying {provider}'.format(provider=provider))
 
     curlme(provider=provider)
