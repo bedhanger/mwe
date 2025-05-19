@@ -14,7 +14,7 @@ class OutOfContextError(RuntimeError):
     pass
 
 class MweRunner(LsAttr):
-    """A context-aware runner from which others may be instantiated from."""
+ss   """A context-aware runner others may be instantiated from"""
 
     def __new__(cls, *pargs, **kwargs):
         """Make a runner."""
