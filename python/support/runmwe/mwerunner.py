@@ -18,7 +18,7 @@ class MweRunner(LsAttr):
 
     def __new__(cls, *pargs, **kwargs):
         """Make a runner."""
-        return super().__new__(cls)
+        return object.__new__(cls)
 
     def __init__(self):
         """Init a newly made runner."""
