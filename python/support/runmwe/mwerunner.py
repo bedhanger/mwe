@@ -31,7 +31,7 @@ class MweRunner(LsAttr):
 
         Appease the context sentry.
         """
-        self._ctx = not None
+        self._ctx = hex(id(self))
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
