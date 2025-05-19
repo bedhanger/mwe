@@ -2,8 +2,16 @@
 """Base class for runners in MWE."""
 
 import logging
+from typing import Callable
+from functools import wraps
+import textwrap
 
 from support.lsattr import LsAttr
+
+class OutOfContextError(RuntimeError):
+    """Raise this when we detect that an out-of-context operation is attempted"""
+
+    pass
 
 class MweRunner(LsAttr):
     """A context-aware runner from which others may be instantiated from."""
@@ -34,13 +42,47 @@ class MweRunner(LsAttr):
         self._ctx = None
         return False
 
+    def __requirescontext(func: Callable) -> Callable:
+        """Decorator to forbid usage out-of-context"""
+
+        @wraps(func)
+        def __wrapper(self, *pargs, **kwargs):
+            try:
+                assert self._ctx is not None
+            except AssertionError as exc:
+                raise OutOfContextError(textwrap.dedent(f'''
+                    no context established for "{func.__name__}".  Did you use a with-statement?
+                ''').strip()) from exc
+            return func(self, *pargs, **kwargs)
+
+        return __wrapper
+
+    @__requirescontext
     def __str__(self) -> str:
         """Pretty printing."""
         return __class__.__doc__
 
+    @__requirescontext
     def __call__(self):
         """Allow the runner to be called if the context sentry allows it."""
-        assert self._ctx is not None, 'No context established.  Did you use a with-statement?'
+        pass
 
 if __name__ == '__main__':
-    print(repr(MweRunner()))
+    """Self-test code"""
+
+    import pytest
+
+    with MweRunner() as R:
+        R()
+        print(repr(R))
+        print(R)
+
+    R = MweRunner()
+    with pytest.raises(OutOfContextError):
+        R()
+
+    with pytest.raises(OutOfContextError):
+        print(R)
+
+    # This can be called outwith a context
+    print(repr(R))
