@@ -55,10 +55,12 @@ class MweRunner(LsAttr):
                 raise OutOfContextError(textwrap.dedent(f'''
                     no context has been established before invoking {func.__name__!r}
 
-                    Did you use a with-statement?
+                    Did you forget to use a with-statement?
 
                     {self.__class__.__name__!r} requires that the context-manager-protocol be used
-                    when instances of it are created.  So rather than saying
+                    when instances of it are created.  This was a conscious design decision, aimed
+                    at facilitating resource management (freeing the resource, in particular).  So
+                    rather than saying something like
 
                     >>> R = {self.__class__.__name__}()
                     >>> print(R)
@@ -82,7 +84,7 @@ class MweRunner(LsAttr):
     @__requirescontext
     def __call__(self):
         """Allow the runner to be called if the context sentry allows it."""
-        pass
+        import this
 
 if __name__ == '__main__':
     """Self-test code"""
