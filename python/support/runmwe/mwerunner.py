@@ -24,22 +24,24 @@ class MweRunner(LsAttr):
         """Init a newly made runner."""
         # Simplistic form of protection against not instigating the context manager protocol
         self._ctx = None
-        self._logger = logging.getLogger()
+        self._logger = None
 
     def __enter__(self):
         """Establish context.
 
-        Appease the context sentry.
+        Appease the context sentry, and set up the logger..
         """
         self._ctx = hex(id(self))
+        self._logger = logging.getLogger()
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
         """Leave context.
 
-        Arm the context sentry again.
+        Arm the context sentry again, and relinquish the logger.
         """
         self._ctx = None
+        self._logger = None
         return False
 
     def __requirescontext(func: Callable) -> Callable:
