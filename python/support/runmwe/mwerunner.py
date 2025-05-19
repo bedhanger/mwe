@@ -51,7 +51,22 @@ class MweRunner(LsAttr):
                 assert self._ctx is not None
             except AssertionError as exc:
                 raise OutOfContextError(textwrap.dedent(f'''
-                    no context established for "{func.__name__}".  Did you use a with-statement?
+                    no context has been established before invoking {func.__name__!r}
+
+                    Did you use a with-statement?
+
+                    {self.__class__.__name__!r} requires that the context-manager-protocol be used
+                    when instances of it are created.  So rather than saying
+
+                    >>> R = {self.__class__.__name__}()
+                    >>> print(R)
+
+                    do this instead
+
+                    >>> with {self.__class__.__name__}() as R:
+                    >>>     print(R)
+
+                    Outwith a context, R is practically unusable.
                 ''').strip()) from exc
             return func(self, *pargs, **kwargs)
 
