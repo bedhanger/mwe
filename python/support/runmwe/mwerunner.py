@@ -7,7 +7,7 @@ from functools import wraps
 import textwrap
 
 from support.lsattr import LsAttr
-from support.ooce import OutOfContextError
+from support.ooce.exceptions import OutOfContextError
 
 class MweRunner(LsAttr):
     """A context-aware runner others may be instantiated from"""
