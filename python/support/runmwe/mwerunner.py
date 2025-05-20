@@ -7,11 +7,7 @@ from functools import wraps
 import textwrap
 
 from support.lsattr import LsAttr
-
-class OutOfContextError(RuntimeError):
-    """Raise this when we detect that an out-of-context operation is attempted"""
-
-    pass
+from support.ooce import OutOfContextError
 
 class MweRunner(LsAttr):
     """A context-aware runner others may be instantiated from"""
@@ -52,26 +48,7 @@ class MweRunner(LsAttr):
             try:
                 assert self._ctx is not None
             except AssertionError as exc:
-                raise OutOfContextError(textwrap.dedent(f'''
-                    no context has been established before invoking {func.__name__!r}
-
-                    Did you forget to use a with-statement?
-
-                    {self.__class__.__name__!r} requires that the context-manager-protocol be used
-                    when instances of it are created.  This was a conscious design decision, aimed
-                    at facilitating resource management (freeing the resource, in particular).  So
-                    rather than saying something like
-
-                    >>> R = {self.__class__.__name__}()
-                    >>> print(R)
-
-                    do this instead
-
-                    >>> with {self.__class__.__name__}() as R:
-                    >>>     print(R)
-
-                    Outwith a context, R is practically unusable.
-                ''').strip()) from exc
+                raise OutOfContextError(cls=self.__class__.__name__, func=func.__name__)
             return func(self, *pargs, **kwargs)
 
         return __wrapper

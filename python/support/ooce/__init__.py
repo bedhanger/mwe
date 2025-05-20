@@ -1,1 +1,1 @@
-from ._ooce import OutOfContextError
+from .exceptions import OutOfContextError
