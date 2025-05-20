@@ -10,7 +10,7 @@ class OutOfContextError(RuntimeError):
     def __init__(self, msg=None, cls='<This class>', func='<a function>', *pargs, **kwargs):
 
         # The default message, which is also a bit educational
-        self.msg = textwrap.dedent(f"""
+        self.default_msg = textwrap.dedent(f"""
             no context has been established before invoking the operation {func!r}
 
             Did you forget to use a with-statement?
@@ -31,4 +31,4 @@ class OutOfContextError(RuntimeError):
         """).strip()
 
         # Call the base class' constructor to init the exception class
-        super().__init__(msg or self.msg, *pargs, **kwargs)
+        super().__init__(msg or self.default_msg, *pargs, **kwargs)
