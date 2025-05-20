@@ -67,18 +67,30 @@ if __name__ == '__main__':
     """Self-test code"""
 
     import pytest
+    import unittest
 
-    with MweRunner() as R:
-        R()
-        print(repr(R))
-        print(R)
+    class MweRunnerTestCase(unittest.TestCase):
 
-    R = MweRunner()
-    with pytest.raises(OutOfContextError):
-        R()
+        def test_context_based_usage(self):
 
-    with pytest.raises(OutOfContextError):
-        print(R)
+            with MweRunner() as R:
+                R()
+                print(repr(R))
+                print(R)
 
-    # This can be called outwith a context
-    print(repr(R))
+        def test_contextless_usage(self):
+
+            R = MweRunner()
+            with pytest.raises(OutOfContextError):
+                R()
+
+            with pytest.raises(OutOfContextError):
+                print(R)
+
+        def test_legal_contextless_usage(self):
+
+            R = MweRunner()
+            # This can be called outwith a context
+            print(repr(R))
+
+    unittest.main()

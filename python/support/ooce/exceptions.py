@@ -7,11 +7,11 @@ import textwrap
 
 class OutOfContextError(RuntimeError):
 
-    def __init__(self, msg=None, cls=None, func=None, *pargs, **kwargs):
+    def __init__(self, msg=None, cls='<This class>', func='<a function>', *pargs, **kwargs):
 
         # The default message, which is also a bit educational
         self.msg = textwrap.dedent(f"""
-            no context has been established before invoking {func!r}
+            no context has been established before invoking the operation {func!r}
 
             Did you forget to use a with-statement?
 
