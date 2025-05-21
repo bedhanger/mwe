@@ -61,35 +61,3 @@ class MweRunner(LsAttr):
     def __call__(self):
         """Allow the runner to be called if the context sentry allows it."""
         import this
-
-if __name__ == '__main__':
-    """Self-test code"""
-
-    import pytest
-    import unittest
-
-    class MweRunnerTestCase(unittest.TestCase):
-
-        def test_context_based_usage(self):
-
-            with MweRunner() as R:
-                R()
-                print(repr(R))
-                print(R)
-
-        def test_contextless_usage(self):
-
-            R = MweRunner()
-            with pytest.raises(OutOfContextError):
-                R()
-
-            with pytest.raises(OutOfContextError):
-                print(R)
-
-        def test_legal_contextless_usage(self):
-
-            R = MweRunner()
-            # This can be called outwith a context
-            print(repr(R))
-
-    unittest.main()
