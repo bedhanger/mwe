@@ -89,7 +89,7 @@ class Providers(LsAttr):
     def __iter__(self):
         """Make the collection iterable/usable in generators"""
 
-        for _ in sorted(self.providers):
+        for _ in sorted(str(s) for s in self.providers):
             yield _
 
     def __str__(self):
