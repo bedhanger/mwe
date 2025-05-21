@@ -1,7 +1,9 @@
+"""Self-test code"""
+
 import pytest
 import unittest
 
-from .mwerunner import MweRunner
+from . import MweRunner
 from support.ooce.exceptions import OutOfContextError
 
 class MweRunnerTestCase(unittest.TestCase):
