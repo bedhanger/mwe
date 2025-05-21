@@ -13,7 +13,7 @@ except ModuleNotFoundError:
     def colored(_, *pargs, **kwargs):
         return _
 
-from support.runmwe.mwerunner import MweRunner
+from support.runmwe import MweRunner
 
 class WanipzRunner(MweRunner):
     """Runner for wanipz."""
@@ -39,7 +39,6 @@ class WanipzRunner(MweRunner):
 
     def __call__(self):
         """Do the work."""
-        super().__call__()
 
         self._display_cut_here()
         self._show_local_dns_info()

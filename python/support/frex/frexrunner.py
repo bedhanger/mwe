@@ -10,7 +10,7 @@ import shutil
 import logging
 import subprocess
 
-from support.runmwe.mwerunner import MweRunner
+from support.runmwe import MweRunner
 from support.nproc.getcpucount import NProc
 
 from .fastcpu import FastCpu
@@ -83,7 +83,6 @@ class FrexRunner(MweRunner):
 
     def __call__(self):
         """Do the work."""
-        super().__call__()
 
         self._logger.debug('Begining real work')
         with ListOfFastCpus() as _fastcpus:

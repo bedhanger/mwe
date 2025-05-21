@@ -27,7 +27,7 @@ for what might be called Pylint-driven development...
 """
 
 from pathlib import Path
-from support.runmwe.mwerunner import MweRunner
+from support.runmwe import MweRunner
 from support.pathorstr import PathOrStr
 
 class PyLintRunner(MweRunner):
@@ -64,7 +64,7 @@ class PyLintRunner(MweRunner):
         """
         Try to lint the file
         """
-        super().__call__()
+
         # We need to convert the file into a string because of the way pylint pre-processes options
         # (needs startswith)
         self._pylintrun(args=[str(self._file), '--verbose', '--recursive=y'], exit=False)

@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 import textwrap
 
-from support.runmwe.mwerunner import MweRunner
+from support.runmwe import MweRunner
 
 # Note that everything that is printed but that does *not* go to stderr is for the calling shell to
 # eval.
@@ -45,7 +45,6 @@ class NDRunner(MweRunner):
 
     def __call__(self):
         """Do the work."""
-        super().__call__()
 
         # Construct the name of the directory.  The calls to the replace methods afterwards are
         # concessions to one of the many shortcomings of NTFS in Win32 namespace, namely, the

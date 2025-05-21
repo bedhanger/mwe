@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 import textwrap
 
-from support.runmwe.mwerunner import MweRunner
+from support.runmwe import MweRunner
 
 # Note that everything that is printed but that does *not* go to stderr is for the calling shell to
 # eval.
@@ -46,7 +46,6 @@ class RDRunner(MweRunner):
 
     def __call__(self):
         """Do the work."""
-        super().__call__()
 
         _verbose = '--verbose' if self._args.verbose else ''
 
