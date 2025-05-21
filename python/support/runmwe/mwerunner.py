@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """Base class for runners in MWE."""
 
 import logging
