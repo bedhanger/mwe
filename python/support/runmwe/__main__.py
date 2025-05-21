@@ -30,4 +30,4 @@ class MweRunnerTestCase(unittest.TestCase):
         # This can be called outwith a context
         print(repr(R))
 
-unittest.main()
+unittest.main(verbosity=3)
