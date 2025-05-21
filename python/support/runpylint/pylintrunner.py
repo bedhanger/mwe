@@ -14,11 +14,11 @@ So while the code is not fully Pylint-clean, there are good reasons for this.
 
 When *run*, as per
 
-    $   python -msupport.runpylint.pylintrunner
+    $   python -msupport.runpylint
 
 this module *self-pylints (SPLs) itself* like so (look at the source code for the fine details)
 
-    >>> from support.runpylint.pylintrunner import PyLintRunner
+    >>> from support.runpylint import PyLintRunner
     >>> with PyLintRunner(file=__file__) as SPL:
     >>>     SPL()
 
@@ -71,18 +71,3 @@ class PyLintRunner(MweRunner):
 
     def __str__(self) -> str:
         return __class__.__doc__
-
-if __name__ == '__main__':
-
-    # Self-pylint...
-
-    # pylint: disable=import-self
-    from support.runpylint.pylintrunner import PyLintRunner
-
-    # Explain
-    help(vars(PyLintRunner)['__module__'])
-
-    # Create and init runner, enter context, and run
-    with PyLintRunner(file=Path(__file__).resolve()) as SPL:
-        print('So we can now let our pylint runner loose:', SPL)
-        SPL()
