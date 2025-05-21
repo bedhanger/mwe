@@ -2,7 +2,7 @@ import subprocess
 import sys
 import argparse
 
-from .providers import Public_Providers, Providers
+from . import Public_Providers, Providers
 
 def curlme(provider):
     """
