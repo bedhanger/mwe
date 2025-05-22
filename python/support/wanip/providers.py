@@ -96,7 +96,7 @@ class Providers(LsAttr):
     def __str__(self):
         """Pretty-print"""
 
-        return '\n'.join(str(provider) for provider in self)
+        return '\n'.join(sorted(str(provider) for provider in self))
 
     def __enter__(self):
         """Enter context"""
