@@ -101,7 +101,33 @@ class ProvidersTestcase_03(unittest.TestCase):
 
 class ProvidersTestcase_04(unittest.TestCase):
 
+    def test_providers_drainage(self):
+        # Drain providers
+        P = Providers(self.test_providers_drainage.__name__)
+        P = P - P()
+        with pytest.raises(ValueError):
+            P = P - P()
+
+    def test_telescoping_series(self):
+        P = Providers()
+        P = P + 1
+        P = P + 2 - 2 + 2 - 2 + 2 - 2 + 'a' + 'b' - 'a' - 'b'
+        P = P + 9
+        Q = Providers(1, 9)
+
+        assert len(P) == 2
+        assert len(Q) == 2
+
+        p1 = P(); P = P - p1
+        p2 = P(); P = P - p2
+
+        q1 = Q(); Q = Q - q1
+        q2 = Q(); Q = Q - q2
+
+        assert sorted((p1, p2)) == sorted((q1, q2))
+
     def test_empty_list_of_providers(self):
+
         # Cannot obtain a provider from an empty collection
         Public_Providers = Providers()
         with pytest.raises(ValueError):
