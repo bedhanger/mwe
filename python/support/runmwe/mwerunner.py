@@ -60,4 +60,4 @@ class MweRunner(LsAttr):
     @__requirescontext
     def __call__(self):
         """Allow the runner to be called if the context sentry allows it."""
-        import this
+        pass
