@@ -22,11 +22,11 @@ class ProvidersTestcase_01(unittest.TestCase):
 
         Public_Providers = Providers(1, 2, 3, 4, 5, 6)
         assert len(Public_Providers) == 6
-        assert "6" in Public_Providers
+        assert 6 in Public_Providers
 
         Public_Providers = Public_Providers + 42
         assert len(Public_Providers) == 7
-        assert "42" in Public_Providers
+        assert 42 in Public_Providers
 
         Public_Providers = Public_Providers + 'foo'
         assert len(Public_Providers) == 8
@@ -42,11 +42,11 @@ class ProvidersTestcase_01(unittest.TestCase):
 
         Public_Providers = Public_Providers - "zonk" - 3
         assert len(Public_Providers) == 9
-        assert "3" not in Public_Providers
+        assert 3 not in Public_Providers
 
         Public_Providers = Public_Providers - 4
         assert len(Public_Providers) == 8
-        assert "4" not in Public_Providers
+        assert 4 not in Public_Providers
 
 class ProvidersTestcase_02(unittest.TestCase):
 
@@ -68,13 +68,11 @@ class ProvidersTestcase_03(unittest.TestCase):
     def test_chache(self):
 
         P = Providers(1, 2, 3, 4)
-        print('P is', repr(P))
         a = P()
-        print('a is', a)
+        assert a in P
 
         # Make sure a cannot be returned again
         P = P - a
-        print('P is now', repr(P))
         assert a not in P
 
         b = P()
@@ -82,7 +80,6 @@ class ProvidersTestcase_03(unittest.TestCase):
 
         # Put a back into P
         P = P + a
-        print('P is now again', repr(P))
         assert a in P
 
         a, b = P(use_cached=True), P(use_cached=not False)
