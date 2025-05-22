@@ -90,8 +90,8 @@ class Providers(LsAttr):
     def __iter__(self):
         """Make the collection iterable/usable in generators"""
 
-        for _sp in sorted(str(_p) for _p in self.providers):
-            yield _sp
+        for _p in self.providers:
+            yield _p
 
     def __str__(self):
         """Pretty-print"""
