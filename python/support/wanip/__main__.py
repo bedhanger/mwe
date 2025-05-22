@@ -62,11 +62,15 @@ class ProvidersTestcase_01(unittest.TestCase):
                 P = P + 'an element' + 'an element'
 
     def test_chache(self):
-        for _ in range(9):
-            print(Public_Providers())
-        print('>8' * 4)
-        for _ in range(9):
-            print(Public_Providers(use_cached=True))
+
+        assert len(Public_Providers) >= 2
+
+        # This is brittle, as it might just return the same element...
+        a, b = Public_Providers(), Public_Providers()
+        assert a != b
+
+        a, b = Public_Providers(use_cached=True), Public_Providers(use_cached=not False)
+        assert a == b
 
     def test_empty_list_of_providers(self):
         # Cannot obtain a provider from an empty collection
