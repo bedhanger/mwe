@@ -48,6 +48,8 @@ class ProvidersTestcase_01(unittest.TestCase):
         assert len(Public_Providers) == 8
         assert "4" not in Public_Providers
 
+class ProvidersTestcase_02(unittest.TestCase):
+
     def test_removing_an_unknown_element(self):
         # Cannot remove non-existing element
         with Providers() as P:
@@ -61,16 +63,32 @@ class ProvidersTestcase_01(unittest.TestCase):
             with pytest.raises(ValueError):
                 P = P + 'an element' + 'an element'
 
+class ProvidersTestcase_03(unittest.TestCase):
+
     def test_chache(self):
 
-        assert len(Public_Providers) >= 2
+        P = Providers(1, 2, 3, 4)
+        print('P is', repr(P))
+        a = P()
+        print('a is', a)
 
-        # This is brittle, as it might just return the same element...
-        a, b = Public_Providers(), Public_Providers()
+        # Make sure a cannot be returned again
+        P = P - a
+        print('P is now', repr(P))
+        assert a not in P
+
+        b = P()
         assert a != b
 
-        a, b = Public_Providers(use_cached=True), Public_Providers(use_cached=not False)
+        # Put a back into P
+        P = P + a
+        print('P is now again', repr(P))
+        assert a in P
+
+        a, b = P(use_cached=True), P(use_cached=not False)
         assert a == b
+
+class ProvidersTestcase_04(unittest.TestCase):
 
     def test_empty_list_of_providers(self):
         # Cannot obtain a provider from an empty collection
@@ -81,6 +99,8 @@ class ProvidersTestcase_01(unittest.TestCase):
         # Not even when asking for a cached one
         with pytest.raises(ValueError):
             print(Public_Providers(use_cached=not False))
+
+class ProvidersTestcase_05(unittest.TestCase):
 
     def test_context_manager_protocol(self):
         # Test the context manager protocol

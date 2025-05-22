@@ -14,14 +14,15 @@ __all__ = [
 
 class Providers(LsAttr):
 
-    def __init__(self, *providers):
+    def __init__(self, *providers, use_cached=False, cached=None):
         """Store the providers in a tuple
 
         This feels more natural than, say, a list or a set; although we will resort to the former
         and emulate semantix of the latter below.
         """
         self.providers = tuple(providers)
-        self.cached = None
+        self.use_cached = use_cached
+        self.cached = cached
 
     def __call__(self, use_cached=False):
         """Gimme any one"""
@@ -55,7 +56,7 @@ class Providers(LsAttr):
 
         _l = list(self.providers)
         _l.append(provider)
-        return self.__class__(*(_p for _p in _l))
+        return self.__class__(*(_p for _p in _l), use_cached=self.use_cached, cached=self.cached)
 
     def __sub__(self, provider):
         """Diminish the collection
@@ -69,7 +70,7 @@ class Providers(LsAttr):
         except ValueError as exc:
             raise ValueError(f'"{provider}" is not part of the collection') from exc
 
-        return self.__class__(*(_p for _p in _l))
+        return self.__class__(*(_p for _p in _l), use_cached=self.use_cached, cached=self.cached)
 
     def __len__(self):
         """Tell the size of the collection"""
