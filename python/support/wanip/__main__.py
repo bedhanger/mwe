@@ -85,6 +85,20 @@ class ProvidersTestcase_03(unittest.TestCase):
         a, b = P(use_cached=True), P(use_cached=not False)
         assert a == b
 
+        # Now have cached providers to begin with
+        Q = Providers(4711, 3206, 42, use_cached=True)
+        c = Q()
+        assert c in Q
+
+        Q = Q - c
+        assert c not in Q
+
+        d = Q(use_cached=True)
+        assert d == c
+
+        d = Q()
+        assert d != c
+
 class ProvidersTestcase_04(unittest.TestCase):
 
     def test_empty_list_of_providers(self):
