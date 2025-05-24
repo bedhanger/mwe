@@ -1,4 +1,5 @@
 import textwrap
+from typing import Iterator
 
 from support.lsattr import LsAttr
 from .fastcpu import FastCpu
@@ -28,7 +29,7 @@ class ListOfFastCpus(LsAttr):
         self.fastcpus.append(another)
         return self.__class__(fastcpus=self.fastcpus)
 
-    def __iter__(self) -> object:
+    def __iter__(self) -> Iterator[list]:
         for i in self.fastcpus:
             yield i
 

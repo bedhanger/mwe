@@ -6,6 +6,7 @@ import re
 import textwrap
 import logging
 import pytest
+from typing import Iterator
 
 from support.lsattr import LsAttr
 
@@ -46,7 +47,7 @@ class TemperatureReadings(LsAttr):
             ''', re.VERBOSE)
         self._tr = re.finditer(_temps_rx, _sensors)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[re.Match]:
         """Arm and return an iterator for the raw matches."""
         if self._auto_read:
             self.__call__()

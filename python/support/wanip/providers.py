@@ -4,6 +4,7 @@ It is really our interpretation that those be labelled thusly...
 """
 
 import random
+from typing import Iterator, Any
 
 from support.lsattr import LsAttr
 
@@ -87,7 +88,7 @@ class Providers(LsAttr):
                 return True
         return False
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Any]:
         """Make the collection iterable/usable in generators"""
 
         for _p in self.providers:
