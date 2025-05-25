@@ -3,6 +3,7 @@
 import pytest
 from pathlib import Path
 import textwrap
+from typing import Self
 
 from support.lsattr import LsAttr
 
@@ -12,7 +13,7 @@ class MinFrequency(LsAttr):
         self._ref_cpu = ref_cpu
         self._mf = None
 
-    def __enter__(self):
+    def __enter__(self) -> Self:
         self._min_frex_file = (
             Path('/sys/devices/system/cpu') /
             Path(self._ref_cpu.lower()) /

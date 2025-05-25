@@ -29,6 +29,7 @@ for what might be called Pylint-driven development...
 from pathlib import Path
 from support.runmwe import MweRunner
 from support.pathorstr import PathOrStr
+from typing import Self
 
 class PyLintRunner(MweRunner):
     """A runner for pylint may be instantiated from this to inspect a file."""
@@ -54,7 +55,7 @@ class PyLintRunner(MweRunner):
         self._pylintrun = PylintRun
         print('Will invoke function of instance of', self._pylintrun, 'to do the job')
 
-    def __enter__(self):
+    def __enter__(self) -> Self:
         super().__enter__()
         assert Path(self._file).exists, 'File not found'
         print('File exists')

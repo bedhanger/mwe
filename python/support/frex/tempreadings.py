@@ -6,7 +6,7 @@ import re
 import textwrap
 import logging
 import pytest
-from typing import Iterator
+from typing import Iterator, Self
 
 from support.lsattr import LsAttr
 
@@ -18,7 +18,7 @@ class TemperatureReadings(LsAttr):
         self._auto_read = auto_read
         self._logger = logging.getLogger()
 
-    def __enter__(self):
+    def __enter__(self) -> Self:
         try:
             assert self._sensors is not None
         except AssertionError as exc:

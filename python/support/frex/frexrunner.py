@@ -9,6 +9,7 @@ import textwrap
 import shutil
 import logging
 import subprocess
+from typing import Self
 
 from support.runmwe import MweRunner
 from support.nproc.getcpucount import NProc
@@ -31,7 +32,7 @@ class FrexRunner(MweRunner):
         logging.basicConfig(level=logging.INFO)
         self._logger.debug('Init completed')
 
-    def __enter__(self):
+    def __enter__(self) -> Self:
         """Establish context."""
         super().__enter__()
 

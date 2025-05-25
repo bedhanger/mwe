@@ -10,6 +10,7 @@ import os
 import sys
 from pathlib import Path
 import textwrap
+from typing import Self
 
 from support.runmwe import MweRunner
 
@@ -24,7 +25,7 @@ class NDRunner(MweRunner):
 
         self._args = args
 
-    def __enter__(self):
+    def __enter__(self) -> Self:
         """Bail out if the env says we already have an ND.
 
         Returning None (raising an exception) makes a subsequent call impossible.

@@ -4,7 +4,7 @@ It is really our interpretation that those be labelled thusly...
 """
 
 import random
-from typing import Iterator, Any
+from typing import Iterator, Any, Self
 
 from support.lsattr import LsAttr
 
@@ -99,7 +99,7 @@ class Providers(LsAttr):
 
         return '\n'.join(sorted(str(provider) for provider in self))
 
-    def __enter__(self):
+    def __enter__(self) -> Self:
         """Enter context"""
 
         return self

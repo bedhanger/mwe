@@ -3,6 +3,7 @@
 import pytest
 from pathlib import Path
 import textwrap
+from typing import Self
 
 from support.lsattr import LsAttr
 
@@ -12,7 +13,7 @@ class FrexGovernor(LsAttr):
         self._of_cpu = of_cpu
         self._fg = None
 
-    def __enter__(self):
+    def __enter__(self) -> Self:
         self._gov_file = (
             Path('/sys/devices/system/cpu') /
             Path(self._of_cpu.lower()) /

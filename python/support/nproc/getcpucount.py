@@ -1,6 +1,7 @@
 """Simple wrapper for getting the number of CPUs in the system."""
 
 from multiprocessing import cpu_count as nproc
+from typing import Self
 
 class NProc:
     """Mimic the nproc command."""
@@ -8,7 +9,7 @@ class NProc:
     def __init__(self) -> None:
         self._cpu_count = None
 
-    def __enter__(self) -> object:
+    def __enter__(self) -> Self:
         self._cpu_count = 0
         return self
 

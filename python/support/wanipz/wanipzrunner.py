@@ -12,6 +12,7 @@ try:
 except ModuleNotFoundError:
     def colored(_, *pargs, **kwargs):
         return _
+from typing import Self
 
 from support.runmwe import MweRunner
 
@@ -27,7 +28,7 @@ class WanipzRunner(MweRunner):
         self._ME = PurePath(__file__).name
         self._args = self._parse_cmd_line()
 
-    def __enter__(self):
+    def __enter__(self) -> Self:
         """Build context and return it."""
         super().__enter__()
         return self

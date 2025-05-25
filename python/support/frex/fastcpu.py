@@ -1,4 +1,5 @@
 import textwrap
+from typing import Self
 
 from support.lsattr import LsAttr
 
@@ -21,7 +22,7 @@ class FastCpu(LsAttr):
             Frex governor : {self.governor}
         """).lstrip()
 
-    def __enter__(self):
+    def __enter__(self) -> Self:
         """Complete the CPU by determining its frex governor."""
         self.governor = hex(id(self))
         return self

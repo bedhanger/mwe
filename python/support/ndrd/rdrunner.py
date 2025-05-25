@@ -9,6 +9,7 @@ from termcolor import colored
 import sys
 from pathlib import Path
 import textwrap
+from typing import Self
 
 from support.runmwe import MweRunner
 
@@ -23,7 +24,7 @@ class RDRunner(MweRunner):
 
         self._args = args
 
-    def __enter__(self):
+    def __enter__(self) -> Self:
         """If there's no ND, report that, and what can be done about it."""
         super().__enter__()
 

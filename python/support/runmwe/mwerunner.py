@@ -1,7 +1,7 @@
 """Base class for runners in MWE."""
 
 import logging
-from typing import Callable
+from typing import Callable, Self
 from functools import wraps
 import textwrap
 
@@ -21,7 +21,7 @@ class MweRunner(LsAttr):
         self._ctx = None
         self._logger = None
 
-    def __enter__(self):
+    def __enter__(self) -> Self:
         """Establish context.
 
         Appease the context sentry, and set up the logger..

@@ -1,5 +1,5 @@
 import textwrap
-from typing import Iterator
+from typing import Iterator, Self
 
 from support.lsattr import LsAttr
 from .fastcpu import FastCpu
@@ -18,7 +18,7 @@ class ListOfFastCpus(LsAttr):
             return 'The are currently no fast CPUs known...'
         return str('-' * 80 + '\n').join(str(_fastcpu) for _fastcpu in self).rstrip()
 
-    def __enter__(self):
+    def __enter__(self) -> Self:
         return self
 
     def __exit__(self, exc_value, exc_type, traceback) -> bool:
