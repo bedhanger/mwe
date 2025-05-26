@@ -1,0 +1,1 @@
+from .fastcpu import FastCpu

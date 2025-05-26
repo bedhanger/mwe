@@ -30,21 +30,3 @@ class FastCpu(LsAttr):
     def __exit__(self, exc_value, exc_type, traceback) -> bool:
         """Bye."""
         return False
-
-if __name__ == '__main__':
-    """Test the above."""
-    X = FastCpu(42, 'Alpha', 300)
-    Y = FastCpu(22, 'Vax', 30)
-
-    Z = []
-    Z.append(X)
-    Z.append(Y)
-    with FastCpu(identity=123.3, model='Turing Machine', mhz=1) as q:
-        Z.append(q)
-
-    print('I see', len(Z), 'fast CPUs, namely:')
-    print('-' * 100)
-    for p in Z:
-        print(p, end='-' * 100 + '\n')
-
-    print(repr(q))
