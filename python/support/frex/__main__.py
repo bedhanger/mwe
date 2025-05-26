@@ -4,7 +4,10 @@ import unittest
 import textwrap
 import pytest
 
-from . import FastCpu
+from . import (
+    FastCpu,
+    TemperatureReadings,
+)
 
 class FastCpuTestCase(unittest.TestCase):
 
@@ -43,5 +46,47 @@ class FastCpuTestCase(unittest.TestCase):
                 Speed in MHz  : 1
                 Frex governor : {hex(id(q))}
             ''').lstrip()
+
+class TemperatureReadingsTestCase(unittest.TestCase):
+
+    def test_general(self):
+
+        with TemperatureReadings() as tr:
+
+            # Id ourselves
+            print(repr(tr))
+
+            # Pretty-print results
+            print(tr)
+
+            # You can iterate over the raw reading matches if you like
+            for i in tr:
+                print(i)
+
+        # Now prepare everything, but don't actually read the values
+        with TemperatureReadings(auto_read=False) as tr:
+
+            # Id ourselves
+            print(repr(tr))
+
+            # Pretty-print "results"
+            print(tr)
+
+            # You cannot iterate over the raw reading matches unless you perform the reading yourself
+            with pytest.raises(TypeError):
+                for i in tr:
+                    print(i)
+
+            # Once you do, you can
+            tr()
+            for i in tr:
+                print(i)
+
+            # But the results are empty
+            assert str(tr) == ''
+
+            # Until you do another reading
+            tr()
+            assert str(tr) != ''
 
 unittest.main(verbosity=3)
