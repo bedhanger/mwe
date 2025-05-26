@@ -8,47 +8,46 @@ from . import LsAttr
 class LsAttrTestCase_01(unittest.TestCase):
 
     def test_general(self):
-
-        # On its own
         X = LsAttr()
-        print(X)
+        assert repr(X) == 'LsAttr()'
 
-        # Single inheritance
+    def test_single_inheritance(self):
         class X(LsAttr):
             pass
-        print(X())
+        assert repr(X()) == 'X()'
 
         class X(LsAttr):
             def __init__(self):
                 self.x = 1
-        print(X())
+        assert repr(X()) == 'X(x=1)'
 
         class X(LsAttr):
             def __init__(self):
                 self.x = 1
                 self.y = 2
-        print(X())
+        assert repr(X()) == 'X(x=1, y=2)'
 
-        # Multiple inheritance
+    def test_multiple_inheritance(self):
         class X(LsAttr, list):
             pass
-        print(X())
+        assert repr(X()) == 'X()'
 
         class X():
             def __init__(self):
                 self.y = None
+        assert repr(X()) != 'X()' # !!!
 
         class Y(LsAttr, X):
             def __init__(self):
                 super().__init__()
                 self.z = 'Hi'
-        print(Y())
+        assert repr(Y()) == "Y(y=None, z='Hi')"
 
-        # Defaults
+    def test_defaults(self):
         class X(LsAttr):
             def __init__(self, a=[]):
                 self.a = a
-        print(X())
-        print(X(a=['b']))
+        assert repr(X()) == "X(a=[])"
+        assert repr(X(a=['b'])) == "X(a=['b'])"
 
 unittest.main(verbosity=3)
