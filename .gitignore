@@ -3,5 +3,8 @@
 
 # Caches, compiled object files, and the like
 __pycache__/
+build/
+*.egg-info/
+dist/
 
 tags
