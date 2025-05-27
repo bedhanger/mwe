@@ -1,4 +1,8 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "lsattr"
-version = "0.0.1"
+version = "2025.5.27.0"
 dependencies = []
