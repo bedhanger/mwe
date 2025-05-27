@@ -1,9 +1,11 @@
+#!/usr/bin/env python
+
 """Self-tests"""
 
-import pytest
 import unittest
+import pytest
 
-from . import LsAttr
+from lsattr import LsAttr
 
 class LsAttrTestCase_01(unittest.TestCase):
 
