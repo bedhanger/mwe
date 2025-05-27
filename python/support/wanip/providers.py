@@ -6,7 +6,7 @@ It is really our interpretation that those be labelled thusly...
 import random
 from typing import Iterator, Any, Self
 
-from support.lsattr import LsAttr
+from lsattr import LsAttr
 
 __all__ = [
     'Public_Providers',
