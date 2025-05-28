@@ -4,5 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lsattr"
-version = "2025.5.27.1"
+version = "2025.5.29.0"
 dependencies = []
+
+[tool.pytest.ini_options]
+pythonpath = "src"
