@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pathorstr"
+version = "2025.5.29.0"
+dependencies = []
+
+[tool.pytest.ini_options]
+pythonpath = "src"
