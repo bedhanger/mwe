@@ -1,4 +1,4 @@
-#!/usr/bin/env --split-string=pytest --verbose
+#!/usr/bin/env --split-string=python -m pytest --verbose
 
 """Self-tests"""
 import pytest

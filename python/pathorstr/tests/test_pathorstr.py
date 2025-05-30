@@ -1,4 +1,4 @@
-#!/usr/bin/env --split-string=pytest --verbose
+#!/usr/bin/env --split-string=python -m pytest --verbose
 
 import pytest
 from pathlib import Path
