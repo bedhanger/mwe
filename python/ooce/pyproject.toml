@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ooce"
+version = "2025.5.30.0"
+dependencies = []
+
+[tool.pytest.ini_options]
+pythonpath = "src"
