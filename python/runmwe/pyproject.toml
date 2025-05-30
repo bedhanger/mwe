@@ -4,8 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "runmwe"
-version = "2025.5.30.0"
-dependencies = ["lsattr"]
+version = "2025.5.31.0"
+dependencies = [
+    "lsattr",
+    "ooce",
+]
 
 [tool.pytest.ini_options]
 pythonpath = "src"

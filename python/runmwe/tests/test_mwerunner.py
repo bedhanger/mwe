@@ -5,7 +5,7 @@
 import pytest
 
 from runmwe import MweRunner
-from support.ooce.exceptions import OutOfContextError
+from ooce.exceptions import OutOfContextError
 
 def test_context_based_usage():
 
