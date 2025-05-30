@@ -160,12 +160,12 @@ alias lh="l --sort=size --human-readable --reverse"
 
 export MULTIPLICATES="(\b\w+\b)(\s+\b\1\b)+"
 
-alias nd='eval $(~/work/mwe/python/nd.py)'
-alias nd.='eval $(ND_ROOT=. ~/work/mwe/python/nd.py)'
+alias nd='source /mnt/data/venvs/py/bin/activate && eval $(~/work/mwe/python/nd.py) ; deactivate'
+alias nd.='source /mnt/data/venvs/py/bin/activate && eval $(ND_ROOT=. ~/work/mwe/python/nd.py) ; deactivate'
 alias ng="nd && gitify"
 
-alias rd='eval $(~/work/mwe/python/rd.py)'
-alias rd.='eval $(ND=. ~/work/mwe/python/rd.py)'
+alias rd='source /mnt/data/venvs/py/bin/activate && eval $(~/work/mwe/python/rd.py) ; deactivate'
+alias rd.='source /mnt/data/venvs/py/bin/activate && eval $(ND=. ~/work/mwe/python/rd.py) ; deactivate'
 alias rde="rd && exit"
 
 alias ns="nd && xdg-open ."
