@@ -1,33 +1,30 @@
+#!/usr/bin/env --split-string=pytest --verbose
+
 """Self-test code"""
 
 import pytest
-import unittest
 
-from . import MweRunner
+from runmwe import MweRunner
 from support.ooce.exceptions import OutOfContextError
 
-class MweRunnerTestCase(unittest.TestCase):
+def test_context_based_usage():
 
-    def test_context_based_usage(self):
-
-        with MweRunner() as R:
-            R()
-            print(repr(R))
-            print(R)
-
-    def test_contextless_usage(self):
-
-        R = MweRunner()
-        with pytest.raises(OutOfContextError):
-            R()
-
-        with pytest.raises(OutOfContextError):
-            print(R)
-
-    def test_legal_contextless_usage(self):
-
-        R = MweRunner()
-        # This can be called outwith a context
+    with MweRunner() as R:
+        R()
         print(repr(R))
+        print(R)
 
-unittest.main(verbosity=3)
+def test_contextless_usage():
+
+    R = MweRunner()
+    with pytest.raises(OutOfContextError):
+        R()
+
+    with pytest.raises(OutOfContextError):
+        print(R)
+
+def test_legal_contextless_usage():
+
+    R = MweRunner()
+    # This can be called outwith a context
+    print(repr(R))
