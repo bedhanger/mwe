@@ -4,7 +4,7 @@
 
 from pathlib import PurePath
 
-from support.ndrd.rdrunner import RDRunner, parse_cmd_line
+from ndrd.rdrunner import RDRunner, parse_cmd_line
 
 if __name__ == '__main__':
 
