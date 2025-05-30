@@ -11,7 +11,7 @@ from pathlib import Path
 import textwrap
 from typing import Self
 
-from support.runmwe import MweRunner
+from runmwe import MweRunner
 
 # Note that everything that is printed but that does *not* go to stderr is for the calling shell to
 # eval.

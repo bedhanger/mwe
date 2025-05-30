@@ -11,7 +11,7 @@ import logging
 import subprocess
 from typing import Self
 
-from support.runmwe import MweRunner
+from runmwe import MweRunner
 from support.nproc.getcpucount import NProc
 
 from .fastcpu import FastCpu

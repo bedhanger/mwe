@@ -27,8 +27,8 @@ for what might be called Pylint-driven development...
 """
 
 from pathlib import Path
-from support.runmwe import MweRunner
-from support.pathorstr import PathOrStr
+from runmwe import MweRunner
+from pathorstr import PathOrStr
 from typing import Self
 
 class PyLintRunner(MweRunner):

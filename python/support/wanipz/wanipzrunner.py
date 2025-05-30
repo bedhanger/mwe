@@ -14,7 +14,7 @@ except ModuleNotFoundError:
         return _
 from typing import Self
 
-from support.runmwe import MweRunner
+from runmwe import MweRunner
 
 class WanipzRunner(MweRunner):
     """Runner for wanipz."""
