@@ -5,7 +5,7 @@ from typing import Callable, Self
 from functools import wraps
 import textwrap
 
-from support.lsattr import LsAttr
+from lsattr import LsAttr
 from support.ooce.exceptions import OutOfContextError
 
 class MweRunner(LsAttr):
