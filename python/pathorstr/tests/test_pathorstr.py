@@ -6,5 +6,7 @@ from typing import Union, TypeAliasType
 
 from pathorstr import PathOrStr
 
-def test_general():
-    assert type(PathOrStr) is Union or TypeAliasType
+class TestCasePathOrStr_01:
+
+    def test_type_specifix(self):
+        assert type(PathOrStr) is Union or TypeAliasType

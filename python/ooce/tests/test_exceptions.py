@@ -4,7 +4,9 @@ import pytest
 
 from ooce.exceptions import OutOfContextError
 
-def test_general():
+class TestCaseOOCE_01:
 
-    with pytest.raises(OutOfContextError):
-        raise OutOfContextError
+    def test_exc_can_be_raised(self):
+
+        with pytest.raises(OutOfContextError):
+            raise OutOfContextError
