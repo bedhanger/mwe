@@ -8,5 +8,4 @@ class TestCaseDice_01:
 
     def test_general(self):
 
-        Bad = False
-        assert not Bad
+        assert 'life' is not 'easy'
