@@ -49,7 +49,8 @@ Control-X: " cls && pwd && l && j && \C-p'git l -9' 'git sb'\C-m"
 
 Control-U: ' lolcat --animate --truecolor 0< <( echo && fortune -a -e && echo )\C-m'
 
-Control-P: " parallel --jobs=0 --ungroup ::: "
+# Prepare running user input in a (transient) Python venv
+Control-P: " source /mnt/data/venvs/py/bin/activate &&  ; deactivate\e2F i"
 
 Control-L: "\e\C-la"
 
