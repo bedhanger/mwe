@@ -1,1 +1,1 @@
-from .getcpucount NProc
+from .getcpucount import NProc
