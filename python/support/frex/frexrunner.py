@@ -12,7 +12,7 @@ import subprocess
 from typing import Self
 
 from runmwe import MweRunner
-from support.nproc.getcpucount import NProc
+from nproc import NProc
 
 from .fastcpu import FastCpu
 from .lofastcpus import ListOfFastCpus
