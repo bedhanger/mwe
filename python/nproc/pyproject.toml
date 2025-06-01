@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "nproc"
-version = "2025.6.1.1"
-dependencies = []
+version = "2025.6.1.2"
+dependencies = ['lsattr']
 
 [tool.pytest.ini_options]
 pythonpath = "src"
