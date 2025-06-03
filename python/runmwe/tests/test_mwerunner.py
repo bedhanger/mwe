@@ -25,11 +25,14 @@ class TestCaseMweRunner_01:
         contextful_runner()
         print(repr(contextful_runner))
         print(contextful_runner)
+        contextful_runner
 
     def test_contextless_usage(self, contextless_runner):
 
         with pytest.raises(OutOfContextError):
             contextless_runner()
+
+        contextless_runner
 
         with pytest.raises(OutOfContextError):
             print(contextless_runner)
@@ -39,3 +42,4 @@ class TestCaseMweRunner_01:
         # This can be called outwith a context or within
         print(repr(contextless_runner))
         print(repr(contextful_runner))
+        contextless_runner
