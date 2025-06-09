@@ -11,6 +11,7 @@ from ooce.exceptions import OutOfContextError
 class MweRunner(LsAttr):
     """A context-aware runner others may be instantiated from"""
 
+    @classmethod
     def __new__(cls, *pargs, **kwargs):
         """Make a runner."""
         return object.__new__(cls)
