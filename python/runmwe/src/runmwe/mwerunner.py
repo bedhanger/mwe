@@ -48,7 +48,7 @@ class MweRunner(LsAttr):
             try:
                 assert self._ctx is not None
             except AssertionError as exc:
-                raise OutOfContextError(cls=self.__class__.__name__, func=func.__name__) from exc
+                raise OutOfContextError(klaas=self.__class__.__name__, func=func.__name__) from exc
             return func(self, *pargs, **kwargs)
 
         return __wrapper
