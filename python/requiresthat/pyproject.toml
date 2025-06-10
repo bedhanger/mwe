@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "requiresthat"
+version = "2025.6.10.0"
+dependencies = []
+
+[tool.pytest.ini_options]
+pythonpath = "src"
