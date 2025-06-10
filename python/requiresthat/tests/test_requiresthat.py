@@ -26,7 +26,7 @@ class TestCase_requiresthat_01:
         class Spam:
             def __init__(self):
                 self.foo = 66
-                self.bar = ...
+                self.bar = ... # To be continued, not None
 
             @requires(that='self.foo == 66')
             @requires(that='self.bar is None')
