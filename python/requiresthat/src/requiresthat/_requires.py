@@ -1,11 +1,22 @@
-"""Allow decorators of the form
+"""Decorate an instance method with preconditions that must be fulfilled for it to be runnable
 
-    @requires(that='<some condition be true>')
+    class C:
 
-to be associated with instance methods of a class.
+        def __init__(self, data):
+            self.data = data
 
-'some condition be true' can be almost any valid Python statement which can be evaluated for its
-truth value, and whose result will decide whether or not the method fires.
+        @requires(that='self.data is not None')
+        @requires(that='True is not False')
+        def method(self): ...
+
+    X = C()
+    X.run()
+
+The "that" can be almost any valid Python statement which can be evaluated for its veracity, and
+whose result will decide whether or not the method fires.
+
+RequirementNotFulfilledError is the exception you have to deal with in case a precondition is not
+met.
 """
 from typing import Optional, Callable
 from functools import wraps

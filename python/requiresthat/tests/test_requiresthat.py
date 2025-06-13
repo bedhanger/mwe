@@ -6,17 +6,39 @@ from requiresthat import requires, RequirementNotFulfilledError
 
 class TestCase_requiresthat_01:
 
+    def test_trivial(self):
+
+        class Spam:
+
+            @requires(that='True is not False')
+            @requires(that='self is not None')
+            def run(self): ...
+
+        S = Spam()
+        S.run()
+
+    def test_tbd_is_more_than_none(self):
+
+        class Spam:
+
+            # Ok, we suggest that "not" is "more than", but the idea should be clear...
+            @requires(that='... is not None')
+            def run(self): ...
+
+        S = Spam()
+        S.run()
+
     def test_good(self):
 
         class Spam:
+
             def __init__(self):
                 self.foo = 66
                 self.bar = None
 
             @requires(that='self.foo == 66')
             @requires(that='self.bar is None')
-            def run(self):
-                print('Running')
+            def run(self): ...
 
         S = Spam()
         S.run()
@@ -30,8 +52,7 @@ class TestCase_requiresthat_01:
 
             @requires(that='self.foo == 66')
             @requires(that='self.bar is None')
-            def run(self):
-                print('Running')
+            def run(self): ...
 
         S = Spam()
         with pytest.raises(RequirementNotFulfilledError):
@@ -45,8 +66,25 @@ class TestCase_requiresthat_01:
                 pass
 
             @requires(that=b"'24' is not 'the answer'")
-            def run(self):
-                print('Running')
+            def run(self): ...
 
         S = Spam()
         S.run()
+
+    def test_too_soon_is_bad(self):
+
+        class Spam:
+
+            @requires(that='self.spam == "eggs"')
+            def __init__(self):
+                self.spam = 'ham'
+
+            def run(self): ...
+
+        # We break the constructor (the fact that we confuse spam and eggs is incidental)
+        with pytest.raises(AttributeError):
+            S = Spam()
+
+        # Remember, the constructor just failed...
+        with pytest.raises(UnboundLocalError):
+            S.run()
