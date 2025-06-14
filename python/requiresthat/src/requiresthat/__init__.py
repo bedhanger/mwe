@@ -1,1 +1,1 @@
-from ._requires import requires, RequirementNotFulfilledError, When
+from ._requires import requires, RequirementNotFulfilledError, APRIORI, POSTMORTEM, BEFOREANDAFTER

@@ -6,10 +6,10 @@
             self.data = data
 
         @requires(that='self.data is not None')
-        @requires(that='self.data == "spam"', when=When.APRIORI)
+        @requires(that='self.data == "spam"', when=APRIORI)
         @requires(that='True is not False')
-        @requires(that='self.data != "spam"', when=When.POSTMORTEM)
-        @requires(that='len(self.data) >= 3', when=When.BEFOREANDAFTER)
+        @requires(that='self.data != "spam"', when=POSTMORTEM)
+        @requires(that='len(self.data) >= 3', when=BEFOREANDAFTER)
         def method(self):
             self.data = 'ham'
 
@@ -27,20 +27,11 @@ RequirementNotFulfilledError is the exception you have to deal with in case a co
 """
 from typing import Optional, Callable
 from functools import wraps
-from enum import Enum, auto
 
-class RequirementNotFulfilledError(Exception):
-    """Raise this when a requirement is found wanting"""
-    pass
+from ._when import When, APRIORI, POSTMORTEM, BEFOREANDAFTER
+from ._exceptions import RequirementNotFulfilledError
 
-class When(Enum):
-    """When should a condition hold"""
-    APRIORI = auto()
-    POSTMORTEM = auto()
-    BEFOREANDAFTER = auto()
-    # There is no DURING or INBETWEEN!
-
-def requires(that, when: When = When.APRIORI) -> Optional[Callable]:
+def requires(that, when: When = APRIORI) -> Optional[Callable]:
     """Require <that> of the decoratee, and require it <when>"""
 
     def func_wrapper(func: Callable) -> Optional[Callable]:
@@ -53,14 +44,14 @@ def requires(that, when: When = When.APRIORI) -> Optional[Callable]:
             The wrapping stops here...
             """
             try:
-                if when == When.APRIORI:
+                if when == APRIORI:
                     assert eval(that)
                     # We can use a return here :-)
                     return func(self, *pargs, **kwargs)
-                elif when == When.POSTMORTEM:
+                elif when == POSTMORTEM:
                     func(self, *pargs, **kwargs)
                     assert eval(that)
-                elif when == When.BEFOREANDAFTER:
+                elif when == BEFOREANDAFTER:
                     assert eval(that)
                     func(self, *pargs, **kwargs)
                     assert eval(that)
