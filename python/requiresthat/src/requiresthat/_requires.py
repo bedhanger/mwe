@@ -20,8 +20,8 @@ The "that" can be almost any valid Python statement which can be evaluated for i
 whose result will decide whether or not the method fires.
 
 The parameter "when" decides if the condition is a-priori, post-mortem or before-and-after.
-The default is a-priori, meaning a precondition.  ValueError is raised if you specify anything else.
-Note that before-and-after does *not* mean during; you cannot mandate an invariant this way!
+The default is a-priori, meaning a precondition.  Note that before-and-after does *not* mean during;
+you cannot mandate an invariant this way!
 
 RequirementNotFulfilledError is the exception you have to deal with in case a condition is not met.
 """
@@ -55,6 +55,7 @@ def requires(that, when: When = When.APRIORI) -> Optional[Callable]:
             try:
                 if when == When.APRIORI:
                     assert eval(that)
+                    # We can use a return here :-)
                     return func(self, *pargs, **kwargs)
                 elif when == When.POSTMORTEM:
                     func(self, *pargs, **kwargs)
@@ -63,8 +64,9 @@ def requires(that, when: When = When.APRIORI) -> Optional[Callable]:
                     assert eval(that)
                     func(self, *pargs, **kwargs)
                     assert eval(that)
-                else:
-                    raise ValueError(f'{when!r} is not a valid condition indicator')
+                # We don't need an else clause; trying to enlist something that's not in the enum
+                # will be penalised with an AttributeError, and small typos will be healed with a
+                # suggestion as to what you might have meant.
             except AssertionError as exc:
                 raise RequirementNotFulfilledError(f'{that!r} ({when.name!r}) does not hold') from exc
         return inner_wrapper
