@@ -52,7 +52,7 @@ def requires(that, when: str = 'a-priori') -> Optional[Callable]:
                 else:
                     raise ValueError(f'{when!r} is not a valid condition indicator')
             except AssertionError as exc:
-                raise RequirementNotFulfilledError(f'{when} condition {that!r} does not hold') from exc
+                raise RequirementNotFulfilledError(f'{that!r} ({when}) does not hold') from exc
         return inner_wrapper
 
     return func_wrapper
