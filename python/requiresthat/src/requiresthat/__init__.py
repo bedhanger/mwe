@@ -1,1 +1,1 @@
-from ._requires import requires, RequirementNotFulfilledError
+from ._requires import requires, RequirementNotFulfilledError, When

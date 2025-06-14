@@ -2,7 +2,7 @@
 
 import pytest
 
-from requiresthat import requires, RequirementNotFulfilledError
+from requiresthat import requires, RequirementNotFulfilledError, When
 
 class TestCase_requiresthat_01:
 
@@ -97,9 +97,10 @@ class TestCase_requiresthat_01:
                 self.data = data
 
             @requires(that='self.data is not None')
-            @requires(that='self.data == "spam"', when='a-priori')
+            @requires(that='self.data == "spam"', when=When.APRIORI)
             @requires(that='True is not False')
-            @requires(that='self.data != "spam"', when='post-mortem')
+            @requires(that='self.data != "spam"', when=When.POSTMORTEM)
+            @requires(that='len(self.data) >= 3', when=When.BEFOREANDAFTER)
             def method(self):
                 self.data = 'ham'
 
