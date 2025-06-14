@@ -1,22 +1,27 @@
-"""Decorate an instance method with preconditions that must be fulfilled for it to be runnable
+"""Decorate an instance method with pre- and/or postconditions that must be fulfilled
 
     class C:
 
-        def __init__(self, data):
+        def __init__(self, data=None):
             self.data = data
 
         @requires(that='self.data is not None')
+        @requires(that='self.data == "spam"', when='a-priori')
         @requires(that='True is not False')
-        def method(self): ...
+        @requires(that='self.data != "spam"', when='post-mortem')
+        def method(self):
+            self.data = 'ham'
 
-    X = C()
-    X.run()
+    X = C(data='spam')
+    X.method()
 
 The "that" can be almost any valid Python statement which can be evaluated for its veracity, and
 whose result will decide whether or not the method fires.
 
-RequirementNotFulfilledError is the exception you have to deal with in case a precondition is not
-met.
+The parameter "when" decides if the condition is a-priori or post-mortem.  The default is a-priori,
+meaning a precondition.  ValueError is raised if you specify anything else.
+
+RequirementNotFulfilledError is the exception you have to deal with in case a condition is not met.
 """
 from typing import Optional, Callable
 from functools import wraps
@@ -25,8 +30,8 @@ class RequirementNotFulfilledError(Exception):
     """Raise this when a requirement is found wanting"""
     pass
 
-def requires(that) -> Optional[Callable]:
-    """Require <that> of the decoratee"""
+def requires(that, when: str = 'a-priori') -> Optional[Callable]:
+    """Require <that> of the decoratee, and require it <when>"""
 
     def func_wrapper(func: Callable) -> Optional[Callable]:
         """First-level wrap the decoratee"""
@@ -38,10 +43,16 @@ def requires(that) -> Optional[Callable]:
             The wrapping stops here...
             """
             try:
-                assert eval(that)
-                return func(self, *pargs, **kwargs)
+                if when == 'a-priori':
+                    assert eval(that)
+                    return func(self, *pargs, **kwargs)
+                elif when == 'post-mortem':
+                    func(self, *pargs, **kwargs)
+                    assert eval(that)
+                else:
+                    raise ValueError(f'{when!r} is not a valid condition indicator')
             except AssertionError as exc:
-                raise RequirementNotFulfilledError(f'{that!r} does not hold') from exc
+                raise RequirementNotFulfilledError(f'{when} condition {that!r} does not hold') from exc
         return inner_wrapper
 
     return func_wrapper

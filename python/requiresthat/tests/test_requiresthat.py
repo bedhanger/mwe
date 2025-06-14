@@ -88,3 +88,20 @@ class TestCase_requiresthat_01:
         # Remember, the constructor just failed...
         with pytest.raises(UnboundLocalError):
             S.run()
+
+    def test_docu(self):
+
+        class C:
+
+            def __init__(self, data=None):
+                self.data = data
+
+            @requires(that='self.data is not None')
+            @requires(that='self.data == "spam"', when='a-priori')
+            @requires(that='True is not False')
+            @requires(that='self.data != "spam"', when='post-mortem')
+            def method(self):
+                self.data = 'ham'
+
+        X = C(data='spam')
+        X.method()
