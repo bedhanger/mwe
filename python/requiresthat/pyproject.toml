@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "requiresthat"
-version = "2025.6.15.4"
+version = "2025.6.15.5"
 authors = [
     {name = "Ann T Ropea", email = "bedhanger@gmx.de"},
 ]
 description = "Decorate an instance method with pre- and/or postconditions that must be fulfilled"
-readme = "README.md"
+readme = "README.rst"
 dependencies = []
 
 [project.urls]
