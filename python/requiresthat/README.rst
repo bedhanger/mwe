@@ -24,11 +24,12 @@ Example usage
     X = C(data='spam')
     X.method()
 
-The "that" can be almost any valid Python statement which can be evaluated for its veracity, and
+The ``that`` can be almost any valid Python statement which can be evaluated for its veracity, and
 whose result will decide whether or not the method fires.
 
-The parameter "when" decides if the condition is a-priori, post-mortem or before-and-after.
+The parameter ``when`` decides if the condition is a-priori, post-mortem or before-and-after.
 The default is a-priori, meaning a precondition.  Note that before-and-after does *not* mean during;
 you cannot mandate an invariant this way!
 
-RequirementNotFulfilledError is the exception you have to deal with in case a condition is not met.
+``RequirementNotFulfilledError`` is the exception you have to deal with in case a condition is not
+met.
