@@ -59,7 +59,7 @@ def requires(that, when: When = APRIORI) -> Optional[Callable]:
                 # will be penalised with an AttributeError, and small typos will be healed with a
                 # suggestion as to what you might have meant.
             except AssertionError as exc:
-                raise RequirementNotFulfilledError(f'{that!r} ({when.name!r}) does not hold') from exc
+                raise RequirementNotFulfilledError(that, when) from exc
         return inner_wrapper
 
     return func_wrapper
