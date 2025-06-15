@@ -27,9 +27,9 @@ Example usage
     X.method()
 
 The ``that`` can be almost any valid Python statement which can be evaluated for its veracity, and
-whose result will decide whether or not the method fires.
+whose result will decide whether or not the method fires/will be considered a success.
 
-The parameter ``when`` decides if the condition is a-priori, post-mortem or before-and-after.
+The parameter ``when`` decides if the condition is a-priori, post-mortem, or before-and-after.
 The default is a-priori, meaning a precondition.  Note that before-and-after does *not* mean during;
 you cannot mandate an invariant this way!
 
