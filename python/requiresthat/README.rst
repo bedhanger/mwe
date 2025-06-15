@@ -7,6 +7,7 @@ Example usage
 -------------
 
 .. code-block:: python
+
     class C:
 
         def __init__(self, data=None):
