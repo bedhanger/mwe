@@ -1,11 +1,11 @@
 """When should a condition hold"""
 
-from enum import Enum, auto
+from enum import Flag, auto
 
-class When(Enum):
+class When(Flag):
     APRIORI = auto()
     POSTMORTEM = auto()
-    BEFOREANDAFTER = auto()
+    BEFOREANDAFTER = APRIORI | POSTMORTEM
     # There is no DURING or INBETWEEN!
 
 APRIORI = When.APRIORI
