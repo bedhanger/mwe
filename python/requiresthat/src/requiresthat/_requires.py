@@ -4,7 +4,7 @@ from typing import Optional, Callable
 from functools import wraps
 
 from ._when import When, APRIORI, POSTMORTEM, BEFOREANDAFTER
-from ._exceptions import RequirementNotFulfilledError
+from ._exceptions import RequirementNotFulfilledError, NoCallableConstructError
 
 def requires(that, when: When = APRIORI) -> Optional[Callable]:
     """Require <that> of the decoratee, and require it <when>"""
@@ -18,6 +18,11 @@ def requires(that, when: When = APRIORI) -> Optional[Callable]:
 
             The wrapping stops here...
             """
+            try:
+                assert callable(func)
+            except AssertionError as exc:
+                raise NoCallableConstructError(func) from exc
+
             try:
                 if when == APRIORI:
                     assert eval(that)

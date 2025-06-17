@@ -1,1 +1,8 @@
-from ._requires import requires, RequirementNotFulfilledError, APRIORI, POSTMORTEM, BEFOREANDAFTER
+from ._requires import (
+    requires,
+    RequirementNotFulfilledError,
+    NoCallableConstructError,
+    APRIORI,
+    POSTMORTEM,
+    BEFOREANDAFTER,
+)
