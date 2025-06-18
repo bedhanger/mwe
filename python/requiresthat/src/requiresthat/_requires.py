@@ -22,24 +22,35 @@ def requires(that, when: When = APRIORI) -> Optional[Callable]:
                 assert callable(func)
             except AssertionError as exc:
                 raise NoCallableConstructError(func) from exc
-
-            try:
+            else:
                 if when == APRIORI:
-                    assert eval(that)
-                    # We can use a return here :-)
-                    return func(self, *pargs, **kwargs)
+                    try:
+                        assert eval(that)
+                    except AssertionError as exc:
+                        raise RequirementNotFulfilledError(that, when) from exc
+                    else:
+                        func(self, *pargs, **kwargs)
                 elif when == POSTMORTEM:
                     func(self, *pargs, **kwargs)
-                    assert eval(that)
+                    try:
+                        assert eval(that)
+                    except AssertionError as exc:
+                        raise RequirementNotFulfilledError(that, when) from exc
                 elif when == BEFOREANDAFTER:
-                    assert eval(that)
-                    func(self, *pargs, **kwargs)
-                    assert eval(that)
+                    try:
+                        assert eval(that)
+                    except AssertionError as exc:
+                        raise RequirementNotFulfilledError(that, when, APRIORI) from exc
+                    else:
+                        func(self, *pargs, **kwargs)
+                    try:
+                        assert eval(that)
+                    except AssertionError as exc:
+                        raise RequirementNotFulfilledError(that, when, POSTMORTEM) from exc
                 # We don't need an else clause; trying to enlist something that's not in the enum
                 # will be penalised with an AttributeError, and small typos will be healed with a
                 # suggestion as to what you might have meant.
-            except AssertionError as exc:
-                raise RequirementNotFulfilledError(that, when) from exc
+
         return inner_wrapper
 
     return func_wrapper
