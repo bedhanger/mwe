@@ -1,5 +1,6 @@
-"""See the README file"""
-
+"""See the `README
+<https://gitlab.com/bedhanger/mwe/-/blob/master/python/requiresthat/README.rst>`_ file
+"""
 from typing import Optional, Callable
 from functools import wraps
 
