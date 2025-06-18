@@ -26,6 +26,9 @@ Example usage
     X = C(data='spam')
     X.method()
 
+See the `tests <https://gitlab.com/bedhanger/mwe/-/blob/master/python/requiresthat/tests/test_requiresthat.py>`_
+for more.
+
 The ``that`` can be almost any valid Python statement which can be evaluated and whose veracity can
 be asserted, and the result thereof will decide whether or not the method fires/will be considered a
 success.
