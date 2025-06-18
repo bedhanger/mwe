@@ -26,12 +26,14 @@ Example usage
     X = C(data='spam')
     X.method()
 
-The ``that`` can be almost any valid Python statement which can be evaluated for its veracity, and
-whose result will decide whether or not the method fires/will be considered a success.
+The ``that`` can be almost any valid Python statement which can be evaluated and whose veracity can
+be asserted, and the result thereof will decide whether or not the method fires/will be considered a
+success.
 
 The parameter ``when`` decides if the condition is a-priori, post-mortem, or before-and-after.
 The default is a-priori, meaning a precondition.  Note that before-and-after does *not* mean during;
 you cannot mandate an invariant this way!
 
 ``RequirementNotFulfilledError`` is the exception you have to deal with in case a condition is not
-met.
+met.  ``NoCallableConstructError`` gets raised should you apply the decorator to a construct that is
+not callable.
