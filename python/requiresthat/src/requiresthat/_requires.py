@@ -23,6 +23,8 @@ def requires(that, when: When = APRIORI) -> Optional[Callable]:
             except AssertionError as exc:
                 raise NoCallableConstructError(func) from exc
             else:
+                # Since we want to give detailed sub-failure diax in case of BEFOREANDAFTER,
+                # economisng on the ifs below is tricky.
                 if when == APRIORI:
                     try:
                         assert eval(that)
@@ -30,12 +32,14 @@ def requires(that, when: When = APRIORI) -> Optional[Callable]:
                         raise RequirementNotFulfilledError(that, when) from exc
                     else:
                         func(self, *pargs, **kwargs)
+
                 elif when == POSTMORTEM:
                     func(self, *pargs, **kwargs)
                     try:
                         assert eval(that)
                     except AssertionError as exc:
                         raise RequirementNotFulfilledError(that, when) from exc
+
                 elif when == BEFOREANDAFTER:
                     try:
                         assert eval(that)
@@ -47,6 +51,7 @@ def requires(that, when: When = APRIORI) -> Optional[Callable]:
                         assert eval(that)
                     except AssertionError as exc:
                         raise RequirementNotFulfilledError(that, when, POSTMORTEM) from exc
+
                 # We don't need an else clause; trying to enlist something that's not in the enum
                 # will be penalised with an AttributeError, and small typos will be healed with a
                 # suggestion as to what you might have meant.
