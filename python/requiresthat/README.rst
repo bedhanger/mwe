@@ -31,7 +31,8 @@ for more.
 
 The ``that`` can be almost any valid Python statement which can be evaluated and whose veracity can
 be asserted, and the result thereof will decide whether or not the method fires/will be considered a
-success.
+success.  Then details should be observed `here
+<https://gitlab.com/bedhanger/mwe/-/blob/master/python/requiresthat/src/requiresthat/_requires.py>`_.
 
 The parameter ``when`` decides if the condition is
 `a-priori, post-mortem, or before-and-after
