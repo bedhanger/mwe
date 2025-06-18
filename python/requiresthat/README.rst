@@ -35,7 +35,7 @@ success.
 
 The parameter ``when`` decides if the condition is
 `a-priori, post-mortem, or before-and-after
-<https://gitlab.com/bedhanger/mwe/-/blob/master/python/requiresthat/src/_when.py>`_.
+<https://gitlab.com/bedhanger/mwe/-/blob/master/python/requiresthat/src/requiresthat/_when.py>`_.
 The default is a-priori, meaning a precondition.  Note that before-and-after does *not* mean during;
 you cannot mandate an invariant this way!
 
