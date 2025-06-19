@@ -8,8 +8,15 @@ from ._when import When, APRIORI, POSTMORTEM, BEFOREANDAFTER
 from ._exceptions import RequirementNotFulfilledError, NoCallableConstructError
 
 def requires(that, when: When = APRIORI) -> Optional[Callable]:
-    """Require <that> of the decoratee, and require it <when>"""
+    """Require ``that`` of the decoratee, and require it ``when``
 
+    Fail if the associated construct is not callable.
+
+    Fail if the condition is not met: do not invoke the callable or prevent the operation from being
+    considered a success.
+
+    Needs the operation to be an instance method of a class.
+    """
     def func_wrapper(func: Callable) -> Optional[Callable]:
         """First-level wrap the decoratee"""
 
