@@ -3,7 +3,7 @@ import textwrap
 class RequirementNotFulfilledError(Exception):
     """Raise this when a requirement is found wanting"""
 
-    def __init__(self, that, when, subwhen=str(), msg=None):
+    def __init__(self, that, when, subwhen: str = str(), msg=None):
         """Show a default or a user-provided message indicating that some condition is unmet"""
 
         if subwhen:

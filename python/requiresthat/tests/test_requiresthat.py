@@ -75,14 +75,14 @@ class TestCase_requiresthat_01:
 
         class Spam:
 
-            @requires(that='self.spam == "eggs"')
+            @requires(that='self.spam == "ham"')
             def __init__(self):
                 self.spam = 'ham'
 
             def run(self): ...
 
-        # We break the constructor (the fact that we confuse spam and eggs is incidental)
-        with pytest.raises(AttributeError):
+        # We break the constructor
+        with pytest.raises(RequirementNotFulfilledError):
             S = Spam()
 
         # Remember, the constructor just failed...

@@ -15,50 +15,56 @@ def requires(that, when: When = APRIORI) -> Optional[Callable]:
     Fail if the condition is not met: do not invoke the callable or prevent the operation from being
     considered a success.
 
-    Needs the operation to be an instance method of a class.
+    Needs the callable to be an instance method of a class, like so:
+
+        class C:
+
+            def __init__(self, data=None):
+                self.data = data
+
+            @requires(that='self.data is not None')
+            @requires(that='self.data == "spam"', when=APRIORI)
+            @requires(that='True is not False')
+            @requires(that='self.data != "spam"', when=POSTMORTEM)
+            @requires(that='len(self.data) >= 3', when=BEFOREANDAFTER)
+            def method(self):
+                self.data = 'ham'
+
+        X = C(data='spam')
+        X.method()
+
+    Try adding
+
+        the_impossible = '1 / 0'
+    and
+        @requires(the_impossible)
+
+    to the list of decorators above and watch what happens.
     """
-    def func_wrapper(func: Callable) -> Optional[Callable]:
+    def func_wrapper(__func: Callable) -> Optional[Callable]:
         """First-level wrap the decoratee"""
 
-        @wraps(func)
+        @wraps(__func)
         def inner_wrapper(self, *pargs, **kwargs) -> Optional[Callable]:
             """Wrap the first-level wrapper
 
             The wrapping stops here...
             """
-            try:
-                assert callable(func)
-            except AssertionError as exc:
-                raise NoCallableConstructError(func) from exc
+            if not callable(__func):
+                raise NoCallableConstructError(__func)
             else:
-                # Since we want to give detailed sub-failure diax in case of BEFOREANDAFTER,
-                # economisng on the ifs below is tricky.
                 if when == APRIORI:
-                    try:
-                        assert eval(that)
-                    except AssertionError as exc:
-                        raise RequirementNotFulfilledError(that, when) from exc
-                    else:
-                        func(self, *pargs, **kwargs)
+                    __assert(self, that, when)
+                    __func(self, *pargs, **kwargs)
 
                 elif when == POSTMORTEM:
-                    func(self, *pargs, **kwargs)
-                    try:
-                        assert eval(that)
-                    except AssertionError as exc:
-                        raise RequirementNotFulfilledError(that, when) from exc
+                    __func(self, *pargs, **kwargs)
+                    __assert(self, that, when)
 
                 elif when == BEFOREANDAFTER:
-                    try:
-                        assert eval(that)
-                    except AssertionError as exc:
-                        raise RequirementNotFulfilledError(that, when, APRIORI) from exc
-                    else:
-                        func(self, *pargs, **kwargs)
-                    try:
-                        assert eval(that)
-                    except AssertionError as exc:
-                        raise RequirementNotFulfilledError(that, when, POSTMORTEM) from exc
+                    __assert(self, that, when, APRIORI)
+                    __func(self, *pargs, **kwargs)
+                    __assert(self, that, when, POSTMORTEM)
 
                 # We don't need an else clause; trying to enlist something that's not in the enum
                 # will be penalised with an AttributeError, and small typos will be healed with a
@@ -67,3 +73,15 @@ def requires(that, when: When = APRIORI) -> Optional[Callable]:
         return inner_wrapper
 
     return func_wrapper
+
+def __assert(self, that, when: When, subwhen: str = str()):
+    """Do the actual testing and raise the proper exceptions
+
+    The reason we don't use assert here is to avoid the Knuthian dilemma of premature optimisation;
+    namely, that it nukes this useful tool, :-[
+    """
+    try:
+        if not eval(that):
+            raise RequirementNotFulfilledError(that, when, subwhen) from None
+    except:
+        raise RequirementNotFulfilledError(that, when, subwhen)  from None
