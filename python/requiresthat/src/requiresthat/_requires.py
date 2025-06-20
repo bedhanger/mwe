@@ -84,4 +84,4 @@ def __assert(self, that, when: When, subwhen: str = str()):
         if not eval(that):
             raise RequirementNotFulfilledError(that, when, subwhen) from None
     except:
-        raise RequirementNotFulfilledError(that, when, subwhen)  from None
+        raise RequirementNotFulfilledError(that, when, subwhen) from None
