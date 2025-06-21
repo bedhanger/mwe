@@ -106,3 +106,23 @@ class TestCase_requiresthat_01:
 
         X = C(data='spam')
         X.method()
+
+    @pytest.mark.filterwarnings("ignore::SyntaxWarning")
+    def test_the_impossible(self):
+        """Make the evaluation itself a problem"""
+
+        # In algebraic wheels, div by zero is meaningful: https://en.wikipedia.org/wiki/Wheel_theory
+        # In Python wheels, it is not!
+        the_impossible = '1 / 0 is not None'
+        class C:
+
+            def __init__(self, data=None):
+                self.data = data
+
+            @requires(the_impossible)
+            def method(self):
+                self.data = 'ham'
+
+        X = C(data='spam')
+        with pytest.raises(RequirementNotFulfilledError):
+            X.method()

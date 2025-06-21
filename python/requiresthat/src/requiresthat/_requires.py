@@ -80,8 +80,14 @@ def __assert(self, that, when: When, subwhen: str = str()):
     The reason we don't use assert here is to avoid the Knuthian dilemma of premature optimisation;
     namely, that it nukes this useful tool, :-[
     """
+    # We map everything that can go wrong to one exception; that way, the user has to deal with only
+    # one catagory of exceptions.
+    failure = RequirementNotFulfilledError(that, when, subwhen)
     try:
         if not eval(that):
-            raise RequirementNotFulfilledError(that, when, subwhen) from None
+            raise failure from None
     except:
-        raise RequirementNotFulfilledError(that, when, subwhen) from None
+        raise failure from None
+    else:
+        # Success!
+        pass
