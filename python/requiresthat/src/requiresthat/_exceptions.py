@@ -1,6 +1,10 @@
 import textwrap
 
-class RequirementNotFulfilledError(Exception):
+class RequirementError(Exception):
+    """Base class for all exceptions that follow here"""
+    pass
+
+class RequirementNotFulfilledError(RequirementError):
     """Raise this when a requirement is found wanting"""
 
     def __init__(self, that, when, subwhen: str = str(), msg=None):
@@ -15,7 +19,7 @@ class RequirementNotFulfilledError(Exception):
         # Call the base class' constructor to init the exception class
         super().__init__(msg or self.default_msg)
 
-class NoCallableConstructError(Exception):
+class NoCallableConstructError(RequirementError):
     """Raise this when a construct is not callable"""
 
     def __init__(self, construct, msg=None):

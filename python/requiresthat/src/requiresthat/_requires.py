@@ -86,7 +86,7 @@ def __assert(self, that, when: When, subwhen: str = str()):
     try:
         if not eval(that):
             raise failure from None
-    except:
+    except Exception:
         raise failure from None
     else:
         # Success!
