@@ -42,4 +42,6 @@ you cannot mandate an invariant this way!
 
 ``RequirementNotFulfilledError`` is the exception you have to deal with in case a condition is not
 met.  ``NoCallableConstructError`` gets raised should you apply the decorator to a construct that is
-not callable.
+not callable.  Both of these derive from the `base class
+<https://gitlab.com/bedhanger/mwe/-/blob/master/python/requiresthat/src/requiresthat/_exceptions.py>`_
+``RequirementError``.
