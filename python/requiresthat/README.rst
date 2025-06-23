@@ -49,7 +49,7 @@ not callable.  Both of these derive from the `base class
 Installation
 ------------
 
-**Currently**, use ``pip`` with `test PyPi <https://test.pypi.org`_:
+**Currently**, use ``pip`` with `test PyPi <https://test.pypi.org>`_:
 
 .. code-block:: bash
 
