@@ -45,3 +45,24 @@ met.  ``NoCallableConstructError`` gets raised should you apply the decorator to
 not callable.  Both of these derive from the `base class
 <https://gitlab.com/bedhanger/mwe/-/blob/master/python/requiresthat/src/requiresthat/_exceptions.py>`_
 ``RequirementError``.
+
+Installation
+------------
+
+**Currently**, use ``pip`` with `test PyPi <https://test.pypi.org`_:
+
+.. code-block:: bash
+
+    pip install --index-url=https://test.pypi.org/simple/ requiresthat
+
+If you want to cook it on your own, do this:
+
+.. code-block:: bash
+
+    git clone git@gitlab.com:bedhanger/mwe.git
+    cd mwe/python/requiresthat
+    python -m build
+    pip install .
+
+It is recommended to carry out the build and install steps in a `venv
+<https://docs.python.org/3/library/venv.html>`_.
