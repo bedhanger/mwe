@@ -53,7 +53,7 @@ Installation
 
 .. code-block:: bash
 
-    pip install --index-url=https://test.pypi.org/simple/ requiresthat
+    python -m pip install --index-url=https://test.pypi.org/simple/ requiresthat
 
 If you want to cook it on your own, do this:
 
@@ -61,8 +61,11 @@ If you want to cook it on your own, do this:
 
     git clone git@gitlab.com:bedhanger/mwe.git
     cd mwe/python/requiresthat
+    python -m venv --system-site-packages venv
+    source venv/bin/activate
     python -m build
-    pip install .
+    python -m pip install .
+    deactivate
 
 It is recommended to carry out the build and install steps in a `venv
 <https://docs.python.org/3/library/venv.html>`_.
