@@ -70,3 +70,13 @@ If you want to cook it on your own, do this:
 It is recommended to carry out the build and install steps in a `venv
 <https://docs.python.org/3/library/venv.html>`_.  This is shown in an exemplary manner in the
 snipped above that deals with building from scratch.
+
+Running the tests
+-----------------
+
+Build the package from scratch like shown above, but do not leave the ``venv`` (i.e., don't call
+``deactivate``).  Then
+
+.. code-block:: bash
+
+    python -m pytest --verbose
