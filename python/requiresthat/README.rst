@@ -59,7 +59,7 @@ If you want to cook it on your own, do this:
 
 .. code-block:: bash
 
-    git clone git@gitlab.com:bedhanger/mwe.git
+    git clone https://gitlab.com/bedhanger/mwe.git
     cd mwe/python/requiresthat
     python -m venv --system-site-packages venv
     source venv/bin/activate
