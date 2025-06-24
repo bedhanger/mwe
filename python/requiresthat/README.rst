@@ -68,4 +68,5 @@ If you want to cook it on your own, do this:
     deactivate
 
 It is recommended to carry out the build and install steps in a `venv
-<https://docs.python.org/3/library/venv.html>`_.
+<https://docs.python.org/3/library/venv.html>`_.  This is shown in an exemplary manner in the
+snipped above that deals with building from scratch.
