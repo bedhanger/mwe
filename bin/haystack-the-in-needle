@@ -70,7 +70,7 @@ THE="|"
 
 IN="${NICE} ${XARGS} grep \
    --perl-regexp --color=auto --with-filename --ignore-case \
-   --line-number --byte-offset --unix-byte-offsets \
+   --line-number --byte-offset \
    ${HIDE_ERRORS}"
 
 NEEDLE='"${@}"'
