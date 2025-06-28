@@ -49,11 +49,11 @@ not callable.  Both of these derive from the `base class
 Installation
 ------------
 
-**Currently**, use ``pip`` with `test PyPi <https://test.pypi.org>`_:
+The `project <https://pypi.org/project/requiresthat/>`_ is on PyPI, so simply run
 
 .. code-block:: bash
 
-    python -m pip install --index-url=https://test.pypi.org/simple/ requiresthat
+    python -m pip install requiresthat
 
 If you want to cook it on your own, do this:
 
