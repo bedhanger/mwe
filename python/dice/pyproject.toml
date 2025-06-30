@@ -4,8 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dice"
-version = "2025.5.31.0"
+version = "2025.6.30.2"
 dependencies = []
+
+[project.scripts]
+dice = 'dice:main'
 
 [tool.pytest.ini_options]
 pythonpath = "src"

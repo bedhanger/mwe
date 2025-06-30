@@ -1,1 +1,1 @@
-from .functions import naime
+from .dice import main

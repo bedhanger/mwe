@@ -1,3 +1,7 @@
+"""
+Play dice with the cmd line args.  When no args are given, simulate casting a die.
+"""
+
 import sys
 import argparse
 try:
@@ -6,6 +10,7 @@ except ModuleNotFoundError:
     def colored(_, *pargs, **kwargs):
         return _
 import random
+from pathlib import PurePath
 
 def parse_cmd_line(me: str, purpose: str):
     """
@@ -43,25 +48,25 @@ def cast_die(whatever: object, eyes: int) -> None:
     cast = random.choice(whatever)
     print(colored('{cast}', 'green', None, ['bold']).format(cast=cast))
 
-def naime(me: str, purpose: str):
-    """
-    Run the show
-    """
-    # Parse the command line
-    try:
-        args = parse_cmd_line(me, purpose)
-        items = args.items
-        eyes = args.eyes
-    except SystemExit:
-        # When the user requested help, the arg parser displays it and concludes with a sys.exit(0).
-        # As this is an exception, we must handle it and finish the job.
-        sys.exit(0)
-    except:
-        sys.stderr.write(colored('Cannot seem to begin; utterly confused & bailing out\n', 'red'))
-        raise
+def __main():
+    """Run the show"""
+    me = PurePath(__file__).name
+    args = parse_cmd_line(me, __doc__)
+    items = args.items
+    eyes = args.eyes
+    cast_die(items, eyes)
 
+def main():
+    """Entry point for the package"""
     try:
-        cast_die(items, eyes)
-    except:
-        sys.stderr.write(colored("Die won't roll!\n", 'red'))
-        raise
+        __main()
+    except Exception as exc:
+        import traceback
+        print(traceback.format_exc(), file=sys.stderr, end='')
+        sys.exit(1)
+    except KeyboardInterrupt:
+        print('Interrupted by user', file=sys.stderr)
+        sys.exit(1)
+
+if __name__ == '__main__':
+    main()
