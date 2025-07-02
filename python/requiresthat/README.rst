@@ -8,8 +8,13 @@ Example usage
 
 .. code-block:: python
 
-    from requiresthat import requires, RequirementNotFulfilledError, APRIORI, POSTMORTEM, BEFOREANDAFTER
-
+    from requiresthat import (
+        requires,
+        RequirementNotFulfilledError,
+        APRIORI,
+        POSTMORTEM,
+        BEFOREANDAFTER,
+    )
     class C:
 
         def __init__(self, data=None):
