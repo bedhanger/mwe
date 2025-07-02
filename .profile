@@ -243,3 +243,7 @@ NNN_OPTS=${NNN_OPTS}u
 # User:group info
 NNN_OPTS=${NNN_OPTS}U
 export NNN_OPTS
+
+# New Python REPL does not pay attention to ~/.inputrc anymore; request the old one to get vi-style
+# editing mode back
+export PYTHON_BASIC_REPL=1
