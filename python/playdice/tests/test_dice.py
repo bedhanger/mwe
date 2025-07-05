@@ -2,7 +2,7 @@
 
 import pytest
 
-from dice import Dice
+from playdice import Dice
 
 class TestCaseDice_01:
 

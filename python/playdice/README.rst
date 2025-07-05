@@ -1,5 +1,5 @@
-dice
-====
+playdice
+========
 
 Simplistically play dice with the command-line arguments
 
@@ -29,21 +29,21 @@ In a folder full of items, one may be pseudo-randomly selected by saying
 .. code-block:: bash
 
     $ dice *
-    dice-2025.7.5.0-py3-none-any.whl
+    playdice-2025.7.5.0-py3-none-any.whl
 
 Installation
 ------------
 
-The `project <https://pypi.org/project/dice/>`_ is on PyPI, so simply run
+The `project <https://pypi.org/project/playdice/>`_ is on PyPI, so simply run
 
 .. code-block:: bash
 
-    python -m pip install dice
+    python -m pip install playdice
 
 or
 
 .. code-block:: bash
 
-    python -m pip install dice[colour]
+    python -m pip install playdice[colour]
 
 for colour support on the terminal.
