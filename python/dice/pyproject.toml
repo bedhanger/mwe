@@ -4,11 +4,23 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dice"
-version = "2025.6.30.2"
+version = "2025.7.5.0"
+authors = [
+    {name = "Ann T Ropea", email = "bedhanger@gmx.de"},
+]
+description = "Simplistically play dice"
+readme = "README.rst
+license = "MIT"
 dependencies = []
+[project.optional-dependencies]
+colour = ["termcolor"]
+test = ["pytest"]
 
 [project.scripts]
 dice = 'dice:main'
+
+[project.urls]
+Homepage = "https://gitlab.com/bedhanger/mwe/-/tree/master/python/dice"
 
 [tool.pytest.ini_options]
 pythonpath = "src"

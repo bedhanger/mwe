@@ -1,1 +1,1 @@
-from .dice import main
+from .dice import Dice, main

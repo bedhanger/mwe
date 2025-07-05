@@ -2,10 +2,11 @@
 
 import pytest
 
-import dice
+from dice import Dice
 
 class TestCaseDice_01:
 
-    def test_general(self):
+    def test_import_works(self):
 
-        assert 'life' is not 'easy'
+        # The statement is above...
+        pass
