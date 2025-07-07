@@ -3,7 +3,7 @@ import sys
 def __main():
     print('This is WIP...')
 
-def main()
+def main():
     try:
         __main()
     except Exception:

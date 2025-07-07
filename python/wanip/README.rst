@@ -9,7 +9,7 @@ Example usage
 .. code-block:: bash
 
     $ wanip -h
-    ...
+    This is WIP...
 
 Installation
 ------------
