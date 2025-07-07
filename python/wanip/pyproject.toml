@@ -13,7 +13,7 @@ readme = "README.rst"
 license = "MIT"
 dependencies = []
 
-[project.script]
+[project.scripts]
 wanip = "wanip:main"
 
 [project.urls]
