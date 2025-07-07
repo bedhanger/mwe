@@ -8,7 +8,7 @@ version = "2025.7.07.0"
 authors = [
     {name = "Ann T Ropea", email = "bedhanger@gmx.de"},
 ]
-description = "Dtermine your WAN IP"
+description = "Determine your WAN IP"
 readme = "README.rst"
 license = "MIT"
 dependencies = []
