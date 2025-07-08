@@ -19,6 +19,7 @@ Example usage
                             the provider to contact, instead of pseudo-randomly auto-selecting one from a pre-built
                             internal list (default: None)
       -4, --ipv4            force the usage of IPv4 (default: False)
+      -6, --ipv6            force the usage of IPv6 (default: False)
       -v, --verbose         used once: show which provider will be contacted; used twice (or more often):
                             display contactable providers as well (i.e., the pre-built internal list) (default: 0)
 
