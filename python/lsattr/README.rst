@@ -1,7 +1,7 @@
 lsattr
 ======
 
-List the attributes of a class in a repr()-fiendly way
+List the attributes of a class in a ``repr()``-fiendly way
 
 Example usage
 -------------
