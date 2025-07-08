@@ -24,6 +24,28 @@ Example usage
                             display contactable providers as well (i.e., the pre-built internal list) (default: 0)
 
     Respect the netiquette when contacting the provider.
+    $ wanip -4
+    80.167.65.60
+    $ wanip -6vv
+    https://api.ipify.org
+    https://checkip.amazonaws.com
+    https://eth0.me/
+    https://icanhazip.com
+    https://ident.me
+    https://ifconfig.co
+    https://ifconfig.me/ip
+    https://ip.me
+    https://ipapi.co/ip
+    https://ipecho.net/plain
+    https://ipinfo.io/ip
+    https://iprs.fly.dev
+    https://l2.io/ip
+    https://my.ip.fi
+    https://wgetip.com
+    https://whatismyip.akamai.com
+    https://www.trackip.net/ip
+    Trying https://ifconfig.me/ip
+    2a01:599:b44:be52:9f91:3767:2b2f:cd93
 
 Installation
 ------------
