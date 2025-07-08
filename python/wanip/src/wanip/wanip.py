@@ -15,11 +15,12 @@ class Wanip:
                  purpose : Optional[str] = __doc__) -> None:
         """Kick off scanning the command-line"""
         self.args = self.parse_cmd_line(me, purpose)
+        self.args.ipv4 = '--ipv4' if self.args.ipv4 else str()
 
     def curlme(self, provider: str) -> None:
         """Use curl to get hold of my WANIP"""
         # Construct curl command
-        curl_cmd = f'curl --fail --show-error --silent {provider}'
+        curl_cmd = f'curl {self.args.ipv4} --fail --show-error --silent {provider}'
 
         # Obtain data & report
         result = subprocess.run(curl_cmd, shell=True, capture_output=True)
@@ -45,6 +46,13 @@ class Wanip:
                 help='''
                     the provider to contact, instead of pseudo-randomly auto-selecting one from a
                     pre-built internal list
+                    ''',
+            )
+            parser.add_argument(
+                '-4', '--ipv4',
+                action='store_true',
+                help='''
+                    force the usage of IPv4
                     ''',
             )
             parser.add_argument(
