@@ -9,7 +9,7 @@ Example usage
 .. code-block:: bash
 
     $ wanip -h
-    usage: wanip [-h] [-p PROVIDER] [-4] [-v]
+    usage: wanip [-h] [-p PROVIDER] [-4 | -6] [-v]
 
     Ask a provider for your ip with which you connect to it, then print it out
 
