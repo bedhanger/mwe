@@ -20,7 +20,9 @@ class Wanip:
 
     def curlme(self, provider: str) -> None:
         """Use curl to get hold of my WANIP"""
-        # Construct curl command
+        # Construct curl command; note that -4 and -6 cannot be used together but since the
+        # ArgumentParser takes care of at most one having survived in the args, their
+        # representations "can" in the f-string.
         curl_cmd = f'curl {self.args.ipv4} {self.args.ipv6} --fail --show-error --silent {provider}'
 
         # Obtain data & report
