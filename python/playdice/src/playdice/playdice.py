@@ -3,6 +3,7 @@
 When no arguments are given, simulate casting a die.
 """
 import sys
+import re
 import argparse
 import random
 from pathlib import PurePath
@@ -13,7 +14,7 @@ try:
     from termcolor import colored
 except ModuleNotFoundError:
     def colored(_, *pargs, **kwargs):
-        return _ 
+        return _
 
 class Dice:
 
@@ -21,6 +22,7 @@ class Dice:
                  me: Optional[str] = PurePath(__file__).stem,
                  purpose: Optional[str] = __doc__) -> None:
         """Kick off scanning the command-line"""
+        me = re.sub(r'^play', '', me)
         self.args = self.parse_cmd_line(me, purpose)
 
     def parse_cmd_line(self, me: str, purpose: str) -> Optional[argparse.Namespace]:
