@@ -1,6 +1,5 @@
-"""
-Define PathOrStr as a type alias or at least as a union
-"""
+"""Define PathOrStr as a type alias or at least as a union"""
+
 from sys import version_info
 from typing import Union
 from pathlib import Path
