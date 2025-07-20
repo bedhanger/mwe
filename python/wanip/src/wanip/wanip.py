@@ -67,6 +67,13 @@ class Wanip:
                     ''',
             )
             parser.add_argument(
+                '-n', '--dry-run',
+                action='store_true',
+                help='''
+                    do everything apart from contacting the provider
+                    ''',
+            )
+            parser.add_argument(
                 '-v', '--verbose',
                 action='count',
                 default=0,
@@ -95,7 +102,8 @@ class Wanip:
         if self.args.verbose > 1: print(Public_Providers)
         if self.args.verbose >= 1: print('Trying {provider}'.format(provider=self.args.provider))
 
-        self.curlme(self.args.provider)
+        if not self.args.dry_run:
+            self.curlme(self.args.provider)
 
 def __main():
 
