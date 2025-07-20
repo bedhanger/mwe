@@ -130,4 +130,5 @@ Public_Providers = Providers(
     'https://ip.me',
     'https://checkip.amazonaws.com',
     'https://www.trackip.net/ip',
+    'https://corz.org/ip',
 )
