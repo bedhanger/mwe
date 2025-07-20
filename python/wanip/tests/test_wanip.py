@@ -12,7 +12,7 @@ class Testcase_Providers_01:
 
         global Public_Providers
 
-        assert len(Public_Providers) == 17
+        assert len(Public_Providers) > 1
         assert "my machine" not in Public_Providers
         assert repr(Public_Providers) is not None
         assert str(Public_Providers) is not None

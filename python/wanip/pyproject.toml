@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "wanip"
-version = "2025.7.20.0"
+version = "2025.7.20.1"
 authors = [
     {name = "Ann T Ropea", email = "bedhanger@gmx.de"},
 ]
