@@ -1,13 +1,14 @@
 #!/usr/bin/env --split-string=python -m pytest --verbose
 
-"""Self test code"""
+"""Implement the tests"""
 
 import pytest
 
-from ncrvi import main
+class TestCase_Ncrvi_01:
 
-class Testcase_Providers_01:
+    def test_it(self):
 
-    def test_generals(self):
-
-        assert 1 == 1
+        try:
+            assert True is not False
+        except AssertionError as exc:
+            raise RuntimeError('You are in trouble...')
