@@ -86,7 +86,7 @@ class Ncrvi:
         os.environ['HOW_OFTEN'] = str(self.args.how_often)
         os.environ['SETTLING_DELAY'] = str(self.args.settling_delay)
         os.environ['EXPECTED_COMPONENTS'] = str(self.args.expected_components)
-        pytest.main(['--verbose'])
+        pytest.main(['--verbose', '-k', 'TestCase_Ncrvi'])
 
 def __main():
 
