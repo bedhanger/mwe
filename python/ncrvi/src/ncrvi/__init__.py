@@ -1,1 +1,1 @@
-from .ncrvi import main, Ncrvi
+from .ncrvi import main
