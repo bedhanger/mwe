@@ -1,11 +1,10 @@
-"""Here be dragons"""
+"""Determine the number of firmware components that report version info"""
 
 import subprocess
 import sys
 import sysconfig
 import argparse
 import pytest
-import time
 import os
 from pathlib import PurePath
 from typing import Optional
@@ -75,6 +74,20 @@ class Ncrvi:
                     the success criterion
                     ''',
             )
+            parser.add_argument(
+                '-u', '--user',
+                type=str,
+                help='''
+                    the user to book the target, etc.
+                    ''',
+            )
+            parser.add_argument(
+                '-t', '--target',
+                type=str,
+                help='''
+                    the target to work on
+                    ''',
+            )
             return parser.parse_args()
         except argparse.ArgumentError as exc:
             raise ValueError('The command-line is indecipherable')
@@ -87,6 +100,8 @@ class Ncrvi:
         os.environ['HOW_OFTEN'] = str(self.args.how_often)
         os.environ['SETTLING_DELAY'] = str(self.args.settling_delay)
         os.environ['EXPECTED_COMPONENTS'] = str(self.args.expected_components)
+        os.environ['USER'] = self.args.user or str()
+        os.environ['TARGET'] = self.args.target or str()
         pytest.main(['--verbose',
                     PurePath(sysconfig.get_paths()["purelib"]) / PurePath(__file__).stem])
 

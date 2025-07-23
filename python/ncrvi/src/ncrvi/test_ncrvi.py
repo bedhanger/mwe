@@ -16,6 +16,8 @@ class TestCase_Ncrvi:
     SETTLING_DELAY = float(os.environ['SETTLING_DELAY'])
     EXPECTED_COMPONENTS = int(os.environ['EXPECTED_COMPONENTS'])
     HOW_OFTEN = int(os.environ['HOW_OFTEN'])
+    USER = os.environ['USER']
+    TARGET = os.environ['TARGET']
 
     class NumberOfComponentsError(ArithmeticError): pass
 
