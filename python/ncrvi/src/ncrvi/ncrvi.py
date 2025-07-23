@@ -67,7 +67,7 @@ class Ncrvi:
                     ''',
             )
             parser.add_argument(
-                '-e', '--expected',
+                '-e', '--expected-components',
                 type=int,
                 default=20,
                 help='''
@@ -81,11 +81,11 @@ class Ncrvi:
     def __call__(self) -> None:
         """Run the show"""
         time.sleep(self.args.initial_wait)
-        os.environ['ponw'] = str(self.args.power_on_wait)
-        os.environ['poffw'] = str(self.args.power_off_wait)
-        os.environ['how_often'] = str(self.args.how_often)
-        os.environ['settle'] = str(self.args.settling_delay)
-        os.environ['expected'] = str(self.args.expected)
+        os.environ['POWER_ON_WAIT'] = str(self.args.power_on_wait)
+        os.environ['POWER_OFF_WAIT'] = str(self.args.power_off_wait)
+        os.environ['HOW_OFTEN'] = str(self.args.how_often)
+        os.environ['SETTLING_DELAY'] = str(self.args.settling_delay)
+        os.environ['EXPECTED_COMPONENTS'] = str(self.args.expected_components)
         pytest.main(['--verbose'])
 
 def __main():

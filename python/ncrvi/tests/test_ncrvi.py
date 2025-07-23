@@ -7,23 +7,29 @@ import random
 import time
 import os
 
-@pytest.fixture
-def total_comonents() -> int:
+class TestCase_Ncrvi:
 
-    time.sleep(float(os.environ['poffw']))
-    print('Power off')
-    time.sleep(float(os.environ['ponw']))
-    print('Power on')
-    time.sleep(float(os.environ['settle']))
-    print('Work')
-    time.sleep(float(os.environ['poffw']))
-    print('Power off')
+    POWER_ON_WAIT = float(os.environ['POWER_ON_WAIT'])
+    POWER_OFF_WAIT = float(os.environ['POWER_OFF_WAIT'])
+    SETTLING_DELAY = float(os.environ['SETTLING_DELAY'])
+    EXPECTED_COMPONENTS = int(os.environ['EXPECTED_COMPONENTS'])
+    HOW_OFTEN = int(os.environ['HOW_OFTEN'])
 
-    yield random.choice(range(int(os.environ['expected'])))
+    @pytest.fixture
+    def total_components(self) -> int:
 
-class TestCase_Ncrvi_01:
+        time.sleep(self.POWER_OFF_WAIT)
+        print('Power off')
+        time.sleep(self.POWER_ON_WAIT)
+        print('Power on')
+        time.sleep(self.SETTLING_DELAY)
+        print('Work')
+        time.sleep(self.POWER_OFF_WAIT)
+        print('Power off')
 
-    @pytest.mark.parametrize('how_often', range(int(os.environ['how_often'])))
-    def test_it(self, total_comonents, how_often):
+        yield random.choice(range(self.EXPECTED_COMPONENTS))
 
-        assert total_comonents == int(os.environ['expected']) - 1
+    @pytest.mark.parametrize('how_often', range(HOW_OFTEN))
+    def test_it(self, total_components, how_often):
+
+        assert total_components == self.EXPECTED_COMPONENTS - 1
