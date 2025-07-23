@@ -6,6 +6,7 @@ import pytest
 import random
 import time
 import os
+import textwrap
 
 class TestCase_Ncrvi:
 
@@ -14,6 +15,8 @@ class TestCase_Ncrvi:
     SETTLING_DELAY = float(os.environ['SETTLING_DELAY'])
     EXPECTED_COMPONENTS = int(os.environ['EXPECTED_COMPONENTS'])
     HOW_OFTEN = int(os.environ['HOW_OFTEN'])
+
+    class NumberOfComponentsError(ArithmeticError): pass
 
     @pytest.fixture
     def total_components(self) -> int:
@@ -32,4 +35,9 @@ class TestCase_Ncrvi:
     @pytest.mark.parametrize('how_often', range(HOW_OFTEN))
     def test_it(self, total_components, how_often):
 
-        assert total_components == self.EXPECTED_COMPONENTS - 1
+        try:
+            assert total_components == self.EXPECTED_COMPONENTS - 1
+        except AssertionError as exc:
+            raise self.NumberOfComponentsError(textwrap.dedent(f'''
+                missing components: only {total_components!r} out of {(self.EXPECTED_COMPONENTS - 1)!r}
+            ''').strip()) from exc
