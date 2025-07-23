@@ -80,7 +80,7 @@ class Ncrvi:
 
     def __call__(self) -> None:
         """Run the show"""
-        time.sleep(self.args.initial_wait)
+        os.environ['INITIAL_WAIT'] = str(self.args.initial_wait)
         os.environ['POWER_ON_WAIT'] = str(self.args.power_on_wait)
         os.environ['POWER_OFF_WAIT'] = str(self.args.power_off_wait)
         os.environ['HOW_OFTEN'] = str(self.args.how_often)

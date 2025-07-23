@@ -11,12 +11,22 @@ import textwrap
 class TestCase_Ncrvi:
 
     POWER_ON_WAIT = float(os.environ['POWER_ON_WAIT'])
+    INITIAL_WAIT = float(os.environ['INITIAL_WAIT'])
     POWER_OFF_WAIT = float(os.environ['POWER_OFF_WAIT'])
     SETTLING_DELAY = float(os.environ['SETTLING_DELAY'])
     EXPECTED_COMPONENTS = int(os.environ['EXPECTED_COMPONENTS'])
     HOW_OFTEN = int(os.environ['HOW_OFTEN'])
 
     class NumberOfComponentsError(ArithmeticError): pass
+
+    def test_initial_wait(self):
+
+        try:
+            assert self.INITIAL_WAIT
+            print('Power on')
+            time.sleep(self.INITIAL_WAIT)
+        except AssertionError:
+            pytest.skip('Not requested')
 
     @pytest.fixture
     def total_components(self) -> int:
