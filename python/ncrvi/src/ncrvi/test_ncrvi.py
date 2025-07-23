@@ -8,6 +8,8 @@ import time
 import os
 import textwrap
 
+from .tgtctrlcmds import Poweroff, Poweron
+
 class TestCase_Ncrvi:
 
     POWER_ON_WAIT = float(os.environ['POWER_ON_WAIT'])
