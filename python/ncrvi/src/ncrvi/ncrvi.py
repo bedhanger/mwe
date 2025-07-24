@@ -82,8 +82,9 @@ class Ncrvi:
                     ''',
             )
             parser.add_argument(
-                '-t', '--target',
+                'target',
                 type=str,
+                choices=['this', 'that'],
                 help='''
                     the target to work on
                     ''',
