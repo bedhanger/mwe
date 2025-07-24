@@ -8,7 +8,7 @@ import time
 import os
 import textwrap
 
-from .tgtctrlcmds import Poweroff, Poweron
+from .tgtctrlcmds import Command
 
 class TestCase_Ncrvi:
 
@@ -21,14 +21,18 @@ class TestCase_Ncrvi:
     USER = os.environ['USER']
     TARGET = os.environ['TARGET']
 
+    power_on_cmd = Command('ls', '-la')
+    power_off_cmd = Command('df')
+    ncrvi_cmd = Command('fortune', '-n25', '-s')
+
     class NumberOfComponentsError(ArithmeticError): pass
 
     def test_initial_wait(self):
 
         try:
             assert self.INITIAL_WAIT
-            print('Power on')
             time.sleep(self.INITIAL_WAIT)
+            _ = self.power_on_cmd()
         except AssertionError:
             pytest.skip('Not requested')
 
@@ -36,22 +40,22 @@ class TestCase_Ncrvi:
     def total_components(self) -> int:
 
         time.sleep(self.POWER_OFF_WAIT)
-        print('Power off')
+        _ = self.power_off_cmd()
         time.sleep(self.POWER_ON_WAIT)
-        print('Power on')
+        _ = self.power_on_cmd()
         time.sleep(self.SETTLING_DELAY)
-        print('Work')
+        ncrvi_out = self.ncrvi_cmd()
         time.sleep(self.POWER_OFF_WAIT)
-        print('Power off')
+        _ = self.power_off_cmd()
 
-        yield random.choice(range(self.EXPECTED_COMPONENTS))
+        yield len(ncrvi_out)
 
     @pytest.mark.parametrize('how_often', range(HOW_OFTEN))
     def test_it(self, total_components, how_often):
 
         try:
-            assert total_components == self.EXPECTED_COMPONENTS - 1
+            assert total_components >= self.EXPECTED_COMPONENTS
         except AssertionError as exc:
             raise self.NumberOfComponentsError(textwrap.dedent(f'''
-                missing components: only {total_components!r} out of {(self.EXPECTED_COMPONENTS - 1)!r}
+                missing components: only {total_components!r} out of {self.EXPECTED_COMPONENTS!r}
             ''').strip()) from exc

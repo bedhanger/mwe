@@ -12,6 +12,3 @@ class Command:
             outs, errs = p.communicate()
 
         return outs.decode().rstrip()
-
-Poweroff = Command
-Poweron = Command
