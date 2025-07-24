@@ -9,7 +9,7 @@ import os
 import textwrap
 import re
 
-from .tgtctrlcmds import Command
+from .command import Command
 
 class TestCase_Ncrvi:
 
