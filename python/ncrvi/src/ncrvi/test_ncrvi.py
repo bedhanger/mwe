@@ -38,7 +38,7 @@ class TestCase_Ncrvi:
             pytest.skip('Not requested')
 
     @pytest.fixture
-    def total_components(self) -> int:
+    def total_ncrvi(self) -> int:
 
         time.sleep(self.POWER_OFF_WAIT)
         _ = self.power_off_cmd()
@@ -57,11 +57,11 @@ class TestCase_Ncrvi:
         return int(re.match(ncrvi_rx, ncrvi_out).group('ncrvi'))
 
     @pytest.mark.parametrize('how_often', range(HOW_OFTEN))
-    def test_it(self, total_components, how_often):
+    def test_it(self, total_ncrvi, how_often):
 
         try:
-            assert total_components == self.EXPECTED_COMPONENTS
+            assert total_ncrvi == self.EXPECTED_COMPONENTS
         except AssertionError as exc:
             raise self.NumberOfComponentsError(textwrap.dedent(f'''
-                missing components: only {total_components!r} out of {self.EXPECTED_COMPONENTS!r}
+                {total_ncrvi!r} ({self.EXPECTED_COMPONENTS!r} expected)
             ''').strip()) from exc
