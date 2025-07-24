@@ -7,6 +7,7 @@ import random
 import time
 import os
 import textwrap
+import re
 
 from .tgtctrlcmds import Command
 
@@ -44,17 +45,22 @@ class TestCase_Ncrvi:
         time.sleep(self.POWER_ON_WAIT)
         _ = self.power_on_cmd()
         time.sleep(self.SETTLING_DELAY)
-        ncrvi_out = self.ncrvi_cmd()
+        ncrvi_out = 'Hi: ' + str(len(self.ncrvi_cmd()))
         time.sleep(self.POWER_OFF_WAIT)
         _ = self.power_off_cmd()
 
-        yield len(ncrvi_out)
+        ncrvi_rx = re.compile(r'''
+            (?P<intro>(Hi:))
+            \s+
+            (?P<ncrvi>\d+)
+        ''', re.VERBOSE)
+        return int(re.match(ncrvi_rx, ncrvi_out).group('ncrvi'))
 
     @pytest.mark.parametrize('how_often', range(HOW_OFTEN))
     def test_it(self, total_components, how_often):
 
         try:
-            assert total_components >= self.EXPECTED_COMPONENTS
+            assert total_components == self.EXPECTED_COMPONENTS
         except AssertionError as exc:
             raise self.NumberOfComponentsError(textwrap.dedent(f'''
                 missing components: only {total_components!r} out of {self.EXPECTED_COMPONENTS!r}
