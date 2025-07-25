@@ -3,7 +3,16 @@
 import subprocess
 from typing import Optional
 
-class CommandExecutionError(subprocess.SubprocessError): pass
+class CommandExecutionError(subprocess.CalledProcessError):
+
+    def __init__(self, msg, returncode=42, cmd=str()):
+        self.msg = msg
+        self.returncode = returncode
+        self.cmd = cmd
+        subprocess.CalledProcessError(returncode=self.returncode, cmd=self.cmd)
+
+    def __str__(self):
+        return f'{self.msg}'
 
 class Command:
 
@@ -18,6 +27,6 @@ class Command:
                 outs, errs = p.communicate()
                 assert p.returncode == 0
         except (AssertionError, subprocess.CalledProcessError, FileNotFoundError) as exc:
-            raise CommandExecutionError(f'{cmd_and_args!r} was unhappy') from exc
+            raise CommandExecutionError(f'the command "{cmd_and_args!r}" was unhappy') from exc
 
         return outs.decode().rstrip()
