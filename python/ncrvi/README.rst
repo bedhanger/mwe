@@ -9,9 +9,12 @@ Example usage
 .. code-block:: bash
 
     $ ncrvi -h
-    usage: ncrvi [-h] [-w INITIAL_WAIT] [-p POWER_ON_WAIT] [-P POWER_OFF_WAIT] [-N HOW_OFTEN] [-s SETTLING_DELAY] [-e EXPECTED_COMPONENTS] [-u USER] [-t TARGET]
+    usage: ncrvi [-h] [-w INITIAL_WAIT] [-p POWER_ON_WAIT] [-P POWER_OFF_WAIT] [-N HOW_OFTEN] [-s SETTLING_DELAY] [-e EXPECTED_COMPONENTS] [-u USER] {this,that}
 
     Determine the number of firmware components that report version info
+
+    positional arguments:
+      {this,that}           the target to work on
 
     options:
       -h, --help            show this help message and exit
@@ -28,7 +31,6 @@ Example usage
       -e, --expected-components EXPECTED_COMPONENTS
                             the success criterion (default: 20)
       -u, --user USER       the user to book the target, etc. (default: None)
-      -t, --target TARGET   the target to work on (default: None)
 
 Installation
 ------------
