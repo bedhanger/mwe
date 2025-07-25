@@ -25,7 +25,7 @@ class Command:
         try:
             with subprocess.Popen(cmd_and_args, stdout=subprocess.PIPE) as p:
                 outs, errs = p.communicate()
-                assert p.returncode == 0
+            assert p.returncode == 0
         except (AssertionError, subprocess.CalledProcessError, FileNotFoundError) as exc:
             raise CommandExecutionError(f'the command "{cmd_and_args!r}" was unhappy') from exc
 
