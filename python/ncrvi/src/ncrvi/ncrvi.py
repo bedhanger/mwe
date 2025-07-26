@@ -93,7 +93,7 @@ class Ncrvi:
         except argparse.ArgumentError as exc:
             raise ValueError('The command-line is indecipherable')
 
-    def __call__(self) -> None:
+    def __call__(self) -> int:
         """Run the show"""
         os.environ['INITIAL_WAIT'] = str(self.args.initial_wait)
         os.environ['POWER_ON_WAIT'] = str(self.args.power_on_wait)
@@ -103,17 +103,17 @@ class Ncrvi:
         os.environ['EXPECTED_COMPONENTS'] = str(self.args.expected_components)
         os.environ['USER'] = self.args.user or str()
         os.environ['TARGET'] = self.args.target or str()
-        pytest.main(['--verbose',
-                    PurePath(sysconfig.get_paths()["purelib"]) / PurePath(__file__).stem])
+        return pytest.main(['--verbose',
+                           PurePath(sysconfig.get_paths()["purelib"]) / PurePath(__file__).stem])
 
-def __main():
+def __main() -> int:
 
     N = Ncrvi()
-    N()
+    sys.exit(N())
 
-def main():
+def main() -> int:
     try:
-        __main()
+        sys.exit(__main())
     except Exception:
         import traceback
         print(traceback.format_exc(), file=sys.stderr, end='')
@@ -123,4 +123,4 @@ def main():
         sys.exit(1)
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())
