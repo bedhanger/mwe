@@ -117,10 +117,10 @@ def main() -> int:
     except Exception:
         import traceback
         print(traceback.format_exc(), file=sys.stderr, end='')
-        sys.exit(1)
+        sys.exit(2)
     except KeyboardInterrupt:
         print('Interrupted by user', file=sys.stderr)
-        sys.exit(1)
+        sys.exit(3)
 
 if __name__ == '__main__':
     sys.exit(main())
