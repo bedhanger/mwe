@@ -51,7 +51,7 @@ class Dice:
         except argparse.ArgumentError as exc:
             raise ValueError('The command line is indecipherable') from exc
 
-    def cast_die(self) -> None:
+    def cast_die(self) -> int:
         """
         Roll it
         """
@@ -59,27 +59,28 @@ class Dice:
             self.args.items = range(1, self.args.eyes + 1)
         cast = random.choice(self.args.items)
         print(colored('{cast}', 'green', None, ['bold']).format(cast=cast))
+        return 0
 
-    def __call__(self) -> None:
+    def __call__(self) -> int:
         """Do this when we get called"""
-        self.cast_die()
+        return self.cast_die()
 
-def __main():
+def __main() -> int:
     """Run the show"""
     D = Dice()
-    D()
+    sys.exit(D())
 
-def main():
+def main() -> int:
     """Entry point for the package"""
     try:
-        __main()
+        sys.exit(__main())
     except Exception as exc:
         import traceback
         print(traceback.format_exc(), file=sys.stderr, end='')
-        sys.exit(1)
+        sys.exit(2)
     except KeyboardInterrupt:
-        print('Interrupted by user', file=sys.stderr)
-        sys.exit(1)
+        print('\rInterrupted by user', file=sys.stderr)
+        sys.exit(3)
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())

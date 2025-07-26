@@ -86,7 +86,7 @@ class Wanip:
         except argparse.ArgumentError as exc:
             raise ValueError('The command-line is indecipherable')
 
-    def __call__(self) -> None:
+    def __call__(self) -> int:
         """Run the show
 
         The LEGB scoping rule means that in order to overwrite the Public_Providers (a sensible
@@ -104,22 +104,23 @@ class Wanip:
 
         if not self.args.dry_run:
             self.curlme(self.args.provider)
+        return 0
 
-def __main():
+def __main() -> int:
 
     W = Wanip()
-    W()
+    sys.exit(W())
 
-def main():
+def main() -> int:
     try:
-        __main()
+        sys.exit(__main())
     except Exception:
         import traceback
         print(traceback.format_exc(), file=sys.stderr, end='')
-        sys.exit(1)
+        sys.exit(2)
     except KeyboardInterrupt:
-        print('Interrupted by user', file=sys.stderr, end='')
-        sys.exit(1)
+        print('\rInterrupted by user', file=sys.stderr, end='')
+        sys.exit(3)
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())

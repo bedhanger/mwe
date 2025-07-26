@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "playdice"
-version = "2025.7.13.0"
+version = "2025.7.26.0"
 authors = [
     {name = "Ann T Ropea", email = "bedhanger@gmx.de"},
 ]
