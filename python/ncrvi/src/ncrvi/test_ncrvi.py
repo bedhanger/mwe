@@ -45,14 +45,22 @@ class TestCase_Ncrvi:
         time.sleep(self.POWER_ON_WAIT)
         _ = self.power_on_cmd()
         time.sleep(self.SETTLING_DELAY)
-        ncrvi_out = 'Hi: ' + str(len(self.ncrvi_cmd()))
+        ncrvi_out = 'Hi a dude: ' + str(len(self.ncrvi_cmd()))
         time.sleep(self.POWER_OFF_WAIT)
         _ = self.power_off_cmd()
 
         ncrvi_rx = re.compile(r'''
-            (?P<intro>Hi:)
+            (?P<intro>
+                Hi
+                \s
+                (a\s)? # Maybe the typo will get fixed one day
+                dude
+                :
+            )
             \s+
-            (?P<ncrvi>\d+)
+            (?P<ncrvi>
+                \d+ # That's what we want
+            )
         ''', re.VERBOSE)
         return int(re.match(ncrvi_rx, ncrvi_out).group('ncrvi'))
 
