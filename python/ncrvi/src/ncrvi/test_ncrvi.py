@@ -50,7 +50,7 @@ class TestCase_Ncrvi:
         _ = self.power_off_cmd()
 
         ncrvi_rx = re.compile(r'''
-            (?P<intro>(Hi:))
+            (?P<intro>Hi:)
             \s+
             (?P<ncrvi>\d+)
         ''', re.VERBOSE)
