@@ -50,6 +50,8 @@ class TestCase_Ncrvi:
         _ = self.power_off_cmd()
 
         ncrvi_rx = re.compile(r'''
+            ^
+            \s*
             (?P<intro>
                 Hi
                 \s
@@ -61,6 +63,8 @@ class TestCase_Ncrvi:
             (?P<ncrvi>
                 \d+ # That's what we want
             )
+            \s*
+            $
         ''', re.VERBOSE)
         return int(re.match(ncrvi_rx, ncrvi_out).group('ncrvi'))
 
