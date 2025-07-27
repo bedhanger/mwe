@@ -104,7 +104,7 @@ class Ncrvi:
         os.environ['USER'] = self.args.user or str()
         os.environ['TARGET'] = self.args.target or str()
         return pytest.main(['--verbose',
-                           PurePath(sysconfig.get_paths()["purelib"]) / PurePath(__file__).stem])
+                           PurePath(sysconfig.get_paths()["purelib"]) / PurePath(__file__).stem],)
 
 def __main() -> int:
 
