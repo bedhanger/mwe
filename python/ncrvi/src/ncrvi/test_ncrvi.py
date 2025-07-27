@@ -29,6 +29,7 @@ class TestCase_Ncrvi:
     class NumberOfComponentsError(ArithmeticError): pass
 
     def test_initial_wait(self):
+        """Perform an initial wait to "warm up" the target"""
 
         try:
             assert self.INITIAL_WAIT
@@ -39,7 +40,10 @@ class TestCase_Ncrvi:
 
     @pytest.fixture
     def total_ncrvi(self) -> int:
+        """Determine the number of components returning version info
 
+        :returns: The number of such components
+        """
         time.sleep(self.POWER_OFF_WAIT)
         _ = self.power_off_cmd()
         time.sleep(self.POWER_ON_WAIT)
@@ -74,7 +78,11 @@ class TestCase_Ncrvi:
 
     @pytest.mark.parametrize('how_often', range(1, HOW_OFTEN + 1))
     def test_it(self, total_ncrvi, how_often):
+        """Perform the ncrvi test a couple of times
 
+        :param total_ncrvi: The fixture that is the workhorse
+        :param how_often: Repeat the experiment this many times
+        """
         try:
             assert total_ncrvi == self.EXPECTED_COMPONENTS
         except AssertionError as exc:

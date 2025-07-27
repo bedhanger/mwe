@@ -20,6 +20,10 @@ class Command:
         self.pargs = pargs;
 
     def __call__(self) -> Optional[str]:
+        """Execute the command
+
+        :returns: The command's output
+        """
         cmd_and_args = [it for it in self.pargs]
 
         try:

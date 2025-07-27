@@ -18,7 +18,12 @@ class Ncrvi:
         self.args = self.parse_cmd_line(me, purpose)
 
     def parse_cmd_line(self, me: str, purpose: str) -> Optional[argparse.Namespace]:
-        """Read options, show help"""
+        """Read options, show help
+
+        :param me: The name used to identify the program in the usage display
+        :param purpose: Explain what the program does
+        :returns: An (argparse) namespace holding the args
+        """
         # Parse the command line
         try:
             parser = argparse.ArgumentParser(
@@ -94,7 +99,10 @@ class Ncrvi:
             raise ValueError('The command-line is indecipherable')
 
     def __call__(self) -> int:
-        """Run the show"""
+        """Run the show
+
+        :returns: Whatever pytest.main() does
+        """
         os.environ['INITIAL_WAIT'] = str(self.args.initial_wait)
         os.environ['POWER_ON_WAIT'] = str(self.args.power_on_wait)
         os.environ['POWER_OFF_WAIT'] = str(self.args.power_off_wait)
@@ -104,6 +112,7 @@ class Ncrvi:
         os.environ['USER'] = self.args.user or str()
         os.environ['TARGET'] = self.args.target or str()
         return pytest.main(['--verbose',
+                           # Needs proper installation via pip...
                            PurePath(sysconfig.get_paths()["purelib"]) / PurePath(__file__).stem],)
 
 def __main() -> int:
