@@ -44,8 +44,12 @@ class TestCase_Ncrvi:
         _ = self.power_off_cmd()
         time.sleep(self.POWER_ON_WAIT)
         _ = self.power_on_cmd()
+
         time.sleep(self.SETTLING_DELAY)
+        # Unlike in the cases above and below, we *are* now interested in the output and thus
+        # capture it.
         ncrvi_out = 'Hi a dude: ' + str(len(self.ncrvi_cmd()))
+
         time.sleep(self.POWER_OFF_WAIT)
         _ = self.power_off_cmd()
 
