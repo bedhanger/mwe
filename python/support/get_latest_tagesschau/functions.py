@@ -20,10 +20,10 @@ def upgrade_to_https(urls):
     http = re.compile(r"^(http)(://)", re.IGNORECASE)
     for url in urls:
         try:
-            match = re.search(http, url)
+            match = http.search(url)
             assert match is not None
             https = match.group(1).lower() + 's' + match.group(2)
-            url = re.sub(http, https, url)
+            url = http.sub(https, url)
         except AssertionError:
             # Just didn't start with http://
             # Nevermind!
@@ -40,10 +40,10 @@ def upgrade_to_webxxl(urls):
     small = re.compile(r"(\.web)x?(l|s)\.\b", re.IGNORECASE)
     for url in urls:
         try:
-            match = re.search(small, url)
+            match = small.search(url)
             assert match is not None
             big = match.group(1) + 'xxl.'
-            url = re.sub(small, big, url)
+            url = small.sub(big, url)
         except AssertionError:
             # Nevermind!
             pass

@@ -74,7 +74,7 @@ class TestCase_Ncrvi:
             \s*
             $
         ''', re.VERBOSE)
-        return int(re.match(ncrvi_rx, ncrvi_out).group('ncrvi'))
+        return int(ncrvi_rx.match(ncrvi_out).group('ncrvi'))
 
     @pytest.mark.parametrize('how_often', range(1, HOW_OFTEN + 1))
     def test_it(self, total_ncrvi, how_often):

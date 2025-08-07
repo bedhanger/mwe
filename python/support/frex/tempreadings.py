@@ -45,7 +45,7 @@ class TemperatureReadings(LsAttr):
             \s+
             (?P<values>.+)
             ''', re.VERBOSE)
-        self._tr = re.finditer(_temps_rx, _sensors)
+        self._tr = _temps_rx.finditer(_sensors)
 
     def __iter__(self) -> Iterator[re.Match]:
         """Arm and return an iterator for the raw matches."""
