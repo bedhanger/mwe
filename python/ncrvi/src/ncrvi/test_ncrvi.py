@@ -44,18 +44,7 @@ class TestCase_Ncrvi:
 
         :returns: The number of such components
         """
-        time.sleep(self.POWER_OFF_WAIT)
-        _ = self.power_off_cmd()
-        time.sleep(self.POWER_ON_WAIT)
-        _ = self.power_on_cmd()
-
-        time.sleep(self.SETTLING_DELAY)
-        # Unlike in the cases above and below, we *are* now interested in the output and thus
-        # capture it.
         ncrvi_out = 'Hi a dude: ' + str(len(self.ncrvi_cmd()))
-
-        time.sleep(self.POWER_OFF_WAIT)
-        _ = self.power_off_cmd()
 
         ncrvi_rx = re.compile(r'''
             ^
@@ -83,9 +72,18 @@ class TestCase_Ncrvi:
         :param total_ncrvi: The fixture that is the workhorse
         :param how_often: Repeat the experiment this many times
         """
+        time.sleep(self.POWER_OFF_WAIT)
+        _ = self.power_off_cmd()
+        time.sleep(self.POWER_ON_WAIT)
+        _ = self.power_on_cmd()
+        time.sleep(self.SETTLING_DELAY)
+
         try:
             assert total_ncrvi == self.EXPECTED_COMPONENTS
         except AssertionError as exc:
             raise self.NumberOfComponentsError(textwrap.dedent(f'''
                 {total_ncrvi!r} ({self.EXPECTED_COMPONENTS!r} expected)
             ''').strip()) from exc
+        finally:
+            time.sleep(self.POWER_OFF_WAIT)
+            _ = self.power_off_cmd()
