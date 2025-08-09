@@ -27,6 +27,7 @@ class TestCase_Ncrvi:
     ncrvi_cmd = Command('fortune', '-n25', '-s')
 
     class NumberOfComponentsError(ArithmeticError): pass
+    class ComponentNotFoundError(LookupError): pass
 
     def test_initial_wait(self):
         """Perform an initial wait to "warm up" the target"""
@@ -65,6 +66,16 @@ class TestCase_Ncrvi:
         ''', re.VERBOSE)
         return int(ncrvi_rx.match(ncrvi_out).group('ncrvi'))
 
+    def is_present(self, component: str = str()) -> re.Match:
+        """Determine if a given component is present
+
+        :param component: A string identifying a component
+        :returns: A regex match object if the component could be found; None if not
+        """
+        component = re.compile(f'{component}', re.IGNORECASE)
+
+        return component.search(self.ncrvi_cmd())
+
     @pytest.mark.parametrize('how_often', range(1, HOW_OFTEN + 1))
     def test_it(self, total_ncrvi, how_often):
         """Perform the ncrvi test a couple of times
@@ -79,11 +90,22 @@ class TestCase_Ncrvi:
         time.sleep(self.SETTLING_DELAY)
 
         try:
-            assert total_ncrvi == self.EXPECTED_COMPONENTS
-        except AssertionError as exc:
-            raise self.NumberOfComponentsError(textwrap.dedent(f'''
-                {total_ncrvi!r} ({self.EXPECTED_COMPONENTS!r} expected)
-            ''').strip()) from exc
+            # The overall number must match
+            try:
+                assert total_ncrvi == self.EXPECTED_COMPONENTS
+            except AssertionError as exc:
+                raise self.NumberOfComponentsError(textwrap.dedent(f'''
+                    {total_ncrvi!r} ({self.EXPECTED_COMPONENTS!r} expected)
+                ''').strip()) from exc
+
+            # Individual components must be present
+            try:
+                for component in [' ', 'the', 'is']:
+                    assert self.is_present(component)
+            except AssertionError as exc:
+                raise self.ComponentNotFoundError(f'component {component!r} not found') from exc
+        except:
+            raise
         finally:
             time.sleep(self.POWER_OFF_WAIT)
             _ = self.power_off_cmd()
