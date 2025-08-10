@@ -40,6 +40,7 @@ class TestCase_Ncrvi:
         except AssertionError:
             pytest.skip('Not requested')
 
+
     @pytest.fixture
     def the_data(self) -> str:
         """Produce the data to be inspected
@@ -51,6 +52,7 @@ class TestCase_Ncrvi:
         """
         self.the_data_to_check = self.ncrvi_cmd()
         return self.the_data_to_check
+
 
     def total_ncrvi(self) -> int:
         """Determine the number of components returning version info
@@ -78,6 +80,7 @@ class TestCase_Ncrvi:
         ''', re.VERBOSE)
         return int(ncrvi_rx.match(ncrvi_out).group('ncrvi'))
 
+
     def is_present(self, component: str = str()) -> re.Match:
         """Determine if a given component is present
 
@@ -86,6 +89,7 @@ class TestCase_Ncrvi:
         """
         component = re.compile(f'{component}', re.IGNORECASE)
         return component.search(self.the_data_to_check)
+
 
     @pytest.mark.parametrize('how_often', range(1, HOW_OFTEN + 1))
     def test_it(self, the_data, how_often):
