@@ -28,6 +28,7 @@ class TestCase_Ncrvi:
 
     class NumberOfComponentsError(ArithmeticError): pass
     class ComponentNotFoundError(LookupError): pass
+    class NothingToBeDoneError(ValueError): pass
 
     def test_initial_wait(self):
         """Perform an initial wait to "warm up" the target"""
@@ -40,12 +41,23 @@ class TestCase_Ncrvi:
             pytest.skip('Not requested')
 
     @pytest.fixture
+    def the_data(self) -> str:
+        """Produce the data to be inspected
+
+        Note that what is returned is only generally checked (for being something rather than
+        nothing).  We store the relevant info in an attribute for the other checks to access.
+
+        :returns: the data
+        """
+        self.the_data_to_check = self.ncrvi_cmd()
+        return self.the_data_to_check
+
     def total_ncrvi(self) -> int:
         """Determine the number of components returning version info
 
         :returns: The number of such components
         """
-        ncrvi_out = 'Hi a dude: ' + str(len(self.ncrvi_cmd()))
+        ncrvi_out = 'Hi a dude: ' + str(len(self.the_data_to_check))
 
         ncrvi_rx = re.compile(r'''
             ^
@@ -73,14 +85,13 @@ class TestCase_Ncrvi:
         :returns: A regex match object if the component could be found; None if not
         """
         component = re.compile(f'{component}', re.IGNORECASE)
-
-        return component.search(self.ncrvi_cmd())
+        return component.search(self.the_data_to_check)
 
     @pytest.mark.parametrize('how_often', range(1, HOW_OFTEN + 1))
-    def test_it(self, total_ncrvi, how_often):
+    def test_it(self, the_data, how_often):
         """Perform the ncrvi test a couple of times
 
-        :param total_ncrvi: The fixture that is the workhorse
+        :param the_data: What to look at
         :param how_often: Repeat the experiment this many times
         """
         time.sleep(self.POWER_OFF_WAIT)
@@ -90,7 +101,14 @@ class TestCase_Ncrvi:
         time.sleep(self.SETTLING_DELAY)
 
         try:
+            # There must be something to do
+            try:
+                assert the_data is not None
+            except AssertionError as exc:
+                raise self.NothingToBeDoneError('there is nothing to do?!?')
+
             # The overall number must match
+            total_ncrvi = self.total_ncrvi()
             try:
                 assert total_ncrvi == self.EXPECTED_COMPONENTS
             except AssertionError as exc:
