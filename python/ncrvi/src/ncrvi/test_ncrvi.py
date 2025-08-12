@@ -81,13 +81,14 @@ class TestCase_Ncrvi:
         return int(ncrvi_rx.match(ncrvi_out).group('ncrvi'))
 
 
-    def is_present(self, component: str = str()) -> re.Match:
+    def is_present(self, component: re.Pattern = None) -> re.Match:
         """Determine if a given component is present
 
-        :param component: A string identifying a component
+        :param component: An optional regex identifying a component
         :returns: A regex match object if the component could be found; None if not
         """
-        component = re.compile(f'{component}', re.IGNORECASE)
+        if component == None:
+            return None
         return component.search(self.the_data_to_check)
 
 
@@ -122,10 +123,14 @@ class TestCase_Ncrvi:
 
             # Individual components must be present
             try:
-                for component in [' ', 'the', 'is']:
-                    assert self.is_present(component)
+                for component in [
+                    r'\s',
+                    r'e',
+                ]:
+                    assert self.is_present(re.compile(component))
             except AssertionError as exc:
                 raise self.ComponentNotFoundError(f'component {component!r} not found') from exc
+
         except:
             raise
         finally:
