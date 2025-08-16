@@ -30,7 +30,8 @@ class FilterMessages:
     ) -> None:
         """"Init the show"""
         self.args = self.parse_cmd_line(me, purpose)
-        self.args.boring_regex = self.DEFAULT_THINGS_CONSIDERED_BORING
+        self.files = tuple(file for file in self.args.file) if self.args.file else None
+        self.boring_regex = re.compile(self.args.boring_regex, re.VERBOSE)
 
 
     def parse_cmd_line(self, me: str, purpose: str) -> Optional[argparse.Namespace]:
@@ -39,7 +40,21 @@ class FilterMessages:
             parser = argparse.ArgumentParser(
                 prog=me,
                 description=purpose,
-                formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+            )
+            parser.add_argument(
+                'file',
+                nargs='*',
+                default=None,
+                help='''
+                    work on this; use '-' to denote stdin
+                    ''',
+            )
+            parser.add_argument(
+                '-b', '--boring-regex',
+                default=self.DEFAULT_THINGS_CONSIDERED_BORING.pattern,
+                help='''
+                    what to omit; the default is so complex, it cannot be printed here :-|
+                    ''',
             )
             return parser.parse_args()
         except argparse.ArgumentError as exc:
@@ -49,7 +64,8 @@ class FilterMessages:
     def __call__(self) -> int:
         """Run the show"""
 
-        with fileinput.input() as file:
+        with fileinput.input(files=self.files) as file:
+
             for line in file:
 
                 # Blank and blank-looking lines we discard
@@ -57,7 +73,7 @@ class FilterMessages:
                     continue
 
                 # Ignore lines containing items explicitly declared uninteresting
-                if self.args.boring_regex.search(line):
+                if self.boring_regex.search(line):
                     continue
 
                 # This, by definition, is interesting
