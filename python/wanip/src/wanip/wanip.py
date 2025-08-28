@@ -109,7 +109,7 @@ class Wanip:
 def __main() -> int:
 
     W = Wanip()
-    sys.exit(W())
+    return W()
 
 def main() -> int:
     try:

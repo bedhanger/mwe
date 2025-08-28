@@ -68,7 +68,7 @@ class Dice:
 def __main() -> int:
     """Run the show"""
     D = Dice()
-    sys.exit(D())
+    return D()
 
 def main() -> int:
     """Entry point for the package"""

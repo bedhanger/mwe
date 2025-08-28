@@ -118,7 +118,7 @@ class Ncrvi:
 def __main() -> int:
 
     N = Ncrvi()
-    sys.exit(N())
+    return N()
 
 def main() -> int:
     try:

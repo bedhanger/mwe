@@ -74,7 +74,7 @@ class FilterMessages:
 def __main() -> int:
 
     Fm = FilterMessages()
-    sys.exit(Fm())
+    return Fm()
 
 
 def main() -> int:
