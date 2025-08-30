@@ -2,7 +2,7 @@
 
 import pytest
 
-from yacd import singleton
+from yacd import singleton, nullfiy
 
 
 class TestCase_Singleton:
@@ -19,3 +19,57 @@ class TestCase_Singleton:
         class C:...
 
         assert C() is C()
+
+
+class TestCase_Nullify:
+
+    def test_normal_function(self):
+
+        @nullfiy
+        def f():
+
+            raise Exception('why are we here?!?')
+
+        f()
+
+    def test_method(self):
+
+        class C:
+
+            @nullfiy
+            def method(self):
+
+                raise Exception('why are we here?!?')
+
+        C().method()
+
+    def test_class__init__(self):
+
+        class C:
+
+            @nullfiy
+            def __init__(self):
+
+                raise Exception('why are we here?!?')
+
+            def method(self):
+
+                assert True
+
+        C().method()
+
+    def test_class_instance_creation_fails(self):
+
+        @nullfiy
+        class C:
+
+            def __init__(self):
+
+                raise Exception('why are we here?!?')
+
+            def method(self):
+
+                raise Exception('why are we here?!?')
+
+        with pytest.raises(AttributeError):
+            C().method()
