@@ -2,21 +2,23 @@
 
 import pytest
 
-from yacd import singleton, nullfiy
+from inspect import isclass
+
+from yacd import singleton, nullfiy, initify
 
 
 class TestCase_Singleton:
 
     def test_non_singletons_are_different(self):
 
-        class C:...
+        class C: ...
 
         assert C() is not C()
 
     def test_singletons_are_equal(self):
 
         @singleton
-        class C:...
+        class C: ...
 
         assert C() is C()
 
@@ -73,3 +75,27 @@ class TestCase_Nullify:
 
         with pytest.raises(AttributeError):
             C().method()
+
+
+class TestCase_Initify:
+
+    def test_class_instance_creation_canonical(self):
+
+        class C:
+
+            def __init__(self): ...
+
+        assert isclass(C)
+        assert isinstance(C(), C)
+
+    def test_class_instance_creation_decorated(self):
+
+        @initify
+        class C:
+
+            def __init__(self): ...
+
+        assert not isclass(C)
+        assert isinstance(C, object)
+        assert isinstance(C, type(C))
+        assert isinstance(C, C.__class__)
