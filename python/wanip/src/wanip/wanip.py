@@ -33,7 +33,7 @@ class Wanip:
         else:
             print('{output}'.format(output=result.stdout.decode().rstrip()))
 
-    def parse_cmd_line(self, me: str, purpose: str) -> Optional[argparse.Namespace]:
+    def parse_cmd_line(self, me: str, purpose: str) -> argparse.Namespace:
         """Read options, show help"""
         # Parse the command line
         try:

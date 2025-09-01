@@ -25,7 +25,7 @@ class Dice:
         me = re.sub(r'^play', '', me)
         self.args = self.parse_cmd_line(me, purpose)
 
-    def parse_cmd_line(self, me: str, purpose: str) -> Optional[argparse.Namespace]:
+    def parse_cmd_line(self, me: str, purpose: str) -> argparse.Namespace:
         """
         Read options, show help
         """

@@ -1,13 +1,13 @@
 """See the `README
 <https://gitlab.com/bedhanger/mwe/-/blob/master/python/requiresthat/README.rst>`_ file
 """
-from typing import Optional, Callable
+from typing import Callable
 from functools import wraps
 
 from ._when import When, APRIORI, POSTMORTEM, BEFOREANDAFTER
 from ._exceptions import RequirementNotFulfilledError, NoCallableConstructError
 
-def requires(that, when: When = APRIORI) -> Optional[Callable]:
+def requires(that, when: When = APRIORI) -> Callable:
     """Require ``that`` of the decoratee, and require it ``when``
 
     Fail if the associated construct is not callable.
@@ -41,11 +41,11 @@ def requires(that, when: When = APRIORI) -> Optional[Callable]:
 
     to the list of decorators above and watch what happens.
     """
-    def func_wrapper(__func: Callable) -> Optional[Callable]:
+    def func_wrapper(__func: Callable) -> Callable:
         """First-level wrap the decoratee"""
 
         @wraps(__func)
-        def inner_wrapper(self, *pargs, **kwargs) -> Optional[Callable]:
+        def inner_wrapper(self, *pargs, **kwargs) -> Callable:
             """Wrap the first-level wrapper
 
             The wrapping stops here...

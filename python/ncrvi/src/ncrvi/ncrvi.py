@@ -17,7 +17,7 @@ class Ncrvi:
         """Kick off scanning the command-line"""
         self.args = self.parse_cmd_line(me, purpose)
 
-    def parse_cmd_line(self, me: str, purpose: str) -> Optional[argparse.Namespace]:
+    def parse_cmd_line(self, me: str, purpose: str) -> argparse.Namespace:
         """Read options, show help
 
         :param me: The name used to identify the program in the usage display

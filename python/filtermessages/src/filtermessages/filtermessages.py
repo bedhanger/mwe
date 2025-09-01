@@ -22,7 +22,7 @@ class FilterMessages:
         self.boring_regex = re.compile(self.args.boring_regex, re.VERBOSE)
 
 
-    def parse_cmd_line(self, me: str, purpose: str) -> Optional[argparse.Namespace]:
+    def parse_cmd_line(self, me: str, purpose: str) -> argparse.Namespace:
         """Read options, show help"""
         try:
             parser = argparse.ArgumentParser(

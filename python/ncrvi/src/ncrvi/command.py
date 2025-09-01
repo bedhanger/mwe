@@ -1,7 +1,6 @@
 """Simple wrapper for specifying and running a command"""
 
 import subprocess
-from typing import Optional
 
 class CommandExecutionError(subprocess.CalledProcessError):
 
@@ -19,7 +18,7 @@ class Command:
     def __init__(self, *pargs):
         self.pargs = pargs;
 
-    def __call__(self) -> Optional[str]:
+    def __call__(self) -> str:
         """Execute the command
 
         :returns: The command's output
