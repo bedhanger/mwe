@@ -1,5 +1,7 @@
-#!/usr/bin/env python
+"""Motley of decorators, some of which tend to limit things
 
+Study the test code to see example usages.
+"""
 from functools import wraps
 
 
@@ -31,8 +33,10 @@ def nullfiy(callable_):
 
 
 def callify(instance=None, /, *pargs, **kwargs):
-    """Equate an instance with the return of its __call__ routine"""
+    """Equate an instance with the return of its __call__ routine
 
+    It is, essentially, like instancify
+    """
     def __callify(instance, *pargs, **kwargs):
         return instance(*pargs, **kwargs)
 
@@ -40,15 +44,19 @@ def callify(instance=None, /, *pargs, **kwargs):
     def wrap(instance):
         return __callify(instance, *pargs, **kwargs)
 
+    # @callify()
     if instance is None:
         return wrap
 
+    # @callify
     return wrap(instance)
 
 
 def instancify(cls=None, /, *pargs, **kwargs):
-    """Equate a class with an instance of it"""
+    """Equate a class with an instance of it
 
+    It is, essentially, like callify.
+    """
     def __instancify(cls, *pargs, **kwargs):
         return cls(*pargs, **kwargs)
 
@@ -56,7 +64,9 @@ def instancify(cls=None, /, *pargs, **kwargs):
     def wrap(cls):
         return __instancify(cls, *pargs, **kwargs)
 
+    # @instancify()
     if cls is None:
         return wrap
 
+    # @instancify
     return wrap(cls)
