@@ -30,15 +30,20 @@ def nullfiy(callable_):
     return __wrapper
 
 
-def callify(instance):
-    """Equate an instance with its __call__ method's return"""
+def callify(instance=None, /, *pargs, **kwargs):
+    """Equate an instance with the return of its __call__ routine"""
 
-    @wraps(instance)
-    def __wrapper(*pargs, **kwargs):
-
+    def __callify(instance, *pargs, **kwargs):
         return instance(*pargs, **kwargs)
 
-    return __wrapper
+    @wraps(instance)
+    def wrap(instance):
+        return __callify(instance, *pargs, **kwargs)
+
+    if instance is None:
+        return wrap
+
+    return wrap(instance)
 
 
 def instancify(cls=None, /, *pargs, **kwargs):

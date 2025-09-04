@@ -4,7 +4,7 @@ import pytest
 
 from inspect import isclass
 
-from yacd import singleton, nullfiy, instancify
+from yacd import singleton, nullfiy, instancify, callify
 
 
 class TestCase_Singleton:
@@ -109,3 +109,65 @@ class TestCase_Instancify:
 
         assert C.spam == 'ham'
         assert C.eggs == 'bacon'
+
+
+class TestCase_Callify:
+
+    def test_instance_call_canonical(self):
+
+        class C:
+
+            def __init__(self):
+                self.data = 'spam'
+
+            def __call__(self) -> str:
+                return self.data
+
+        c = C()
+
+        assert isclass(C)
+        assert isinstance(c, C)
+        assert c() == 'spam'
+
+    def test_instance_decorated_call(self):
+
+        @instancify # could also use @callify
+        class C:
+
+            def __init__(self):
+                self.data = 24
+
+            def __call__(self) -> int:
+                return self.data
+
+        assert C() == 24
+
+    def test_instance_call_decorated_stacked(self):
+
+        @callify
+        @instancify
+        class C:
+
+            def __init__(self):
+                self.data = 42
+
+            def __call__(self) -> int:
+                return self.data
+
+        assert isinstance(C, int)
+        assert C == 42
+
+    def test_instance_call_decorated_stacked_with_args(self):
+
+        @callify(addon='World!')
+        @instancify(data='Hello')
+        class C:
+
+            def __init__(self, data):
+                self.data = data
+
+            def __call__(self, addon) -> str:
+                return self.data + ', ' + addon
+
+        assert isinstance(C, str)
+        assert C == 'Hello, World!'
