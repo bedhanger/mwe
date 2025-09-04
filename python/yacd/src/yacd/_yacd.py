@@ -47,6 +47,7 @@ def instancify(cls=None, /, *pargs, **kwargs):
     def __instancify(cls, *pargs, **kwargs):
         return cls(*pargs, **kwargs)
 
+    @wraps(cls)
     def wrap(cls):
         return __instancify(cls, *pargs, **kwargs)
 

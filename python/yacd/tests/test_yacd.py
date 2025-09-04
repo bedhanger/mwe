@@ -97,3 +97,15 @@ class TestCase_Instancify:
         assert type(C) is C.__class__
         assert isinstance(C, type(C))
         assert isinstance(C, C.__class__)
+
+    def test_class_instance_creation_decorated_with_init_and_args(self):
+
+        @instancify(spam='ham', eggs='bacon')
+        class C:
+
+            def __init__(self, spam, eggs):
+                self.spam = spam
+                self.eggs = eggs
+
+        assert C.spam == 'ham'
+        assert C.eggs == 'bacon'
