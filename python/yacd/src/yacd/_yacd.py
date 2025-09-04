@@ -41,12 +41,16 @@ def callify(instance):
     return __wrapper
 
 
-def initify(class_):
+def instancify(cls=None, /, *pargs, **kwargs):
     """Equate a class with an instance of it"""
 
-    @wraps(class_)
-    def __wrapper(*pargs, **kwargs):
+    def __instancify(cls, *pargs, **kwargs):
+        return cls(*pargs, **kwargs)
 
-        return class_(*pargs, **kwargs)
+    def wrap(cls):
+        return __instancify(cls, *pargs, **kwargs)
 
-    return __wrapper
+    if cls is None:
+        return wrap
+
+    return wrap(cls)

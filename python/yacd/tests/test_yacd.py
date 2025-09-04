@@ -4,7 +4,7 @@ import pytest
 
 from inspect import isclass
 
-from yacd import singleton, nullfiy, initify
+from yacd import singleton, nullfiy, instancify
 
 
 class TestCase_Singleton:
@@ -77,25 +77,23 @@ class TestCase_Nullify:
             C().method()
 
 
-class TestCase_Initify:
+class TestCase_Instancify:
 
     def test_class_instance_creation_canonical(self):
 
-        class C:
-
-            def __init__(self): ...
+        class C: ...
 
         assert isclass(C)
         assert isinstance(C(), C)
+        assert type(C()) is C
+        assert type(C) is type
 
     def test_class_instance_creation_decorated(self):
 
-        @initify
-        class C:
-
-            def __init__(self): ...
+        @instancify
+        class C: ...
 
         assert not isclass(C)
-        assert isinstance(C, object)
+        assert type(C) is C.__class__
         assert isinstance(C, type(C))
         assert isinstance(C, C.__class__)
