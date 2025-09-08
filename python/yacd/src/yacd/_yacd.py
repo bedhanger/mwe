@@ -5,20 +5,19 @@ Study the test code to see example usages.
 from functools import wraps
 
 
-def singleton(class_):
-    """Make a class a singleton as per
+class singleton:
+    """Make a class a singleton, loosely based on
 
         https://realpython.com/primer-on-python-decorators/#creating-singletons
     """
-    @wraps(class_)
-    def __wrapper(*pargs, **kwargs):
+    def __init__(self, class_):
+        self.class_ = class_
+        self.instance = None
 
-        if __wrapper.instance is None:
-            __wrapper.instance = class_(*pargs, **kwargs)
-        return __wrapper.instance
-
-    __wrapper.instance = None
-    return __wrapper
+    def __call__(self, *pargs, **kwargs):
+        if self.instance is None:
+            self.instance = self.class_(*pargs, **kwargs)
+        return self.instance
 
 
 def nullfiy(callable_):
