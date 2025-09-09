@@ -21,8 +21,12 @@ class singleton:
 
 
 def nullfiy(callable_):
-    """Make a callable's code ineffective"""
+    """Make a callable's code ineffective
 
+    It is, literally, like inserting 'return None' into the callable, at the very first opportunity.
+    Note that in order to prevent class instantiation, apply the decorator not to the __init__ but
+    to the class in question.  (__init__ normally does return None; at the very end, though.)
+    """
     @wraps(callable_)
     def __wrapper(*pargs, **kwargs) -> None:
 
