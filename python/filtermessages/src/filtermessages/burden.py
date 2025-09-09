@@ -14,8 +14,9 @@ from yacd import singleton, instancify, callify
 @singleton
 @dataclass(frozen=True)
 class DEFAULT_THINGS_CONSIDERED_BORING:
+    """A capsule for the regex"""
 
-    regex : re.Pattern = field(default=re.compile(r'''
+    __regex : re.Pattern = field(default=re.compile(r'''
         (?:b(ed)?h(anger)?\svdr:)
         |
         (?:(dovecot)|(log)(\[\d+\])?:\simap)
@@ -46,7 +47,7 @@ class DEFAULT_THINGS_CONSIDERED_BORING:
     ''', re.VERBOSE))
 
     def __call__(self) -> re.Pattern:
-        return self.regex
+        return self.__regex
 
     def __str__(self):
-        return self.regex.pattern
+        return self.__regex.pattern
