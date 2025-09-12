@@ -65,6 +65,7 @@
 	diphth = diff --no-index --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol --ignore-space-at-eol --ignore-space-change
 	# Unconditionally make it look like upstream
 	up = reset --merge @{upstream}
+	s3 = show --show-signature
 [merge]
         conflictStyle = diff3
         log = true
