@@ -147,8 +147,51 @@ ${ia} rjctrst --protocol tcp --jump REJECT --reject-with tcp-reset
 # In case it wasn't UDP or TCP...
 ${ia} rjctrst --jump REJECT
 
-# The forwarding is very simple.
+# The forwarding just allows all three classes of private Internets to talk to each other.
 ${inc} fwd
+
+${ia} fwd \
+    --match set \
+	--match-set capi src \
+    --match set \
+	--match-set cbpi dst \
+    --jump ACCEPT
+
+${ia} fwd \
+    --match set \
+	--match-set capi src \
+    --match set \
+	--match-set ccpi dst \
+    --jump ACCEPT
+
+${ia} fwd \
+    --match set \
+	--match-set cbpi src \
+    --match set \
+	--match-set capi dst \
+    --jump ACCEPT
+
+${ia} fwd \
+    --match set \
+	--match-set cbpi src \
+    --match set \
+	--match-set ccpi dst \
+    --jump ACCEPT
+
+${ia} fwd \
+    --match set \
+	--match-set ccpi src \
+    --match set \
+	--match-set capi dst \
+    --jump ACCEPT
+
+${ia} fwd \
+    --match set \
+	--match-set ccpi src \
+    --match set \
+	--match-set cbpi dst \
+    --jump ACCEPT
+
 ${ia} fwd --jump blackhole
 ${ia} FORWARD --jump fwd
 
