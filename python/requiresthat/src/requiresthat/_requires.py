@@ -41,38 +41,41 @@ def requires(that, when: When = APRIORI) -> Callable:
 
     to the list of decorators above and watch what happens.
     """
-    def func_wrapper(__func: Callable) -> Callable:
+    def decoratee(__func: Callable) -> Callable:
         """First-level wrap the decoratee"""
 
-        @wraps(__func)
-        def inner_wrapper(self, *pargs, **kwargs) -> Callable:
-            """Wrap the first-level wrapper
+        if not __debug__:
+            return __func
+        else:
+            @wraps(__func)
+            def call(self, *pargs, **kwargs) -> Callable:
+                """Wrap the first-level wrapper
 
-            The wrapping stops here...
-            """
-            if not callable(__func):
-                raise NoCallableConstructError(__func)
-            else:
-                if when == APRIORI:
-                    __assert(self, that, when)
-                    __func(self, *pargs, **kwargs)
+                The wrapping stops here...
+                """
+                if not callable(__func):
+                    raise NoCallableConstructError(__func)
+                else:
+                    if when == APRIORI:
+                        __assert(self, that, when)
+                        __func(self, *pargs, **kwargs)
 
-                elif when == POSTMORTEM:
-                    __func(self, *pargs, **kwargs)
-                    __assert(self, that, when)
+                    elif when == POSTMORTEM:
+                        __func(self, *pargs, **kwargs)
+                        __assert(self, that, when)
 
-                elif when == BEFOREANDAFTER:
-                    __assert(self, that, when, APRIORI)
-                    __func(self, *pargs, **kwargs)
-                    __assert(self, that, when, POSTMORTEM)
+                    elif when == BEFOREANDAFTER:
+                        __assert(self, that, when, APRIORI)
+                        __func(self, *pargs, **kwargs)
+                        __assert(self, that, when, POSTMORTEM)
 
-                # We don't need an else clause; trying to enlist something that's not in the enum
-                # will be penalised with an AttributeError, and small typos will be healed with a
-                # suggestion as to what you might have meant.
+                    # We don't need an else clause; trying to enlist something that's not in the enum
+                    # will be penalised with an AttributeError, and small typos will be healed with a
+                    # suggestion as to what you might have meant.
 
-        return inner_wrapper
+            return call
 
-    return func_wrapper
+    return decoratee
 
 def __assert(self, that, when: When, subwhen: str = str()):
     """Do the actual testing and raise the proper exceptions
@@ -81,7 +84,7 @@ def __assert(self, that, when: When, subwhen: str = str()):
     namely, that it nukes this useful tool, :-[
     """
     # We map everything that can go wrong to one exception; that way, the user has to deal with only
-    # one catagory of exceptions.
+    # one category of exceptions.
     failure = RequirementNotFulfilledError(that, when, subwhen)
     try:
         if not eval(that):
