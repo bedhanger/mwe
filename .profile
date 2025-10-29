@@ -58,6 +58,12 @@ alias more=less
 
 alias j=jobs
 
+# Redefining plain . breaks the auto-completion
+function .# {
+    for folder in ${@:-'.'}; do
+	xdg-open ${folder}
+    done
+}
 alias ..="cd .. && pwd && lt"
 
 # Primary prompt.
@@ -131,7 +137,7 @@ export FCEDIT='/bin/vi -c "set paste|read ~/commands.txt"'
 
 export FILE_TYPES_TO_GREP="{ada,c,h,make,bld,gpj,sh,{a,e,r,s,u}df,p{l,m}}"
 
-export HISTIGNORE="&:[lj]u[tb]:.:..:-:w:ps:df:make:l[tsh]:[bf]g:exit:logout:frex:pwd:vifm:j:e"
+export HISTIGNORE="&:[lj]u[tb]:.#:..:-:w:ps:df:make:l[tsh]:[bf]g:exit:logout:frex:pwd:vifm:j:e"
 
 # stty cols 80
 
