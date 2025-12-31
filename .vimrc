@@ -83,8 +83,6 @@ set shellslash
 set cmdwinheight=3
 " F11: toggle paste mode
 set pastetoggle=<F11>
-" This makes copy and paste easier.
-set clipboard=unnamed
 " Have the full ASCII range as printable.
 set isprint=@,~-255
 " Ease opening a file whose name is under the cursor.
