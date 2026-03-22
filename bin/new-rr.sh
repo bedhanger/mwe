@@ -46,9 +46,7 @@ ip route flush table new.routing
 ip route add ${primary_nic_net} dev ${primary_nic} src ${primary_nic_addr} table new.routing
 ip route add default via ${primary_nic_gw} dev ${primary_nic} table new.routing
 
-ip rule del from ${primary_nic_addr}/32 table new.routing
-ip rule del to ${primary_nic_addr}/32 table new.routing
-ip rule del to ${primary_nic_gw}/32 table new.routing
+ip rule flush table new.routing
 ip rule add from ${primary_nic_addr}/32 table new.routing
 ip rule add to ${primary_nic_addr}/32 table new.routing
 ip rule add to ${primary_nic_gw}/32 table new.routing
@@ -66,9 +64,7 @@ ip route flush table switch.maintenance
 ip route add ${sw_maint_nic_net} dev ${sw_maint_nic} src ${sw_maint_nic_addr} table switch.maintenance
 ip route add default via ${sw_maint_nic_gw} dev ${sw_maint_nic} table switch.maintenance
 
-ip rule del from ${sw_maint_nic_addr}/32 table switch.maintenance
-ip rule del to ${sw_maint_nic_addr}/32 table switch.maintenance
-ip rule del to ${sw_maint_nic_gw}/32 table switch.maintenance
+ip rule flush table switch.maintenance
 ip rule add from ${sw_maint_nic_addr}/32 table switch.maintenance
 ip rule add to ${sw_maint_nic_addr}/32 table switch.maintenance
 ip rule add to ${sw_maint_nic_gw}/32 table switch.maintenance
