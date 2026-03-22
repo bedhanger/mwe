@@ -41,14 +41,17 @@ primary_nic_addr=10.1.0.10
 primary_nic_net=10.1.0.0/24
 primary_nic_gw=10.1.0.1
 
+# Address
 ip address flush ${primary_nic}
 ip address add ${primary_nic_addr}/24 dev ${primary_nic}
 
+# Route & gateway
 ip route flush table new.routing
 ip route del ${primary_nic_net} dev ${primary_nic} src ${primary_nic_addr} table main # Trivial route!
 ip route add ${primary_nic_net} dev ${primary_nic} src ${primary_nic_addr} table new.routing
 ip route add default via ${primary_nic_gw} dev ${primary_nic} table new.routing
 
+# When to use
 ip rule flush table new.routing
 ip rule add from ${primary_nic_addr}/32 table new.routing
 ip rule add to ${primary_nic_addr}/32 table new.routing
@@ -61,14 +64,17 @@ sw_maint_nic_addr=10.0.0.253
 sw_maint_nic_net=10.0.0.252/30
 sw_maint_nic_gw=10.0.0.254
 
+# Address
 ip address flush ${sw_maint_nic}
 ip address add ${sw_maint_nic_addr}/30 dev ${sw_maint_nic}
 
+# Route & gateway
 ip route flush table switch.maintenance
 ip route del ${sw_maint_nic_net} dev ${sw_maint_nic} src ${sw_maint_nic_addr} table main # Trivial route!
 ip route add ${sw_maint_nic_net} dev ${sw_maint_nic} src ${sw_maint_nic_addr} table switch.maintenance
 ip route add default via ${sw_maint_nic_gw} dev ${sw_maint_nic} table switch.maintenance
 
+# When to use
 ip rule flush table switch.maintenance
 ip rule add from ${sw_maint_nic_addr}/32 table switch.maintenance
 ip rule add to ${sw_maint_nic_addr}/32 table switch.maintenance
