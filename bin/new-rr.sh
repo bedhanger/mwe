@@ -40,8 +40,10 @@ primary_nic=enp0s29f7u3c2 # make this enp5s0 one day!!!
 primary_nic_addr=10.1.0.10
 primary_nic_net=10.1.0.0/24
 primary_nic_gw=10.1.0.1
+
 iots_gw=172.17.0.1
 soho_gw=172.18.0.1
+up2isp_gw=192.168.0.10
 
 # Address
 ip address flush ${primary_nic}
@@ -60,6 +62,7 @@ ip rule add to ${primary_nic_addr}/32 table new.routing
 ip rule add to ${primary_nic_gw}/32 table new.routing
 ip rule add to ${iots_gw}/32 table new.routing
 ip rule add to ${soho_gw}/32 table new.routing
+ip rule add to ${up2isp_gw}/32 table new.routing
 
 # The NIC that serves as the access to the switch's maintenance interface
 # We have a mini-net: just the switch, the peer, and the broadcast address
