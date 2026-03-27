@@ -92,10 +92,10 @@ ip rule add to ${sw_maint_nic_addr}/32 table switch.maintenance
 ip rule add to ${sw_maint_nic_gw}/32 table switch.maintenance
 
 # Show the results of the above
-ip route list table main
+ip -color route list table main
 echo
-ip route list table new.routing
+ip -color route list table new.routing
 echo
-ip route list table switch.maintenance
+ip -color route list table switch.maintenance
 echo
-ip rule show
+ip -color rule show
