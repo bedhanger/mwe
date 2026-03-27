@@ -46,8 +46,10 @@ soho_gw=172.18.0.1
 up2isp_gw=192.168.0.10
 
 # Address
+ip link set down dev ${primary_nic}
 ip address flush ${primary_nic}
 ip address add ${primary_nic_addr}/24 dev ${primary_nic}
+ip link set up dev ${primary_nic}
 
 # Route & gateway
 ip route flush table new.routing
@@ -72,8 +74,10 @@ sw_maint_nic_net=10.0.0.252/30
 sw_maint_nic_gw=10.0.0.254
 
 # Address
+ip link set down dev ${sw_maint_nic}
 ip address flush ${sw_maint_nic}
 ip address add ${sw_maint_nic_addr}/30 dev ${sw_maint_nic}
+ip link set up dev ${sw_maint_nic}
 
 # Route & gateway
 ip route flush table switch.maintenance
