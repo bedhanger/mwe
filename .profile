@@ -253,3 +253,6 @@ export NNN_OPTS
 # New Python REPL does not pay attention to ~/.inputrc anymore; request the old one to get vi-style
 # editing mode back
 export PYTHON_BASIC_REPL=1
+
+# Can't wait for this to become the default...
+alias ip='ip -color=auto'
