@@ -45,6 +45,9 @@ iots_gw=172.17.0.1
 soho_gw=172.18.0.1
 up2isp_gw=192.168.0.10
 
+# Flush the routing cache
+ip route flush cache
+
 # Address
 ip link set down dev ${primary_nic}
 ip address flush ${primary_nic}
