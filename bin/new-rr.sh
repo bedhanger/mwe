@@ -43,7 +43,6 @@ primary_nic_gw=10.1.0.1
 
 iots_gw=172.17.0.1
 soho_gw=172.18.0.1
-up2isp_gw=192.168.0.10
 
 # Flush the routing cache
 ip route flush cache
@@ -67,7 +66,6 @@ ip rule add to ${primary_nic_addr}/32 table new.routing
 ip rule add to ${primary_nic_gw}/32 table new.routing
 ip rule add to ${iots_gw}/32 table new.routing
 ip rule add to ${soho_gw}/32 table new.routing
-ip rule add to ${up2isp_gw}/32 table new.routing
 
 # The NIC that serves as the access to the switch's maintenance interface
 # We have a mini-net: just the switch, the peer, and the broadcast address
