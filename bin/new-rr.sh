@@ -31,6 +31,7 @@
 rm --force /etc/iproute2/rt_tables
 mkdir --parent /etc/iproute2
 cat << EOM > /etc/iproute2/rt_tables
+3       phone.tethering
 2       switch.maintenance
 1       new.routing
 EOM
