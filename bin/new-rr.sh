@@ -37,7 +37,8 @@ cat << EOM > /etc/iproute2/rt_tables
 EOM
 
 # The primary NIC
-primary_nic=enp0s29f7u3c2 # make this enp5s0 one day!!!
+soon2b_primary_nic=enp5s0 # make this primary_nic one day!
+primary_nic=enp0s29f7u3c2
 primary_nic_addr=10.1.0.10
 primary_nic_net=10.1.0.0/24
 primary_nic_gw=10.1.0.1
@@ -93,6 +94,8 @@ ip rule add from ${sw_maint_nic_addr}/32 table switch.maintenance
 ip rule add to ${sw_maint_nic_addr}/32 table switch.maintenance
 ip rule add to ${sw_maint_nic_gw}/32 table switch.maintenance
 
+ip -color address show ${soon2b_primary_nic}
+echo
 # Show the results of the above
 ip -color address show ${primary_nic}
 echo
