@@ -61,6 +61,9 @@ my $Any_Of_The_Unwanted_Lines = qr{
     |
 
     (?:gdm-x-session\[\d+\]:\s>\sWarning:\s+Could\snot\sresolve\skeysym\s\S+)
+    |
+
+    (?:DNSSEC\svalidation\sfailed\sfor\squestion)
 
 }xo;
 
