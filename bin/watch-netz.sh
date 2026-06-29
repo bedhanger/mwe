@@ -9,7 +9,9 @@ e \
 	--no-wrap \
 	--color \
 	--differences \
-	    "parallel --jobs=0 --ungroup ::: \
-		\"ip -color=always -r -s -s -d route show tab all\" \
-		\"64 2> /dev/null | rg ESTAB | rg -v localhost\" \
-    "
+	    "\
+		ip -color=always -r -s -s -d route show tab all ;\
+		ip -color=always -r rule list ;\
+		ip -color=always -r -s -s -d neighbour ;\
+		64 2> /dev/null | rg ESTAB | rg -v localhost ;\
+	    "
