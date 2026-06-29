@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ndrd"
 version = "2025.5.30.2"
-dependencies = []
+dependencies = ["termcolor"]
 
 [tool.pytest.ini_options]
 pythonpath = "src"
