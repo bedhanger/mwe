@@ -31,7 +31,7 @@ git b
 # Migrate
 make oldconfig
 git diff
-git stage .config
+git stage --interactive
 git ci -m".config: bump version"
 
 cat <<EOM
