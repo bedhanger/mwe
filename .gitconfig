@@ -23,8 +23,6 @@
         enabled = true
 [alias]
         st = status --short
-        unstage = reset HEAD --
-        unedit = checkout --
         ci = commit --signoff --verbose --verbose
         co = checkout
         b = branch
