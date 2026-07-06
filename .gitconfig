@@ -64,8 +64,10 @@
 	diphth = diff --no-index --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol --ignore-space-at-eol --ignore-space-change
 	# Unconditionally make it look like upstream
 	up = reset --merge @{upstream}
-	# Nice feature but requires a focused train of thought
+	# Nice features those, but require a focused train of thought
 	si = stage --interactive
+	sp = stage --patch
+	cp = ci --patch
 [merge]
         conflictStyle = diff3
         log = true
@@ -88,3 +90,5 @@
 [tag]
 	forceSignAnnotated = true
 	gpgSign = true
+[interactive]
+	singlekey = true
