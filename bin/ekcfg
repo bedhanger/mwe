@@ -30,7 +30,6 @@ git b
 
 # Migrate
 make oldconfig
-git diff
 git cp -m".config: bump version"
 
 cat <<EOM
