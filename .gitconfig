@@ -23,7 +23,6 @@
         enabled = true
 [alias]
         st = status --short
-        ci = commit --signoff --verbose --verbose
         co = checkout
         b = branch
         l1 = log --oneline
@@ -67,7 +66,7 @@
 	# Nice features those, but require a focused train of thought
 	si = stage --interactive
 	sp = stage --patch
-	cp = ci --patch
+       ci = commit --patch --signoff --verbose --verbose
 [merge]
         conflictStyle = diff3
         log = true
