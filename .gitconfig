@@ -44,8 +44,6 @@
         rpc = show --no-patch --date=short \
 		--pretty='format:%C(blue)%h%C(reset) (%C(red)\"%s\"%C(reset), %C(green)%ad%C(reset))%n'
         dcw = diff --color-words
-        # What we usually want invoked when we spell it out.
-        vi = ci --amend --allow-empty
         # Useful to produce diff slices even if no local changes
         # are present.
         tree0 = hash-object -t tree /dev/null
@@ -67,6 +65,8 @@
 	si = stage --interactive
 	sp = stage --patch
        ci = commit --patch --signoff --verbose --verbose
+       # What we usually want invoked when we spell it out.
+       vi = ci --amend --allow-empty
 [merge]
         conflictStyle = diff3
         log = true
