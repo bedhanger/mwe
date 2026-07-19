@@ -1,93 +1,93 @@
 [core]
-        # Recommended by the Linux kernel development guidelines
-        abbrev = 12
-	# Leave EOLs alone
-	autocrlf = false
+    # Recommended by the Linux kernel development guidelines
+    abbrev = 12
+    # Leave EOLs alone
+    autocrlf = false
 [user]
-	name = Ann T Ropea
-	email = bedhanger@gmx.de
-	signingkey = 9F7D1FF9E433C458E632C9A6A76185D3B497C68F
-	pager = cat
+    name = Ann T Ropea
+    email = bedhanger@gmx.de
+    signingkey = 9F7D1FF9E433C458E632C9A6A76185D3B497C68F
+    pager = cat
 [advice]
-	waitingForEditor = false
+    waitingForEditor = false
 [push]
-        default = simple
+    default = simple
 [color]
-        ui = auto
+    ui = auto
 [diff]
-        renames = copies
+    renames = copies
 [log]
-        date = iso
-        showSignature = true
+    date = iso
+    showSignature = true
 [rerere]
-        enabled = true
+    enabled = true
 [alias]
-        st = status --short
-        co = checkout
-        b = branch
-        l1 = log --oneline
-        l = log --graph --all --decorate=short --oneline \
-           --format=\"%C(blue)%h%C(reset) %C(green)%ad%C(reset) %C(yellow)%an%C(reset) %C(cyan)%ar%C(reset) %C(red)%s%C(reset) %C(bold magenta)%d%C(reset)\"
-        rr = clean -d -x --force --quiet
-        bav = branch -a --verbose --verbose
-        d = describe --dirty --tags
-        # Not part of the canon.  Needs script.
-        lr = left-right
-        bd = branch --delete
-        ff = ls-files
-        patches = format-patch
-        # Remote Procedure Call?  No, this relates to
-        # referencing (a) previous commit(s).  The Git patch
-        # submission guidelines suggest leaving off the %n (aka
-        # \n), though.  But referencing more than one makes the
-        # result look ugly.
-        rpc = show --no-patch --date=short \
-		--pretty='format:%C(blue)%h%C(reset) (%C(red)\"%s\"%C(reset), %C(green)%ad%C(reset))%n'
-        dcw = diff --color-words
-        # Useful to produce diff slices even if no local changes
-        # are present.
-        tree0 = hash-object -t tree /dev/null
-        # The short form of the option and its argument is -uno,
-        # hence the name of the alias.
-        st1 = st --untracked-files=no
-        ds = diff --staged
-	# Subtracktion
-	l0 = l1 -1
-	# Sorta like wc, but for objects in the repository
-	oc = count-objects --verbose --human-readable
-	# Most recent files and their status
-	mrf = diff HEAD^ --name-status
-	# When colordiff is nowhere to be found
-	diphth = diff --no-index --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol --ignore-space-at-eol --ignore-space-change
-	# Unconditionally make it look like upstream
-	up = reset --merge @{upstream}
-	# Nice features those, but require a focused train of thought
-	si = stage --interactive
-	sp = stage --patch
-       ci = commit --patch --signoff --verbose --verbose
-       # What we usually want invoked when we spell it out.
-       vi = ci --amend --allow-empty
+    st = status --short
+    co = checkout
+    b = branch
+    l1 = log --oneline
+    l = log --graph --all --decorate=short --oneline \
+       --format=\"%C(blue)%h%C(reset) %C(green)%ad%C(reset) %C(yellow)%an%C(reset) %C(cyan)%ar%C(reset) %C(red)%s%C(reset) %C(bold magenta)%d%C(reset)\"
+    rr = clean -d -x --force --quiet
+    bav = branch -a --verbose --verbose
+    d = describe --dirty --tags
+    # Not part of the canon.  Needs script.
+    lr = left-right
+    bd = branch --delete
+    ff = ls-files
+    patches = format-patch
+    # Remote Procedure Call?  No, this relates to
+    # referencing (a) previous commit(s).  The Git patch
+    # submission guidelines suggest leaving off the %n (aka
+    # \n), though.  But referencing more than one makes the
+    # result look ugly.
+    rpc = show --no-patch --date=short \
+    --pretty='format:%C(blue)%h%C(reset) (%C(red)\"%s\"%C(reset), %C(green)%ad%C(reset))%n'
+    dcw = diff --color-words
+    # Useful to produce diff slices even if no local changes
+    # are present.
+    tree0 = hash-object -t tree /dev/null
+    # The short form of the option and its argument is -uno,
+    # hence the name of the alias.
+    st1 = st --untracked-files=no
+    ds = diff --staged
+    # Subtracktion
+    l0 = l1 -1
+    # Sorta like wc, but for objects in the repository
+    oc = count-objects --verbose --human-readable
+    # Most recent files and their status
+    mrf = diff HEAD^ --name-status
+    # When colordiff is nowhere to be found
+    diphth = diff --no-index --ignore-all-space --ignore-blank-lines --ignore-cr-at-eol --ignore-space-at-eol --ignore-space-change
+    # Unconditionally make it look like upstream
+    up = reset --merge @{upstream}
+    # Nice features those, but require a focused train of thought
+    si = stage --interactive
+    sp = stage --patch
+    ci = commit --patch --signoff --verbose --verbose
+    # What we usually want invoked when we spell it out.
+    vi = ci --amend --allow-empty
 [merge]
-        conflictStyle = diff3
-        log = true
-        ff = false
+    conflictStyle = diff3
+    log = true
+    ff = false
 [pull]
-        ff = true
+    ff = true
 [hub]
-        protocol = https
+    protocol = https
 [format]
-        signoff = true
+    signoff = true
 [init]
-	defaultBranch = myster
+    defaultBranch = myster
 [filter "lfs"]
-	process = git-lfs filter-process --skip
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge --skip -- %f
+    process = git-lfs filter-process --skip
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge --skip -- %f
 [commit]
-	gpgSign = true
+    gpgSign = true
 [tag]
-	forceSignAnnotated = true
-	gpgSign = true
+    forceSignAnnotated = true
+    gpgSign = true
 [interactive]
-	singlekey = true
+    singlekey = true
