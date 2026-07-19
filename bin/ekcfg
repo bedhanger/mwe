@@ -30,7 +30,7 @@ git b
 
 # Migrate
 make oldconfig
-git cp -m".config: bump version"
+git ci -m".config: bump version"
 
 cat <<EOM
 You can run a command like "make menuconfig" or similar to progress.  Then commit the changes made
