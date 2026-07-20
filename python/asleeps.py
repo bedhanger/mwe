@@ -39,9 +39,10 @@ class JobResult(NamedTuple):
 
     what: int
     when: float
+    submitted: float
 
     def __repr__(self) -> str:
-        return f"<{self.__class__.__name__}, what={self.what}, when={self.when}>"
+        return f'Async-sleeping for {self.what} sec(s) "took" {self.when - self.submitted} sec(s)'
 
 
 def running_job(how_long: int, submitted: float) -> JobResult:
@@ -58,7 +59,7 @@ def running_job(how_long: int, submitted: float) -> JobResult:
         ''').strip())
 
     # Return the what and the when
-    return JobResult(what=how_long, when=time.monotonic())
+    return JobResult(what=how_long, when=time.monotonic(), submitted=submitted)
 
 if __name__ == '__main__':
 
@@ -79,9 +80,7 @@ if __name__ == '__main__':
 
             try:
                 job_result = JobResult._make(job_done.result())
-                #print(f"{' ' * 4}{job_result}")
-                so_many, how_many = job_result.what, job_result.when - start
-                print(f"{' ' * 4}Async-sleeping for {so_many} sec(s) \"took\" {how_many} sec(s)")
+                print(f"{' ' * 4}{job_result}")
             except Exception as exc:  # pylint: disable=broad-exception-caught
                 with redirect_stdout(sys.stderr):
                     print(f"{' ' * 4}{job_done} was unhappy: {exc}")
