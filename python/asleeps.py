@@ -41,7 +41,7 @@ class JobResult(NamedTuple):
     when: float
     submitted: float
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         return f'Async-sleeping for {self.what} sec(s) "took" {self.when - self.submitted} sec(s)'
 
 
@@ -71,7 +71,7 @@ if __name__ == '__main__':
                     for d in eval(SLEEP_DURATIONS)]  # &
         print("The workload", end='\n\n')
         for job in zip(eval(SLEEP_DURATIONS), workload):
-            print(f"{' ' * 4}Job {job}")
+            print(f"Job {job}")
         print(f"\nwas &-submitted after {time.monotonic() - start} second(s)")
 
         print("\nWaiting for unfinished jobs...\n")
@@ -79,10 +79,9 @@ if __name__ == '__main__':
         for job_done in concurrent.futures.as_completed(workload):
 
             try:
-                job_result = JobResult._make(job_done.result())
-                print(f"{' ' * 4}{job_result}")
+                print(job_done.result())
             except Exception as exc:  # pylint: disable=broad-exception-caught
                 with redirect_stdout(sys.stderr):
-                    print(f"{' ' * 4}{job_done} was unhappy: {exc}")
+                    print(f"{job_done} was unhappy: {exc}")
 
     print(f"\nAll in all, it took {time.monotonic() - start} second(s)")
