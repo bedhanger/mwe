@@ -32,7 +32,6 @@ LONG_SLEEPER = random.choice(range(0, HOW_MANY_JOBS + 1))
 
 class OversleptError(TimeoutError):
     """What to raise when we have slept too long."""
-    pass
 
 
 class JobResult(NamedTuple):
@@ -41,7 +40,11 @@ class JobResult(NamedTuple):
     what: int
     when: float
 
-def running_job(how_long: int) -> JobResult:
+    def __repr__(self) -> str:
+        return f"<{self.__class__.__name__}, what={self.what}, when={self.when}>"
+
+
+def running_job(how_long: int, submitted: float) -> JobResult:
     """Sleeping is the new running..."""
 
     time.sleep(how_long)
@@ -50,9 +53,9 @@ def running_job(how_long: int) -> JobResult:
 
         # Hit the snooze button to gain an additional 10%...
         time.sleep(how_long * 0.1)
-        raise OversleptError(textwrap.dedent(f"""
-            We \"slept\" {time.monotonic() - start} seconds, though we were only allowed {how_long}
-        """).strip())
+        raise OversleptError(textwrap.dedent(f'''
+            We "slept" {time.monotonic() - submitted} sec(s), though we were only allowed {how_long}
+        ''').strip())
 
     # Return the what and the when
     return JobResult(what=how_long, when=time.monotonic())
@@ -63,7 +66,8 @@ if __name__ == '__main__':
 
     with POOL_EXECUTOR(max_workers=MAX_WORKERS) as worker_pool:
 
-        workload = [worker_pool.submit(running_job, how_long=d) for d in eval(SLEEP_DURATIONS)]  # &
+        workload = [worker_pool.submit(running_job, how_long=d, submitted=start)
+                    for d in eval(SLEEP_DURATIONS)]  # &
         print("The workload", end='\n\n')
         for job in zip(eval(SLEEP_DURATIONS), workload):
             print(f"{' ' * 4}Job {job}")
@@ -75,9 +79,10 @@ if __name__ == '__main__':
 
             try:
                 job_result = JobResult._make(job_done.result())
+                #print(f"{' ' * 4}{job_result}")
                 so_many, how_many = job_result.what, job_result.when - start
-                print(f"{' ' * 4}Async-sleeping for {so_many} second(s) \"took\" {how_many} second(s)")
-            except Exception as exc:
+                print(f"{' ' * 4}Async-sleeping for {so_many} sec(s) \"took\" {how_many} sec(s)")
+            except Exception as exc:  # pylint: disable=broad-exception-caught
                 with redirect_stdout(sys.stderr):
                     print(f"{' ' * 4}{job_done} was unhappy: {exc}")
 
