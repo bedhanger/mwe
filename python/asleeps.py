@@ -14,8 +14,8 @@ import sys
 import textwrap
 import time
 
+from dataclasses import dataclass
 from contextlib import redirect_stdout
-from typing import NamedTuple
 
 
 # pylint: disable=eval-used
@@ -34,7 +34,8 @@ class OversleptError(TimeoutError):
     """What to raise when we have slept too long."""
 
 
-class JobResult(NamedTuple):
+@dataclass
+class JobResult:
     """Ease the access to the results of the asynchronous operation."""
 
     what: int
