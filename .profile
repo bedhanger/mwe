@@ -177,7 +177,9 @@ alias rde="rd && exit"
 alias ns="nd && xdg-open ."
 alias ns.="nd. && xdg-open ."
 
-alias nv="nd && python -m venv venv && source venv/bin/activate && pip install --upgrade pip"
+alias _venv="python -m venv venv && source venv/bin/activate && pip install --upgrade pip"
+alias nv="nd && _venv"
+alias nv.="_venv"
 
 export PARINIT='rTbgqR B=.,?_A_a Q=_s>|'
 
