@@ -47,6 +47,7 @@ autocmd BufNewFile,BufRead /var/log/messages* ?: Seen
 autocmd BufNewFile,BufRead /var/log/messages*,/tmp/*.messages let @/ = ": Seen\\|DPT=\\d\\+\\|\\(Dropp\\|Accept\\|RST\\)ing\\|\\(\\d\\{1,3\\}\\.\\)\\{3\\}\\d\\{1,3\\}"
 autocmd BufNewFile,BufRead /var/log/messages*,/tmp/*.messages set norelativenumber
 autocmd BufNewFile,BufRead /tmp/*.messages set filetype=messages
+autocmd BufWrite *.py !ruff check %
 autocmd StdinReadPost * map q :quit!<CR>
 " Strange, <buffer=abuf> instead of * doesn't seem to work
 " (would be nice, as we could then forget about CmdwinLeave).
