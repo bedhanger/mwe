@@ -13,10 +13,8 @@ import random
 import sys
 import textwrap
 import time
-
-from dataclasses import dataclass
 from contextlib import redirect_stdout
-
+from dataclasses import dataclass
 
 # pylint: disable=eval-used
 
@@ -27,7 +25,7 @@ SLEEP_DURATIONS = "LONG_JOBS_FIRST(range(1, HOW_MANY_JOBS + 1))"
 USE_THEAD_OR_PROCESS = "Thread"
 POOL_EXECUTOR = eval(f"concurrent.futures.{USE_THEAD_OR_PROCESS}PoolExecutor")
 MAX_WORKERS = None  # Make no mistake: "None" does not mean "none" here...
-LONG_SLEEPER = random.choice(range(0, HOW_MANY_JOBS + 1))
+LONG_SLEEPER = random.choice(range(HOW_MANY_JOBS + 1))
 
 
 class OversleptError(TimeoutError):
@@ -52,7 +50,6 @@ def running_job(how_long: int, submitted: float) -> JobResult:
     time.sleep(how_long)
 
     if how_long == LONG_SLEEPER:
-
         # Hit the snooze button to gain an additional 10%...
         time.sleep(how_long * 0.1)
         raise OversleptError(textwrap.dedent(f'''
@@ -78,10 +75,9 @@ if __name__ == '__main__':
         print("\nWaiting for unfinished jobs...\n")
 
         for job_done in concurrent.futures.as_completed(workload):
-
             try:
                 print(job_done.result())
-            except Exception as exc:  # pylint: disable=broad-exception-caught
+            except OversleptError as exc:
                 with redirect_stdout(sys.stderr):
                     print(f"{job_done} was unhappy: {exc}")
 
