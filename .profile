@@ -25,12 +25,12 @@ else
 	eza='eza \
 		--all --all \
 		--color=auto \
-		--colour-scale \
+		--color-scale \
 		--git \
 		--git-repos \
 		--group \
 		--header \
-		--icons=automatic \
+		--icons=auto \
 		--links \
 		--long \
 		--smart-group \
