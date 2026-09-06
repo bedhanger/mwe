@@ -260,3 +260,5 @@ export PYTHON_BASIC_REPL=1
 
 # Can't wait for this to become the default...
 alias ip='ip -color=auto'
+
+export RIPGREP_CONFIG_PATH=~/.ripgreprc
