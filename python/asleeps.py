@@ -9,6 +9,7 @@ with the max_workers argument to the executors' constructor.
 """
 
 import concurrent.futures
+import multiprocessing as mp
 import random
 import sys
 import textwrap
@@ -63,22 +64,31 @@ if __name__ == '__main__':
 
     start = time.monotonic()
 
-    with POOL_EXECUTOR(max_workers=MAX_WORKERS) as worker_pool:
+    with mp.Manager() as mpm:
+        safeprint = mpm.Lock()  # This is pickleable, the plain lock is not; and it works for
+                                # threads *and* processes.
 
-        workload = [worker_pool.submit(running_job, how_long=d, submitted=start)
-                    for d in eval(SLEEP_DURATIONS)]  # &
-        print("The workload", end='\n\n')
-        for job in zip(eval(SLEEP_DURATIONS), workload):
-            print(f"Job {job}")
-        print(f"\nwas &-submitted after {time.monotonic() - start} second(s)")
+        with POOL_EXECUTOR(max_workers=MAX_WORKERS) as worker_pool:
 
-        print("\nWaiting for unfinished jobs...\n")
+            workload = [worker_pool.submit(running_job, how_long=d, submitted=start)
+                        for d in eval(SLEEP_DURATIONS)]  # &
+            with safeprint:
+                print("The workload", end='\n\n')
+            for job in zip(eval(SLEEP_DURATIONS), workload):
+                with safeprint:
+                    print(f"Job {job}")
+            with safeprint:
+                print(f"\nwas &-submitted after {time.monotonic() - start} second(s)")
 
-        for job_done in concurrent.futures.as_completed(workload):
-            try:
-                print(job_done.result())
-            except OversleptError as exc:
-                with redirect_stdout(sys.stderr):
-                    print(f"{job_done} was unhappy: {exc}")
+                print("\nWaiting for unfinished jobs...\n")
 
-    print(f"\nAll in all, it took {time.monotonic() - start} second(s)")
+            for job_done in concurrent.futures.as_completed(workload):
+                try:
+                    with safeprint:
+                        print(job_done.result())
+                except OversleptError as exc:
+                    with redirect_stdout(sys.stderr), safeprint:
+                        print(f"{job_done} was unhappy: {exc}")
+
+        with safeprint:
+            print(f"\nAll in all, it took {time.monotonic() - start} second(s)")
