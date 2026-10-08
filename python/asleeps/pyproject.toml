@@ -17,7 +17,7 @@ dependencies = []
 asleeps = "asleeps:main"
 
 [project.urls]
-#Homepage = "https://gitlab.com/bedhanger/mwe/-/tree/master/python/wanip"
+Homepage = "https://gitlab.com/bedhanger/mwe/-/tree/master/python/asleeps"
 
 [tool.pytest.ini_options]
 pythonpath = "src"
