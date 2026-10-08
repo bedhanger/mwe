@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 """Use concurrent futures to sleep asynchronously.
 
 Measure how long each sleep took.  By making subtle changes, you can learn a lot about
@@ -60,7 +58,7 @@ def running_job(how_long: int, submitted: float) -> JobResult:
     # Return the what and the when
     return JobResult(what=how_long, when=time.monotonic(), submitted=submitted)
 
-if __name__ == '__main__':
+def main():
 
     start = time.monotonic()
 
@@ -89,6 +87,5 @@ if __name__ == '__main__':
                 except OversleptError as exc:
                     with redirect_stdout(sys.stderr), safeprint:
                         print(f"{job_done} was unhappy: {exc}")
-
         with safeprint:
-            print(f"\nAll in all, it took {time.monotonic() - start} second(s)")
+            print(f"\nAll in all, it took {time.monotonic() - start} second(s)") 
