@@ -28,8 +28,8 @@ from .utils import JobResult, OversleptError
 # pylint: disable=eval-used
 
 class Asleeps:
-    """A context manager to simulate the submissions and wait for completions of asynchronous
-    sleeps.
+    """A context manager to simulate the submissions and waits for the completions, as they become
+    "available", of asynchronous sleeps.
     """
 
     def __init__(
