@@ -8,10 +8,11 @@ with the max_workers argument to the executors' constructor.
 
 import concurrent.futures
 import multiprocessing as mp
+import random
 import sys
 import textwrap
 import time
-from contextlib import redirect_stdout
+from contextlib import nullcontext, redirect_stdout
 from typing import Never, Self
 
 from .constants import (
@@ -20,6 +21,7 @@ from .constants import (
     LONG_SLEEPER,
     MAX_WORKERS,
     POOL_EXECUTOR,
+    RUIN_CONCURRENCY,
     SLEEP_DURATIONS,
     USE_THEAD_OR_PROCESS,
 )
@@ -40,8 +42,9 @@ class Asleeps:
         use_thead_or_process: str = USE_THEAD_OR_PROCESS,
         pool_executor = POOL_EXECUTOR,
         max_workers = MAX_WORKERS,
-        long_sleeper: int = LONG_SLEEPER
-        ) -> None:
+        long_sleeper: int = LONG_SLEEPER,
+        ruin_concurrency: bool = RUIN_CONCURRENCY
+    ) -> None:
 
         self.how_many_jobs = how_many_jobs
         self.long_jobs_first = long_jobs_first
@@ -50,6 +53,7 @@ class Asleeps:
         self.pool_executor = pool_executor
         self.max_workers = max_workers
         self.long_sleeper = long_sleeper
+        self.ruin_concurrency = ruin_concurrency
 
     def __enter__(self) -> Self:
 
@@ -58,19 +62,20 @@ class Asleeps:
                                           # for threads *and* processes.
         self.start = time.monotonic()
 
-        # Do not use a context manager here; exiting it will wait for all tasks to finish, which
-        # renders this class' __exit__ moot!
         worker_pool = self.pool_executor(max_workers=self.max_workers)
 
-        self.workload = [worker_pool.submit(self.running_job, how_long=d, submitted=self.start)
-                         for d in eval(self.sleep_durations)]  # &
-        with self.safeprint:
-            print("The workload", end='\n\n')
-        for job in zip(eval(self.sleep_durations), self.workload):
+        # Use the pool_executor as a context-manager at your own risk: exiting it will wait for all
+        # tasks to finish, which renders this class' __exit__ moot!
+        with worker_pool if self.ruin_concurrency else nullcontext():
+            self.workload = [worker_pool.submit(self.running_job, how_long=d, submitted=self.start)
+                             for d in eval(self.sleep_durations)]  # &
             with self.safeprint:
-                print(f"Job {job}")
-        with self.safeprint:
-            print(f"\nwas &-submitted after {time.monotonic() - self.start} second(s)")
+                print("The workload", end='\n\n')
+            for job in zip(eval(self.sleep_durations), self.workload):
+                with self.safeprint:
+                    print(f"Job {job}")
+            with self.safeprint:
+                print(f"\nwas &-submitted after {time.monotonic() - self.start} second(s)")
 
         return self
 
@@ -111,5 +116,15 @@ class Asleeps:
 def main():
     """The entry-point."""
 
-    with Asleeps():
+    with Asleeps() as the_way_to_do_it:
+        assert the_way_to_do_it is not None
         print("\nWaiting for unfinished jobs...\n")
+
+    with Asleeps(
+        ruin_concurrency=True,  # This will "break" concurrency!
+        long_sleeper=random.choice(range(HOW_MANY_JOBS + 1))  # This will just create a different
+                                                              # long sleeper...
+    ) as the_way_NOT_to_do_it:
+        assert the_way_NOT_to_do_it is not None  # Alas, it should be!
+        assert the_way_NOT_to_do_it is not the_way_to_do_it
+        print("\nYou will see *this* line when all the fun is over...\n")

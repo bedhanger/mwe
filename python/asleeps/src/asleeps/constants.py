@@ -10,3 +10,4 @@ USE_THEAD_OR_PROCESS = "Thread"
 POOL_EXECUTOR = eval(f"concurrent.futures.{USE_THEAD_OR_PROCESS}PoolExecutor")
 MAX_WORKERS = None  # Make no mistake: "None" does not mean "none" here...
 LONG_SLEEPER = random.choice(range(HOW_MANY_JOBS + 1))
+RUIN_CONCURRENCY = False
