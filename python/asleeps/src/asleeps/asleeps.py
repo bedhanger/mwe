@@ -15,7 +15,7 @@ import time
 from contextlib import nullcontext, redirect_stdout
 from typing import Never, Self
 
-from .constants import (
+from .defaults import (
     HOW_MANY_JOBS,
     LONG_JOBS_FIRST,
     LONG_SLEEPER,
