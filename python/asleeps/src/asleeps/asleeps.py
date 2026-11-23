@@ -66,7 +66,8 @@ class Asleeps:
 
         # Use the pool_executor as a context-manager at your own risk: exiting it will wait for all
         # tasks to finish, which renders this class' __exit__ moot!
-        with worker_pool if self.ruin_concurrency else nullcontext():
+        with worker_pool if self.ruin_concurrency else nullcontext() as wpcm:
+
             self.workload = [worker_pool.submit(self.running_job, how_long=d, submitted=self.start)
                              for d in eval(self.sleep_durations)]  # &
             with self.safeprint:
@@ -76,6 +77,10 @@ class Asleeps:
                     print(f"Job {job}")
             with self.safeprint:
                 print(f"\nwas &-submitted after {time.monotonic() - self.start} second(s)")
+
+            if wpcm is not None:
+                with self.safeprint:
+                    print("(but we're squandering that...)")
 
         return self
 
