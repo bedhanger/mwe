@@ -1,3 +1,6 @@
-from .asleeps import main
+from .asleeps import Asleeps, main
 
-__all__ = ["main"]
+__all__ = [
+    "Asleeps",
+    "main",
+]
